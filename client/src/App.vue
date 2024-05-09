@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav style="margin-bottom: -10px; margin-top: -10px;">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
     
