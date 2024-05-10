@@ -5,13 +5,22 @@ const session=require('express-session')
 // const passport=require('passport');
 const dotenv=require('dotenv')
 const path=require('path')
-
+const {sequlize}=require('./models')
 
 dotenv.config();
 const app=express();
 
 app.set('port',process.env.PORT||3000)
 app.use(morgan('dev'));
+
+//DB연결
+sequlize.sync({force:false})
+.then(()=>{
+    console.log('db 연결 성공');
+})
+.catch((err)=>{
+    console.error(err);
+});
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
