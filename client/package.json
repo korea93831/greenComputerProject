@@ -7,11 +7,10 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3",
-    "bootstrap-vue-next": "^0.17.5",
     "core-js": "^3.8.3",
-    "vue": "^3.4.27",
+    "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vuetify": "^3.6.4",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
@@ -19,11 +18,5 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ]
+  }
 }
