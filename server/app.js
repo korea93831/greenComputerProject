@@ -2,25 +2,27 @@ const express=require('express');
 const morgan=require('morgan');
 const cookieParser=require('cookie-parser')
 const session=require('express-session')
-// const passport=require('passport');
+const passport=require('passport');
+const passportConfig=require('./passport');
 const dotenv=require('dotenv')
 const path=require('path')
-const {sequlize}=require('./models')
+const {sequelize}=require('./models')
 
 dotenv.config();
 const app=express();
-
+passportConfig();
 app.set('port',process.env.PORT||3000)
 app.use(morgan('dev'));
 
-//DB연결
-sequlize.sync({force:false})
+
+
+sequelize.sync({force:false})
 .then(()=>{
     console.log('db 연결 성공');
-})
+    })
 .catch((err)=>{
     console.error(err);
-});
+    });
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
@@ -35,6 +37,9 @@ app.use(session({
     },
     name:'session-cookie'
 }))
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 const homeRouter=require('./routes/main.js')
 // const userRouter=require('./routes/user.js')
