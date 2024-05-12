@@ -8,6 +8,6 @@ router.use((req,res,next)=>{
     
 })
 router.get('/',Main);
-router.get('/profile',isLoggedIn,profile);
-router.get('join',isNotLoggedIn,Join);
+router.get('/profile',isLoggedIn,profile); //마이프로필은 로그인 해야 볼 수 있도록
+router.get('join',isNotLoggedIn,Join); // 회원가입은 로그인 하지 않아야만 보이도록
 module.exports=router;

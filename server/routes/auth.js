@@ -7,4 +7,6 @@ const router=express.Router();
 
 router.post('/join',isNotLoggedIn,join);
 router.post('/login',isNotLoggedIn,login);
-router.get()
+router.get('/logout',isLoggedIn,logout);
+
+module.exports=router;
