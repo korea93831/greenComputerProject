@@ -1,33 +1,73 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar>
-      <v-app-bar-title>Application</v-app-bar-title>
+    <v-app-bar app>
+      <v-btn text @click="goToHome">Home</v-btn>
+      <v-spacer></v-spacer>
+
+      <v-app-bar-title class="title">Application</v-app-bar-title>
+     
+      <v-spacer></v-spacer>
+      <v-btn text color="primary" @click="goToNoticeboard">개시판</v-btn>
+
+      <v-btn text color="primary" @click="showLoginModal">로그인</v-btn>
+
+      <v-btn text color="primary" @click="goToRegister">회원 가입</v-btn>
+
     </v-app-bar>
 
     <v-main>
-      <!--  -->
       <router-view/>
     </v-main>
+
+    <LoginModal v-model="loginModalOpen" />
+
   </v-app>
 </template>
 
 <script setup>
-import router from './router';
+import { ref } from 'vue';
+
+// import router from './router';
+
+import { useRouter } from 'vue-router';
+import LoginModal from './views/LoginModal.vue';
+import Noticeboardpage from './views/Noticeboard.vue';
+
 const drawer = false
+
+const loginModalOpen = ref(false);
+const router = useRouter();
+
+const showLoginModal = () => {
+  loginModalOpen.value = true;
+};
+
+const goToNoticeboard = () => {
+  router.push({ name: 'noticeboard' }); // 개시판 페이지
+};
+
+const goToRegister = () => {
+  router.push({ name: 'register' }); // 회원가입 페이지
+};
+
+const goToHome = () => {
+  router.push({ name: 'home' }); // 홈 페이지
+};
+
 </script>
 
-<script>
+<!-- <script>
   export default {
     data: () => ({ drawer: false }),
 
-  methods: {
-    about() {
-      router.push ({ name:'about'});
-    }
+    methods: {
+      about() {
+        router.push ({ name:'about'});
+      }
     
   }
   }
-</script>
+</script> -->
 
 <style>
 #app {
@@ -37,17 +77,8 @@ const drawer = false
   text-align: center;
   color: #2c3e50;
 }
-
-/* nav {
-  padding: 30px;
+.title {
+  display: flex;
+  justify-content: center;
 }
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-} */
 </style>
