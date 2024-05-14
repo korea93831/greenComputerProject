@@ -1,11 +1,33 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    
-  </nav>
-  <router-view/>
+  <v-app id="inspire">
+    <v-app-bar>
+      <v-app-bar-title>Application</v-app-bar-title>
+    </v-app-bar>
+
+    <v-main>
+      <!--  -->
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
+
+<script setup>
+import router from './router';
+const drawer = false
+</script>
+
+<script>
+  export default {
+    data: () => ({ drawer: false }),
+
+  methods: {
+    about() {
+      router.push ({ name:'about'});
+    }
+    
+  }
+  }
+</script>
 
 <style>
 #app {
@@ -16,7 +38,7 @@
   color: #2c3e50;
 }
 
-nav {
+/* nav {
   padding: 30px;
 }
 
@@ -27,5 +49,5 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>

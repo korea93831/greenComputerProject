@@ -3,19 +3,45 @@ const { Console } = require('console');
 const fs=require('fs');
 
 exports.tree=async(req,res,next)=>{
-    console.log(req.file.path)
-    const existingFile=fs.readFileSync(req.file.path)
-    console.log(existingFile)
-    const formData=new FormData()
-    formData.append("file",existingFile)
-    formData.append("fileName",req.file.originalname)
-    try{
-        const response=await axios.post("http://127.0.0.1:5000/api/tree",formData)
-        console.log(response)
-    }catch(error){
-        console.log(error,"getFileError")
-    }
+    const formData=new FormData();
+    sendFile=req.file;
+    formData.append("file",sendFile);
+    formData.append("filename",sendFile.originalname)
+
+    const result=await axios.post(
+        'http://127.0.0.1:5000/api/tree',
+        formData,{
+            headers:{
+                'Content-Type': 'multipart/form-data'
+            },
+        }
+    );
+    res.send('api/tree')
+    // formData.append("file",sendfile);
+    // const request_config={
+    //     method:"post",
+    //     url:'http://127.0.0.1:5000/api/tree',
+    //     headers:{
+    //         "Content-Type":"multipart/form-data"
+    //     },
+    //     data:formData
+    // };
+    // try{
+    //     const SendFile=await axios.post(request_config)
+    //     console.log(SendFile)
+    // }catch(err){
+    //     console.log(err)
+    // }
+    
+    
 }
+
+
+
+
+
+
+
 
 exports.house=(req,res,next)=>{
 
