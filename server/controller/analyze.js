@@ -4,7 +4,6 @@ const fs=require('fs');
 exports.tree=async(req,res,next)=>{
     console.log('req tree');
     res.send('res tree');
-    
 }
 
 exports.house=(req,res,next)=>{
