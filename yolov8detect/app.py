@@ -7,6 +7,8 @@ import numpy as np
 import os
 from werkzeug.utils import secure_filename
 import base64
+from PIL import Image
+import io
 
 app=Flask(__name__)
 CORS(app)
@@ -16,18 +18,34 @@ app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
 
 @app.route('/api/tree',methods=['POST'])
 def tree():
-    try:
-        if request.method=='POST':
-            data=request.get_json()
-            image_path='./uploads/'
-            image_data=data['file']
-            image_data=base64.b64decode(image_data.split(',')[1])
-            print(image_data)
-            image_data.save(app.config['UPLOAD_FOLDER']+secure_filename())
 
-    except Exception as err:{
-        print(err)
-    }
+    try:
+        data=request.get_json()
+        image_data=data['image']
+        image_data=base64.b64decode(image_data.split(',')[1])
+        image=Image.open(io.BytesIO(image_data))
+
+        image.save(app.config['UPLOAD_FOLDER']+'/TEST.jpg')
+        
+    except Exception as e:
+        return str(e),500
+
+
+
+
+
+    # try:
+    #     if request.method=='POST':
+    #         data=request.get_json()
+    #         image_path='./uploads/'
+    #         image_data=data['file']
+    #         image_data=base64.b64decode(image_data.split(',')[1])
+    #         print(image_data)
+    #         image_data.save(app.config['UPLOAD_FOLDER']+secure_filename())
+
+    # except Exception as err:{
+    #     print(err)
+    # }
     
     # model=YOLO('custom_tree_deteact.pt')
     # results=model(img)

@@ -23,18 +23,44 @@
     data() {
       return {
         imageUrls: { 1: '', 2: '', 3: '' },
-        selectedGenders: []
+        selectedGenders: [],
+        uploadedImage:null,
+        file:null
       };
     },
 
     methods: {
-      Resultpage() {
-        this.$router.push({ path: '/result', query: { imageUrl: this.imageUrls[2] } });
+      async Resultpage() {
+        if(!this.file){
+          alert('이미지 파일을 선택하세요');
+          return;
+        }
+        const reader=new FileReader();
+        reader.onload=async(e)=>{
+          this.uploadedImage=e.target.result;
+          try{
+            console.log('제출하기')
+            await axios.post('http://loaclhost:5000/api/tree',{image:this.uploadImage});
+            await axios.post('http://localhost:3000/analyze/tree',{image:this.uploadImage});
+
+          }catch(error){
+            console.error(error)
+          }
+        }
+        // this.$router.push({ path: '/result', query: { imageUrl: this.imageUrls[2] } });
       },
 
       handleFileUpload(index, event) {
-        const file = event.target.files[0];
-        this.imageUrls[index] = URL.createObjectURL(file);
+        this.file = event.target.files[0];
+        console.log(event.target.files[0]);
+        this.imageUrls[index] = URL.createObjectURL(this.file);
+        if(this.file){
+          const reader = new FileReader();
+          reader.onload=(e)=>{
+            this.uploadedImage=e.target.result;
+          };
+          reader.readAsDataURL(this.file);
+        }
       },
       
       cancelFileUpload(index) {

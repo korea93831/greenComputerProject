@@ -7,7 +7,7 @@
       <v-app-bar-title class="title">Application</v-app-bar-title>
      
       <v-spacer></v-spacer>
-      <v-btn text color="primary" @click="goToNoticeboard">개시판</v-btn>
+      <v-btn text color="primary" @click="goToNoticeboard">게시판</v-btn>
 
       <v-btn text color="primary" @click="showLoginModal">로그인</v-btn>
 

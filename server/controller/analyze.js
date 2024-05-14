@@ -3,19 +3,19 @@ const { Console } = require('console');
 const fs=require('fs');
 
 exports.tree=async(req,res,next)=>{
-    const formData=new FormData();
-    sendFile=req.file;
-    formData.append("file",sendFile);
-    formData.append("filename",sendFile.originalname)
+    // const formData=new FormData();
+    // sendFile=req.file;
+    // formData.append("file",sendFile);
+    // formData.append("filename",sendFile.originalname)
 
-    const result=await axios.post(
-        'http://127.0.0.1:5000/api/tree',
-        formData,{
-            headers:{
-                'Content-Type': 'multipart/form-data'
-            },
-        }
-    );
+    // const result=await axios.post(
+    //     'http://127.0.0.1:5000/api/tree',
+    //     formData,{
+    //         headers:{
+    //             'Content-Type': 'multipart/form-data'
+    //         },
+    //     }
+    // );
     res.send('api/tree')
     // formData.append("file",sendfile);
     // const request_config={
