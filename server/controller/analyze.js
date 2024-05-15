@@ -1,5 +1,4 @@
 const axios=require('axios');
-const { Console } = require('console');
 const fs=require('fs');
 
 exports.tree=async(req,res,next)=>{
@@ -53,4 +52,8 @@ exports.person=(req,res,next)=>{
 
     console.log('req person');
     res.send('res person');
+}
+
+exports.saveResult=(req,res,next)=>{
+    console.log('Parsed body:',req.body);
 }

@@ -7,11 +7,15 @@ const passportConfig=require('./passport');
 const dotenv=require('dotenv')
 const path=require('path')
 const {sequelize}=require('./models')
-
+const cors=require('cors')
+const bodyParser=require('body-parser')
 dotenv.config();
 const app=express();
+app.use(bodyParser.json());
 passportConfig();
 app.set('port',process.env.PORT||3000)
+
+app.use(cors());
 app.use(morgan('dev'));
 
 

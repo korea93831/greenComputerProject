@@ -19,6 +19,9 @@
 </template>
   
   <script>
+
+  import axios from 'axios';
+
   export default {
     data() {
       return {
@@ -37,16 +40,18 @@
         }
         const reader=new FileReader();
         reader.onload=async(e)=>{
-          this.uploadedImage=e.target.result;
+          const base64Image=e.target.result;
           try{
             console.log('제출하기')
-            await axios.post('http://loaclhost:5000/api/tree',{image:this.uploadImage});
-            await axios.post('http://localhost:3000/analyze/tree',{image:this.uploadImage});
+            await axios.post('http://localhost:3000/analyze/tree',{image:base64Image});
+            await axios.post('http://127.0.0.1:5000/api/tree',{image:base64Image});
+            
 
           }catch(error){
-            console.error(error)
+            console.error(error);
           }
         }
+        reader.readAsDataURL(this.file);
         // this.$router.push({ path: '/result', query: { imageUrl: this.imageUrls[2] } });
       },
 

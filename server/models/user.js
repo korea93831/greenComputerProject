@@ -9,22 +9,27 @@ class User extends Sequelize.Model{
                 unique:true
             },
             email:{
-                type:Sequelize.STRING(60),
+                type:Sequelize.STRING(40),
                 allowNull:true,
                 unique:true
             },
             password:{
-                type:Sequelize.STRING(20),
+                type:Sequelize.STRING(60),
                 allowNull:true,
             },
             nickname:{
                 type:Sequelize.STRING(10),
                 allowNull:true,
                 unique:true
+            },
+            created_at:{
+                type:Sequelize.DATE,
+                allowNull:false,
+                defaultValue:Sequelize.NOW,
             }
         },{
             sequelize,
-            timestamps:true,
+            timestamps:false,
             underscored:false,
             modelName:'User',
             tableName:'users',
@@ -32,7 +37,12 @@ class User extends Sequelize.Model{
             collate:'utf8_general_ci',
         });
     }
-    static associate(db){}
+    static associate(db){
+        db.User.hasMany(db.Board,{foreignkey:'reg_user_id',sourceKey:'user_id'});
+        db.User.hasMany(db.TreeDraw,{foreignkey:'user_id',sourceKey:'user_id'});
+        db.User.hasMany(db.HouseDraw,{foreignkey:'user_id',sourceKey:'user_id'});
+        db.User.hasMany(db.PersonDraw,{foreignkey:'user_id',sourceKey:'user_id'});
+    }
 };
 
 module.exports=User;
