@@ -15,12 +15,29 @@
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 
 const showModal = ref(false);
 const email = ref('');
 const password = ref('');
+const snackbar=ref(false);
+const snackbarMessage=ref('');
 
-const login = () => {
+const login = async () => {
+  try {
+    const response = await axios.post('/api/login', { email: email.value, password: password.value });
+    if (response.data.success) {
+      snackbarMessage.value = '로그인이 성공했습니다.';
+      snackbar.value = true;
+    } else {
+      snackbarMessage.value = response.data.message || '로그인이 실패했습니다.';
+      snackbar.value = true;
+    }
+  } catch (error) {
+    console.error('로그인 오류:', error);
+    snackbarMessage.value = '로그인 중 오류가 발생했습니다.';
+    snackbar.value = true;
+  }
 };
 </script>
 

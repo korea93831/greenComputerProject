@@ -98,11 +98,40 @@ exports.saveResult=(req,res,next)=>{
     let tree_cloud=0;
     let tree_moon=0;
     let tree_star=0;
+    let list=[];
     let imagepath="";
     // console.log(json_data);
     for(let i=0;i<json_data.length;i++){
         if(json_data[i]['라벨']=='나무전체'){
+            if( (json_data[i]['width']*json_data[i]['height'])/640*640>2/3){
+                tree_size=2
+            }
+            else if((json_data[i]['width']*json_data[i]['height'])/640*640<1/3){
+                tree_size=0
+            }
+            else{
+                tree_size=1
+            }
 
+            if((json_data[i]['center_x']<220&json_data[i]['center_y']<220)){
+                tree_loc=1
+            }
+            else if((json_data[i]['center_x']>420&json_data[i]['center_y']<220)){
+                tree_loc=2
+            }
+            else if((json_data[i]['center_x']<220&json_data[i]['center_y']>420)){
+                tree_loc=4
+            }
+            else if((json_data[i]['center_x']>420&json_data[i]['center_y']>420)){
+                tree_loc=5
+            }
+            else{
+                tree_loc=3
+            }
+            list.push(json_data[i]['top_left_x'])
+            list.push(json_data[i]['top_left_y'])
+            list.push(json_data[i]['width'])
+            list.push(json_data[i]['height'])
         }
         else if(json_data[i]['라벨']=='기둥'){
             tree_pillar=1
@@ -155,7 +184,7 @@ exports.saveResult=(req,res,next)=>{
     TreeDraw.create({
             
         user_id:'testi',
-        tree:'test',
+        tree:list,
         tree_size:0,
         tree_loc:0,
         tree_pillar:tree_pillar,
