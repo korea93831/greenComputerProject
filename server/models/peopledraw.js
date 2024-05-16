@@ -12,7 +12,6 @@ class PeopleDraw extends Sequelize.Model{
             people_image:{
                 type:Sequelize.STRING(255),
                 allowNull:true,
-                unique:true
             },
             sex:{
                 type:Sequelize.ENUM('Male','Female'),

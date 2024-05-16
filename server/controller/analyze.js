@@ -148,30 +148,32 @@ exports.saveResult=(req,res,next)=>{
             console.log(file_name);
             Images.findOne({where:{filename:json_data[i]['라벨']}
             }).then((filepath)=>{
-                
-                console.log(filepath.dataValues.imagepath);
-            });
-            
+                imagepath=filepath.dataValues.imagepath;
+            });   
         }
-        // const tree=TreeDraw.create({
-        //     tree:'test',
-        //     tree_size:'size_test',
-        //     tree_loc:'loc_test',
-        //     tree_pillar:tree_pillar,
-        //     tree_crown:tree_crown,
-        //     tree_branch:tree_branch,
-        //     tree_root:tree_root,
-        //     tree_leaf:tree_leaf,
-        //     tree_flower:tree_flower,
-        //     tree_fruit:tree_fruit,
-        //     tree_swing:tree_swing,
-        //     tree_bird:tree_bird,
-        //     tree_cloud:tree_cloud,
-        //     tree_moon:tree_moon,
-        //     tree_star,tree_star
-        //     tree
-        // })
     }
+    TreeDraw.create({
+            
+        user_id:'testi',
+        tree:'test',
+        tree_size:0,
+        tree_loc:0,
+        tree_pillar:tree_pillar,
+        tree_crown:tree_crown,
+        tree_branch:tree_branch,
+        tree_root:tree_root,
+        tree_leaf:tree_leaf,
+        tree_flower:tree_flower,
+        tree_fruit:tree_fruit,
+        tree_swing:tree_swing,
+        tree_bird:tree_bird,
+        tree_squirrel:tree_squirrel,
+        tree_cloud:tree_cloud,
+        tree_moon:tree_moon,
+        tree_star:tree_star,
+        tree_image:imagepath,
+        
+    })
 
 
 }

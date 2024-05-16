@@ -12,7 +12,6 @@ class HouseDraw extends Sequelize.Model{
             house_image:{
                 type:Sequelize.STRING(255),
                 allowNull:true,
-                unique:true
             },
             house:{
                 type:Sequelize.INTEGER,

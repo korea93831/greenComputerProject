@@ -11,7 +11,7 @@ const upload=multer({
         },
         filename(req,file,done){
             const ext=path.extname(file.originalname);
-            done(null,path.basename(req.body['filename'])+ext);
+            done(null,path.basename(file.originalname,ext)+Date.now()+ext);
             console.log('filename')
         },
     }),

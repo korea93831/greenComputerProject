@@ -9,6 +9,10 @@ class TreeDraw extends Sequelize.Model{
                 unique:true,
                 primaryKey:true
             },
+            tree_image:{
+                type:Sequelize.STRING(255),
+                allowNull:true,
+            },
             tree:{
                 type:Sequelize.STRING(100),
                 allowNull:true,
