@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "0000",
-    "database": "maeumssiDB",
+    "password": "1234",
+    "database": "mkt",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
