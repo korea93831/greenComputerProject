@@ -11,7 +11,7 @@ const cors=require('cors')
 const bodyParser=require('body-parser')
 dotenv.config();
 const app=express();
-app.use(bodyParser.json());
+app.use(express.json());
 passportConfig();
 app.set('port',process.env.PORT||3000)
 

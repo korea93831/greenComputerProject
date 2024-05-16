@@ -7,7 +7,7 @@ class PeopleDraw extends Sequelize.Model{
                 type: Sequelize.INTEGER,
                 allowNull:true,
                 unique:true,
-                autoIncrement:true
+                primaryKey:true
             },
             people_image:{
                 type:Sequelize.STRING(255),
@@ -116,7 +116,7 @@ class PeopleDraw extends Sequelize.Model{
             timestamps:true,
             underscored:false,
             modelName:'PeopleDraw',
-            tableName:'peopledraw',
+            tableName:'peoples',
             charset:'utf8',
             collate:'utf8_general_ci',
         });

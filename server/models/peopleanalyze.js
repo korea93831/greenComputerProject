@@ -7,7 +7,7 @@ class PeopleAnalyze extends Sequelize.Model{
                 type: Sequelize.INTEGER,
                 allowNull:true,
                 unique:true,
-                autoIncrement:true
+                primaryKey:true
             },
             analysis_people:{
                 type:Sequelize.STRING(300),
@@ -22,7 +22,7 @@ class PeopleAnalyze extends Sequelize.Model{
             timestamps:false,
             underscored:false,
             modelName:'PeopleAnalyze',
-            tableName:'peopleanalyze',
+            tableName:'사람그림해석',
             charset:'utf8',
             collate:'utf8_general_ci',
         });

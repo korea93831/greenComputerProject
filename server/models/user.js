@@ -6,7 +6,8 @@ class User extends Sequelize.Model{
             user_id:{
                 type: Sequelize.STRING(20),
                 allowNull:true,
-                unique:true
+                unique:true,
+                primaryKey:true
             },
             email:{
                 type:Sequelize.STRING(40),
@@ -38,10 +39,10 @@ class User extends Sequelize.Model{
         });
     }
     static associate(db){
-        db.User.hasMany(db.Board,{foreignkey:'reg_user_id',sourceKey:'user_id'});
+        // db.User.hasMany(db.Board,{foreignkey:'user_id',sourceKey:'user_id'});
         db.User.hasMany(db.TreeDraw,{foreignkey:'user_id',sourceKey:'user_id'});
         db.User.hasMany(db.HouseDraw,{foreignkey:'user_id',sourceKey:'user_id'});
-        db.User.hasMany(db.PersonDraw,{foreignkey:'user_id',sourceKey:'user_id'});
+        db.User.hasMany(db.PeopleDraw,{foreignkey:'user_id',sourceKey:'user_id'});
     }
 };
 

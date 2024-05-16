@@ -7,7 +7,7 @@ class HouseAnalyze extends Sequelize.Model{
                 type: Sequelize.INTEGER,
                 allowNull:true,
                 unique:true,
-                autoIncrement:true
+                primaryKey:true
             },
             analysis_house:{
                 type:Sequelize.STRING(300),
@@ -22,7 +22,7 @@ class HouseAnalyze extends Sequelize.Model{
             timestamps:false,
             underscored:false,
             modelName:'HouseAnalyze',
-            tableName:'houseanalyze',
+            tableName:'집그림해석',
             charset:'utf8',
             collate:'utf8_general_ci',
         });

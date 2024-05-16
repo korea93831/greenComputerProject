@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "soccer1541",
-    "database": "maeumssiDB",
-    "host": "127.0.0.1",
+    "password": "1234",
+    "database": "mkt",
+    "host": "192.168.250.59",
     "dialect": "mysql"
   },
   "test": {

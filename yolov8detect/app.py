@@ -31,10 +31,10 @@ def tree():
     try:
         data=request.get_json()
         image_data=data['image']
+        image_id=data['filename']
+        print(image_id)
         image_data = base64.b64decode(image_data.split(',')[1])
         image = preprocess_image(image_data)
-
-
         model=YOLO('custom_tree_deteact.pt')
         results=model(image)
         img_cls=[]
@@ -45,13 +45,16 @@ def tree():
             img_xyxy=pd.DataFrame(result.boxes.xyxy)
             img_xywh=pd.DataFrame(result.boxes.xywh)
 
+        
         img_cls.columns=['라벨']
         img_xyxy.columns=['top_left_x','top_left_y','bottom_right_x','bottom_right_y']
         img_xywh.columns=['center_x','center_y','width','height']
         img_cls.astype(int)
         img_cls['라벨']=img_cls['라벨'].apply(map_to_string)
         df=pd.concat([img_cls,img_xyxy,img_xywh],axis=1)
-        print(df)
+        new_row=[image_id,0,0,0,0,0,0,0,0]
+        df.loc[len(df)]=new_row
+        # print(df)
         df_to_json=df.to_json(orient='records',force_ascii=False)
         json_dict=json.loads(df_to_json)
         print(json_dict)

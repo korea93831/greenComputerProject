@@ -38,15 +38,27 @@
           alert('이미지 파일을 선택하세요');
           return;
         }
+        const formData=new FormData();
+        const file_name='tree'+Date.now()
+        formData.append('image',this.file);
+        formData.append('filename',file_name);
+        
+        try{
+          await axios.post('http://localhost:3000/analyze/tree',formData,{
+            headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+          });
+        }catch(error){
+          console.error(error)
+        }
         const reader=new FileReader();
         reader.onload=async(e)=>{
           const base64Image=e.target.result;
           try{
             console.log('제출하기')
-            await axios.post('http://localhost:3000/analyze/tree',{image:base64Image});
-            await axios.post('http://127.0.0.1:5000/api/tree',{image:base64Image});
             
-
+            await axios.post('http://127.0.0.1:5000/api/tree',{image:base64Image,filename:file_name});
           }catch(error){
             console.error(error);
           }

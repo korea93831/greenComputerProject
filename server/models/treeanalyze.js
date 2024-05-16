@@ -7,7 +7,7 @@ class TreeAnalyze extends Sequelize.Model{
                 type: Sequelize.INTEGER,
                 allowNull:true,
                 unique:true,
-                autoIncrement:true
+                primaryKey:true
             },
             analysis_tree:{
                 type:Sequelize.STRING(300),
@@ -22,7 +22,7 @@ class TreeAnalyze extends Sequelize.Model{
             timestamps:false,
             underscored:false,
             modelName:'TreeAnalyze',
-            tableName:'treeanalyze',
+            tableName:'나무그림해석',
             charset:'utf8',
             collate:'utf8_general_ci',
         });

@@ -7,7 +7,8 @@ class Board extends Sequelize.Model{
                 type: Sequelize.INTEGER,
                 allowNull:true,
                 unique:true,
-                autoIncrement:true
+                autoIncrement:true,
+                primaryKey:true
             },
             title:{
                 type:Sequelize.STRING(100),
@@ -35,13 +36,13 @@ class Board extends Sequelize.Model{
             timestamps:false,
             underscored:false,
             modelName:'User',
-            tableName:'users',
+            tableName:'회원',
             charset:'utf8',
             collate:'utf8_general_ci',
         });
     }
     static associate(db){
-        db.Board.belongsTo(db.User,{foreignKey:'reg_user_id',targetKey:'user_id'})
+        db.Board.belongsTo(db.User,{foreignKey:'user_id',targetKey:'user_id'})
     }
 };
 

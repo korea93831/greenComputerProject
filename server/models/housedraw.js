@@ -7,7 +7,7 @@ class HouseDraw extends Sequelize.Model{
                 type: Sequelize.INTEGER,
                 allowNull:true,
                 unique:true,
-                autoIncrement:true
+                primaryKey:true
             },
             house_image:{
                 type:Sequelize.STRING(255),
@@ -101,7 +101,7 @@ class HouseDraw extends Sequelize.Model{
             timestamps:true,
             underscored:false,
             modelName:'HouseDraw',
-            tableName:'Housedraw',
+            tableName:'houses',
             charset:'utf8',
             collate:'utf8_general_ci',
         });

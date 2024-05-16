@@ -7,24 +7,22 @@ class TreeDraw extends Sequelize.Model{
                 type: Sequelize.INTEGER,
                 allowNull:true,
                 unique:true,
-                autoIncrement:true
-            },
-            tree_image:{
-                type:Sequelize.STRING(255),
-                allowNull:true,
-                unique:true
+                primaryKey:true
             },
             tree:{
-                type:Sequelize.STRING(255),
+                type:Sequelize.STRING(100),
                 allowNull:true,
+                defaultValue:0
             },
             tree_size:{
                 type:Sequelize.INTEGER,
                 allowNull:true,
+                defaultValue:0
             },
             tree_loc:{
                 type:Sequelize.INTEGER,
                 allowNull:true,
+                defaultValue:0
             },
             tree_pillar:{
                 type:Sequelize.INTEGER,
@@ -91,12 +89,17 @@ class TreeDraw extends Sequelize.Model{
                 allowNull:true,
                 defaultValue:0
             },
+            redate:{
+                type:Sequelize.DATE,
+                defaultValue:Sequelize.NOW,
+                allowNull:false
+            }
         },{
             sequelize,
-            timestamps:true,
+            timestamps:false,
             underscored:false,
             modelName:'TreeDraw',
-            tableName:'treedraw',
+            tableName:'trees',
             charset:'utf8',
             collate:'utf8_general_ci',
         });
