@@ -3,6 +3,7 @@ const fs=require('fs');
 const TreeDraw=require('../models/treedraw');
 const Images=require('../models/images');
 const { Console } = require('console');
+const { stringify } = require('querystring');
 exports.tree=async(req,res,next)=>{
     const image=req.file;
     if(!image){
@@ -80,7 +81,7 @@ exports.person=(req,res,next)=>{
     res.send('res person');
 }
 
-exports.saveResult=(req,res,next)=>{
+exports.saveResult=async(req,res,next)=>{
     // console.log('Parsed body:',req.body);
     const json_data=req.body;
     let tree_size=0;
@@ -132,6 +133,7 @@ exports.saveResult=(req,res,next)=>{
             list.push(json_data[i]['top_left_y'])
             list.push(json_data[i]['width'])
             list.push(json_data[i]['height'])
+            list_string=String(list)
         }
         else if(json_data[i]['라벨']=='기둥'){
             tree_pillar=1
@@ -175,34 +177,43 @@ exports.saveResult=(req,res,next)=>{
         else{
             file_name=json_data[i]['라벨'];
             console.log(file_name);
-            Images.findOne({where:{filename:json_data[i]['라벨']}
-            }).then((filepath)=>{
-                imagepath=filepath.dataValues.imagepath;
-            });   
+            const image_path= await Images.findOne({
+                attributes:['imagepath'],
+                where:{filename:file_name}
+            });
+            imagepath=image_path.dataValues['imagepath'];
+            console.log(imagepath)
         }
     }
-    TreeDraw.create({
+    try{
+        await TreeDraw.create({
             
-        user_id:'testi',
-        tree:list,
-        tree_size:0,
-        tree_loc:0,
-        tree_pillar:tree_pillar,
-        tree_crown:tree_crown,
-        tree_branch:tree_branch,
-        tree_root:tree_root,
-        tree_leaf:tree_leaf,
-        tree_flower:tree_flower,
-        tree_fruit:tree_fruit,
-        tree_swing:tree_swing,
-        tree_bird:tree_bird,
-        tree_squirrel:tree_squirrel,
-        tree_cloud:tree_cloud,
-        tree_moon:tree_moon,
-        tree_star:tree_star,
-        tree_image:imagepath,
-        
-    })
-
-
+            user_id:2,
+            tree:list_string,
+            tree_size:tree_size,
+            tree_loc:tree_loc,
+            tree_pillar:tree_pillar,
+            tree_crown:tree_crown,
+            tree_branch:tree_branch,
+            tree_root:tree_root,
+            tree_leaf:tree_leaf,
+            tree_flower:tree_flower,
+            tree_fruit:tree_fruit,
+            tree_swing:tree_swing,
+            tree_bird:tree_bird,
+            tree_squirrel:tree_squirrel,
+            tree_cloud:tree_cloud,
+            tree_moon:tree_moon,
+            tree_star:tree_star,
+            tree_image:imagepath,
+            
+        })
+    }catch(err){
+        console.error(err)
+    }
+    const data={
+        imageurl:imagepath
+    }
+    // await axios.post('http://localhost:3000/interpretation/tree',data);
+    res.sendStatus(200)
 }

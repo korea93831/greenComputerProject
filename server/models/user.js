@@ -4,8 +4,7 @@ class User extends Sequelize.Model{
     static initiate(sequelize){
         User.init({
             user_id:{
-                type: Sequelize.STRING(20),
-                allowNull:true,
+                type: Sequelize.INTEGER,
                 unique:true,
                 primaryKey:true
             },

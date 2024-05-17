@@ -22,7 +22,7 @@ class PeopleAnalyze extends Sequelize.Model{
             timestamps:false,
             underscored:false,
             modelName:'PeopleAnalyze',
-            tableName:'사람그림해석',
+            tableName:'interpretationspeople',
             charset:'utf8',
             collate:'utf8_general_ci',
         });

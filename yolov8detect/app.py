@@ -27,7 +27,6 @@ def map_to_string(x):
 
 @app.route('/api/tree',methods=['POST'])
 def tree():
-
     try:
         data=request.get_json()
         image_data=data['image']
@@ -58,9 +57,8 @@ def tree():
         df_to_json=df.to_json(orient='records',force_ascii=False)
         json_dict=json.loads(df_to_json)
         print(json_dict)
-        backend_response=requests.post('http://localhost:3000/analyze/save_result',json=json_dict)
-        backend_response.raise_for_status()
-        return 'succes'
+        response=requests.post('http://localhost:3000/analyze/save_result',json=json_dict)
+        return jsonify({'result':'200'})
     except Exception as e:
         return str(e),500
     

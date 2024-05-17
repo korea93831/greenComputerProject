@@ -22,7 +22,7 @@ class HouseAnalyze extends Sequelize.Model{
             timestamps:false,
             underscored:false,
             modelName:'HouseAnalyze',
-            tableName:'집그림해석',
+            tableName:'interpretationshouse',
             charset:'utf8',
             collate:'utf8_general_ci',
         });

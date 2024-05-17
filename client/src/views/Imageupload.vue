@@ -39,6 +39,8 @@
   </template>
   
   <script>
+import { render } from 'vue';
+import axios from 'axios';
   export default {
     data() {
       return {
@@ -46,7 +48,9 @@
         selectedGenders: [],
         houseimage:null,
         treeimage:null,
-        personimage:null
+        personimage:null,
+        uploadedImage:null,
+        interpretation:null
       };
     },
     methods: {
@@ -64,7 +68,15 @@
         }
         if(file){
           const reader=new FileReader();
-          reader.readAsDataURL(this.file);
+          if(index==1){
+            reader.readAsDataURL(this.houseimage)
+          }
+          else if(index==2){
+            reader.readAsDataURL(this.treeimage)
+          }
+          else{
+            reader.readAsDataURL(this.personimage)
+          }
         }
       },
       
@@ -92,7 +104,6 @@
         const file_name='tree'+Date.now()
         formData.append('image',this.treeimage);
         formData.append('filename',file_name);
-
         try{
           await axios.post('http://localhost:3000/analyze/tree',formData,{
             headers:{
@@ -107,13 +118,25 @@
           const base64Image=e.target.result;
           try{
             console.log('제출하기')
-            await axios.post('http://127.0.0.1:5000/api/tree',{image:base64Image,filename:file_name});
+            Response=await axios.post('http://127.0.0.1:5000/api/tree',{image:base64Image,filename:file_name});
+            console.log(Response.data['result'])
           }catch(error){
             console.error(error);
           }
+          if(Response.data['result']==200){
+              const data={
+                imageurl:file_name
+              }
+              this.interpretation=await axios.post('http://localhost:3000/interpretation/tree',data);
+              const tree_keywords=this.interpretation.data[0]['keyword']+','+this.interpretation.data[1]['keyword']+','+this.interpretation.data[2]['keyword']
+              const tree_analysis=String(this.interpretation.data[0]['analysis']+'\n'+this.interpretation.data[1]['analysis']+'\n'+this.interpretation.data[2]['analysis'])
+              // reader.readAsDataURL(this.file);
+              this.$router.push({ name: 'result', query: { imageUrl1:"",imageUrl2:this.imageUrls[2],imageUrl3:"", keyword1:"",
+                                  keyword2:tree_keywords,keyword3:"",analysis1:"",analysis2:tree_analysis,analysis3:"" } });
+            }
         }
-        // reader.readAsDataURL(this.file);
-        // this.$router.push({ name: 'result', query: { imageUrl1: this.imageUrls[1], imageUrl2: this.imageUrls[2], imageUrl3: this.imageUrls[3] } });
+        reader.readAsDataURL(this.treeimage);
+
       }
     }
   };

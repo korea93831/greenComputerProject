@@ -22,7 +22,7 @@ class TreeAnalyze extends Sequelize.Model{
             timestamps:false,
             underscored:false,
             modelName:'TreeAnalyze',
-            tableName:'나무그림해석',
+            tableName:'interpretationstree',
             charset:'utf8',
             collate:'utf8_general_ci',
         });

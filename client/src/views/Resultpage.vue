@@ -13,11 +13,11 @@
                   <p class="title-font"> {{ title }} </p>
                 </div>
                 <div class="keyword-box">
-                  <p class="keyword-font"><strong>키워드:</strong> {{ keywords[index] }} </p>
+                  <p class="keyword-font"><strong>키워드:</strong> {{ keywords[index+1] }} </p>
                 </div>
                 <div class="description-box">
-                  <p class="description-font"><strong>해설:</strong> {{ descriptions[index] }} </p>
-                  <p class="description-content" v-if="descriptionContents[index]"><strong>설명 내용:</strong> {{ descriptionContents[index] }}</p>
+                  <!-- <p class="description-font"><strong>해설:</strong> {{ descriptions[index] }} </p> -->
+                  <p class="description-content" v-if="descriptionContents[index+1]"><strong>설명 내용:</strong> {{ descriptionContents[index+1] }}</p>
                 </div>
               </div>
             </div>
@@ -33,9 +33,19 @@ export default {
   data() {
     return {
       titles: ["집 그림 결과 분석", "나무 그림 결과 분석", "사람 그림 결과 분석"],
-      keywords: ["건물", "자연", "인물"],
+      keywords:{
+        1:'',
+        2:'',
+        3:''
+      },
+
       descriptions: ["집을 나타낸 그림입니다.", "나무를 표현한 그림입니다.", "사람을 나타낸 그림입니다."],
-      descriptionContents: ["집은 안정과 편안함을 의미합니다.", "나무는 자연을 상징합니다.", "사람은 인간의 존재를 나타냅니다."],
+      descriptionContents:{
+        1:'',
+        2:'',
+        3:''
+      }
+      ,
       imageUrls: {
         1: '',
         2: '',
@@ -47,6 +57,14 @@ export default {
     this.imageUrls[1] = this.$route.query.imageUrl1;
     this.imageUrls[2] = this.$route.query.imageUrl2;
     this.imageUrls[3] = this.$route.query.imageUrl3;
+    console.log(this.$route.query.keyword2);
+    this.keywords[1]=this.$route.query.keyword1;
+    this.keywords[2]=this.$route.query.keyword2;
+    this.keywords[3]=this.$route.query.keyword3;
+    console.log(this.$route.query.analysis2);
+    this.descriptionContents[1]=this.$route.query.analysis1;
+    this.descriptionContents[2]=this.$route.query.analysis2;
+    this.descriptionContents[3]=this.$route.query.analysis3;
   }
 };
 //   methods: {

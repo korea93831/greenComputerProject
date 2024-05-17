@@ -14,7 +14,7 @@ class TreeDraw extends Sequelize.Model{
                 allowNull:true,
             },
             tree:{
-                type:Sequelize.STRING(100),
+                type:Sequelize.STRING(255),
                 allowNull:true,
                 defaultValue:0
             },
