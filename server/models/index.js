@@ -2,7 +2,7 @@
 // const path = require('path');
 const Sequelize = require('sequelize');
 const User = require('./user');
-const Board=require('./board');
+// const Board=require('./board');
 const TreeDraw=require('./treedraw');
 const TreeAnalyze=require('./treeanalyze');
 const HouseDraw=require('./housedraw');
@@ -20,7 +20,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 
 
 db.User=User;
-db.Board=Board;
+// db.Board=Board;
 db.TreeDraw=TreeDraw;
 db.TreeAnalyze=TreeAnalyze;
 db.HouseDraw=HouseDraw;

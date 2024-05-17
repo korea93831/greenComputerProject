@@ -3,10 +3,15 @@ import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/RegisterView.vue';
 import Resultpage from '../views/Resultpage.vue';
 import Imageupload from '../views/Imageupload.vue';
+
+import BoardList from '@/views/boardpage/BoardList.vue';
+import BoardView from '@/views/boardpage/BoardView.vue';
+import BoardWriter from '../views/boardpage/BoardWriter.vue';
+
 import House from '../views/pages/House.vue';
 import Person from '../views/pages/Person.vue';
 import Tree from '../views/pages/Tree.vue';
-import Noticeboard from '../views/Noticeboard.vue';
+
 
 
 const routes = [
@@ -29,15 +34,31 @@ const routes = [
     component: RegisterView // 회원가입 페이지
   },
   {
+    path: '/imageupload',
+    name: 'imageupload',
+    component: Imageupload // 이미지 업로드 페이지
+  },
+  {
     path: '/result',
     name: 'result',
     component: Resultpage // 결과 페이지
   },
   {
-    path: '/imageupload',
-    name: 'imageupload',
-    component: Imageupload // 이미지 업로드 페이지
+    path: '/board',
+    name: 'BoardList',
+    component: BoardList // 게시판 목록 페이지
   },
+  {
+    path: '/view/:seq',
+    name: 'BoardView',
+    component: BoardView // 게사판 상세 페이지
+  },
+  {
+    path: '/writer',
+    name: 'BoardWriter',
+    component: BoardWriter // 게시판 작성 페이지
+  }, 
+
   {
     path: '/house',
     name: 'house',
@@ -53,11 +74,6 @@ const routes = [
     name: 'tree',
     component: Tree // 나무 이미지 업로드 페이지
   },
-  {
-    path: '/noticeboard',
-    name: 'noticeboard',
-    component: Noticeboard // 개시판 페이지
-  }
 ]
 
 const router = createRouter({

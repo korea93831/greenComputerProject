@@ -1,14 +1,14 @@
 const express=require('express');
 const morgan=require('morgan');
-const cookieParser=require('cookie-parser')
-const session=require('express-session')
+const cookieParser=require('cookie-parser');
+const session=require('express-session');
 const passport=require('passport');
 const passportConfig=require('./passport');
-const dotenv=require('dotenv')
-const path=require('path')
-const {sequelize}=require('./models')
-const cors=require('cors')
-const bodyParser=require('body-parser')
+const dotenv=require('dotenv');
+const path=require('path');
+const {sequelize}=require('./models');
+const cors=require('cors');
+const bodyParser=require('body-parser');
 dotenv.config();
 const app=express();
 app.use(express.json());
@@ -48,12 +48,12 @@ app.use(passport.session());
 const homeRouter=require('./routes/main.js');
 const analyzeRouter=require('./routes/analyze.js');
 const treeRouter = require('./routes/tree.js');
-// const userRouter=require('./routes/user.js')
+const userRouter=require('./routes/auth.js')
 app.use('/',homeRouter)
 app.use('/analyze',analyzeRouter)
 app.use('/', treeRouter)
 
-// app.use('/user',userRouter)
+app.use('/',userRouter)
 
 
 

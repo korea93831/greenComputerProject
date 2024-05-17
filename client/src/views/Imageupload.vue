@@ -1,61 +1,160 @@
 <template>
-    <div class="upload">
+  <div class="upload">
       <h1 class="page-title">이미지 업로드</h1>
       <v-row>
         <v-col cols="12" md="4">
           <v-card>
-            <v-img :src="require('@/images/집.png')" alt="House"></v-img> 
-            <v-btn class="explore-btn" color="primary" @click="redirectToHouse('/images/집.png')">이미지 업로드</v-btn>
+            <v-img :src="imageUrls[1] ? imageUrls[1] : require('@/images/집.png')" alt="House" style="max-width: 100%; max-height: 500px;"></v-img> 
+            <input type="file" id="file1" @change="handleFileUpload(1, $event)">
+            <button class="cancel-btn" @click="cancelFileUpload(1)" v-if="imageUrls[1]">취소</button>
           </v-card>
         </v-col>
   
         <v-col cols="12" md="4">
           <v-card>
-            <v-img :src="require('@/images/나무.png')" alt="Tree"></v-img> 
-            <v-btn class="explore-btn" color="primary" @click="redirectToTree('/images/나무.png')">이미지 업로드</v-btn>
+            <v-img :src="imageUrls[2] ? imageUrls[2] : require('@/images/나무.png')" alt="Tree" style="max-width: 100%; max-height: 500px;"></v-img> 
+            <input type="file" id="file2" @change="handleFileUpload(2, $event)">
+            <button class="cancel-btn" @click="cancelFileUpload(2)" v-if="imageUrls[2]">취소</button>
           </v-card>
         </v-col>
   
         <v-col cols="12" md="4">
           <v-card>
-            <v-img :src="require('@/images/사람.png')" alt="Person"></v-img> 
-            <v-btn class="explore-btn" color="primary" @click="redirectToPerson('/images/사람.png')">이미지 업로드</v-btn>
+            <v-img :src="imageUrls[3] ? imageUrls[3] : require('@/images/사람.png')" alt="Person" style="max-width: 100%; max-height: 500px;"></v-img> 
+            <input type="file" id="file3" @change="handleFileUpload(3, $event)">
+            <button class="cancel-btn" @click="cancelFileUpload(3)" v-if="imageUrls[3]">취소</button>
           </v-card>
+          
+          <div class="gender-selection">
+            <label for="male">남자</label>
+            <input type="checkbox" id="male" v-model="selectedGenders" :value="'male'" @change="handleGenderChange('male')" class="checkbox">
+            <label for="female">여자</label>
+            <input type="checkbox" id="female" v-model="selectedGenders" :value="'female'" @change="handleGenderChange('female')" class="checkbox">
+          </div>
+          <p>※ 사람인 경우 그림에 있는 사람의 성별을 선택 해주세요.</p>
         </v-col>
       </v-row>
-      <br>
-      <h1> 각 이미지에 맞게 이미지 업로드를 해주세요.</h1>
+      <v-btn class="explore-btn" color="primary" @click="goToResultPage">제출</v-btn>
     </div>
-  </template>
+    </template>
+    
+    <script>
+    export default {
+      data() {
+        return {
+          imageUrls: { 1: '', 2: '', 3: '' },
+          selectedGenders: [],
+          houseimage:null,
+          treeimage:null,
+          personimage:null
+        };
+      },
+      methods: {
+        handleFileUpload(index, event) {
+          const file = event.target.files[0];
+          this.imageUrls[index] = URL.createObjectURL(file);
+          if(index==1){
+            this.houseimage=file
+          }
+          else if(index==2){
+            this.treeimage=file
+          }
+          else{
+            this.personimage=file
+          }
+          if(file){
+            const reader=new FileReader();
+            reader.readAsDataURL(this.file);
+          }
+        },
+        
+        cancelFileUpload(index) {
+          this.imageUrls[index] = '';
+          const inputElement = document.getElementById(`file${index}`);
+          if (inputElement) {
+            inputElement.value = '';
+          }
+        },
+        handleGenderChange(selectedGender) {
+          if (selectedGender === 'male' && this.selectedGenders.includes('female')) {
+            this.selectedGenders = ['male'];
+          }
+          else if (selectedGender === 'female' && this.selectedGenders.includes('male')) {
+            this.selectedGenders = ['female'];
+          }
+        },
+        async goToResultPage() {
+          if(!this.treeimage){
+            alert('나무그림을 선택하세요');
+            return;
+          }
+          const formData=new FormData();
+          const file_name='tree'+Date.now()
+          formData.append('image',this.treeimage);
+          formData.append('filename',file_name);
   
-  <script>
-  export default {
-    methods: {
-      redirectToHouse(imagePath) {
-        this.$router.push({ path:'/house', params: { imagePath }});
-      },
-      
-      redirectToTree(imagePath) {
-        this.$router.push({ path:'/tree', params: { imagePath }});
-      },
-      
-      redirectToPerson(imagePath) {
-        this.$router.push({ path:'/person', params: { imagePath }});
+          try{
+            await axios.post('http://localhost:3000/analyze/tree',formData,{
+              headers:{
+                'Content-Type':'multipart/form-data'
+              }
+            });
+          }catch(error){
+            console.error(error)
+          }
+          const reader=new FileReader();
+          reader.onload=async(e)=>{
+            const base64Image=e.target.result;
+            try{
+              console.log('제출하기')
+              await axios.post('http://127.0.0.1:5000/api/tree',{image:base64Image,filename:file_name});
+            }catch(error){
+              console.error(error);
+            }
+          }
+          // reader.readAsDataURL(this.file);
+          // this.$router.push({ name: 'result', query: { imageUrl1: this.imageUrls[1], imageUrl2: this.imageUrls[2], imageUrl3: this.imageUrls[3] } });
+        }
       }
+    };
+    </script>
+    
+    <style scoped>
+    .page-title {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 20px;
+      font-size: 24px;
     }
-  };
-  </script>
+    
+    .upload {
+      margin-top: 50px;
+    }
+    .cancel-btn {
+    margin-top: 10px;
+    margin-left: 20px;
+    color: red;
+  }
   
-  <style scoped>
-  .page-title {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 20px;
+  .gender-selection {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .checkbox {
+    margin: 0 10px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .explore-btn {
+    margin-top: 20px; 
+    width: 150px; 
+    height: auto; 
     font-size: 24px;
+    display: block; 
+    margin: 0 auto; 
   }
-  
-  .upload {
-    margin-top: 50px;
-  }
-  </style>
-  
+    </style>
+    

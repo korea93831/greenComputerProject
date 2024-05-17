@@ -1,14 +1,12 @@
 <template>
   <div class="register-view">
     <h1>회원 가입</h1>
-    <v-form @submit.prevent="register">
-      <v-text-field v-model="username" label="아이디" required></v-text-field>
-      <v-text-field v-model="nickname" label="닉네임" required></v-text-field>
+    <v-form ref="form">
       <v-text-field v-model="email" label="이메일" type="email" required></v-text-field>
       <v-text-field v-model="password" label="비밀번호" type="password" required></v-text-field>
     </v-form>
     <div class="button-container">
-      <v-btn type="submit" color="primary">회원 가입</v-btn>
+      <v-btn @click="register" color="primary">회원 가입</v-btn>
       <v-btn class="explore-btn" color="red" @click="goToHome">취소</v-btn>
     </div>
     
@@ -48,7 +46,7 @@ const register = async () => {
   };
 
   try {
-    const response = await axios.post('https://your-server-url.com/register', userData);
+    const response = await axios.post('http://localhost:3000/register', userData);
     console.log('회원가입이 완료되었습니다.', response.data);
     snackbarMessage.value = '회원가입이 완료되었습니다.';
     snackbar.value = true;

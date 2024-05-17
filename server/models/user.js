@@ -4,9 +4,10 @@ class User extends Sequelize.Model{
     static initiate(sequelize){
         User.init({
             user_id:{
-                type: Sequelize.STRING(20),
-                allowNull:true,
-                unique:true
+                type: Sequelize.INTEGER,
+                allowNull:false,
+                autoIncrement: true,
+                primaryKey: true
             },
             email:{
                 type:Sequelize.STRING(60),
@@ -14,10 +15,10 @@ class User extends Sequelize.Model{
                 unique:true
             },
             password:{
-                type:Sequelize.STRING(20),
+                type:Sequelize.STRING(255),
                 allowNull:true,
             },
-            nickname:{
+            name:{
                 type:Sequelize.STRING(10),
                 allowNull:true,
                 unique:true
