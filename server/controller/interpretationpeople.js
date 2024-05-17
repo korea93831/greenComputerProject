@@ -1,6 +1,7 @@
-const InterpretationPeople = require('../models/interpretation').InterpretationPeople;
+const PeopleAnalyze = require('../models/peopleanalyze').PeopleAnalyze;
+const PeopleDraw = require('../models/peopledraw').PeopleDraw;
 
-.findOne({ order: [['createdAt', 'DESC']] })
+PeopleDraw.findOne({ order: [['createdAt', 'DESC']] })
     .then(people => {
         if (!people) {
             console.error('People not found!');
@@ -95,7 +96,7 @@ const InterpretationPeople = require('../models/interpretation').InterpretationP
             .slice(0, 3);
 
             return Promise.all(topResults.map(result =>
-                InterpretationPeople.findOne({
+                PeopleAnalyze.findOne({
                     where: {analysis_people_id: result.index + 1}
                 })
             ));

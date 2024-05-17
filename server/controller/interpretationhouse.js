@@ -1,6 +1,7 @@
-const InterpretationHouse = require('../models/interpretation').InterpretationHouse;
+const HouseAnalyze = require('../models/houseanalyze').HouseAnalyze;
+const HouseDraw = require('../models/housedraw').HouseDraw;
 
-.findOne({ order: [['createdAt', 'DESC']] })
+HouseDraw.findOne({ order: [['createdAt', 'DESC']] })
     .then(house => {
         if (!house) {
             console.error('House not found!');
@@ -159,7 +160,7 @@ const InterpretationHouse = require('../models/interpretation').InterpretationHo
             .slice(0, 3);
 
             return Promise.all(topResults.map(result =>
-                InterpretationHouse.findOne({
+                HouseAnalyze.findOne({
                     where: {analysis_house_id: result.index + 1}
                 })
             ));

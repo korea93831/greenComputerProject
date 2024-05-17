@@ -1,22 +1,27 @@
 <template>
   <div class="result">
-    <div class="result-page">
-      <!-- 왼쪽에 이미지 -->
-      <div class="image-container">
-        <img :src="imageUrl" alt="Result Image" style="width: 100%; height: auto;">
-      </div>
-
-      <!-- 오른쪽에 텍스트 창 -->
-      <div class="text-container">
-        <div class="title-box">
-          <p class="title-font"><strong>제목:</strong> {{ title }} </p>
-        </div>
-        <div class="keyword-box">
-          <p class="keyword-font"><strong>키워드:</strong> {{ keyword }} </p>
-        </div>
-        <div class="description-box">
-          <p class="description-font"><strong>해설</strong> {{ description }} </p>
-          <p class="description-content"><strong> {{ description-content }}</strong></p>
+    <div class="result-page d-flex justify-content-center align-items-center" style="margin-left: 10%; margin-top: auto;">
+      <div class="content-container">
+        <div class="image-text-container" v-for="(title, index) in titles" :key="index" style="margin-top: 10%; margin-bottom: 10%;">
+          <div class="row mb-4" v-if="imageUrls[index + 1]">
+            <div class="col-md-12 mb-4 d-flex">
+              <div class="image-container mr-4">
+                <img :src="imageUrls[index + 1]" :alt="'Result Image ' + (index + 1)" style="max-width: 100%; max-height: 500px;">
+              </div>
+              <div class="text-container flex-grow-1" style="margin-top: 10%;">
+                <div class="title-box">
+                  <p class="title-font"> {{ title }} </p>
+                </div>
+                <div class="keyword-box">
+                  <p class="keyword-font"><strong>키워드:</strong> {{ keywords[index] }} </p>
+                </div>
+                <div class="description-box">
+                  <p class="description-font"><strong>해설:</strong> {{ descriptions[index] }} </p>
+                  <p class="description-content" v-if="descriptionContents[index]"><strong>설명 내용:</strong> {{ descriptionContents[index] }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -27,94 +32,84 @@
 export default {
   data() {
     return {
-      imageUrl: '', // 이미지 URL
-      title: '', // 타이틀 데이터
-      keyword: '', // 키워드 데이터
-      description: '' // 해설 데이터
+      titles: ["집 그림 결과 분석", "나무 그림 결과 분석", "사람 그림 결과 분석"],
+      keywords: ["건물", "자연", "인물"],
+      descriptions: ["집을 나타낸 그림입니다.", "나무를 표현한 그림입니다.", "사람을 나타낸 그림입니다."],
+      descriptionContents: ["집은 안정과 편안함을 의미합니다.", "나무는 자연을 상징합니다.", "사람은 인간의 존재를 나타냅니다."],
+      imageUrls: {
+        1: '',
+        2: '',
+        3: ''
+      }
     };
   },
   mounted() {
-    // DB에서 데이터 가져오는 메서드 호출
-    this.fetchData();
-
-    this.imageUrl = this.$route.query.imageUrl;
-  },
-  methods: {
-    fetchData() {
-      // 예: axios.get('/api/getData').then(response => {
-      //       this.title = response.data.title;
-      //       this.keyword = response.data.keyword;
-      //       this.description = response.data.description;
-      //   }).catch(error => {
-      //       console.error('Error fetching data:', error);
-      //   });
-    }
+    this.imageUrls[1] = this.$route.query.imageUrl1;
+    this.imageUrls[2] = this.$route.query.imageUrl2;
+    this.imageUrls[3] = this.$route.query.imageUrl3;
   }
-}
+};
+//   methods: {
+//     fetchData() {
+//       // 예: axios.get('/api/getData').then(response => {
+//       //       this.title = response.data.title;
+//       //       this.keyword = response.data.keyword;
+//       //       this.description = response.data.description;
+//       //   }).catch(error => {
+//       //       console.error('Error fetching data:', error);
+//       //   });
+//     }
+//   }
+// }
 </script>
 
 <style scoped>
-.result-page {
+.result {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  height: 700px;
-  
-  /* background-color: chartreuse;
-  padding: 50px;
-  border: 20px solid maroon;
-  margin: 50px; */
+  height: auto;
 }
 
-.image-container {
-  flex: 1; 
-  margin-right: 20px; 
+.result-page {
+  width: 100%;
+}
+
+.content-container {
+  width: 80%;
+  margin-top: 20px;
 }
 
 .image-container img {
   max-width: 100%;
+  height: auto;
 }
 
-.text-container {
-  flex: 1;
-  text-align: left;
-  margin-left: 50px;
+.title-box {
+  margin-bottom: 20px;
 }
 
-.result {
-  margin-top: 100px;
-  margin-left: 100px;
-  margin-right: 100px;
+.keyword-box {
+  margin-bottom: 20px;
+}
+
+.description-box {
+  margin-bottom: 20px;
 }
 
 .title-font {
-  font-size: 30px;
-  margin-bottom: 20px;
+  font-size: 38px;
 }
 
 .keyword-font {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 28px;
 }
 
 .description-font {
   font-size: 24px;
 }
 
-.title-box {
-  margin-bottom: 5%;
-}
-
-.keyword-box {
-  margin-bottom: 5%;
-}
-
-.description-box {
-  margin-bottom: 40%;
-}
-
 .description-content {
-  font-size: 16px;
+  font-size: 24px;
 }
 </style>

@@ -7,11 +7,15 @@ const passportConfig=require('./passport');
 const dotenv=require('dotenv')
 const path=require('path')
 const {sequelize}=require('./models')
-
+const cors=require('cors')
+const bodyParser=require('body-parser')
 dotenv.config();
 const app=express();
+app.use(express.json());
 passportConfig();
 app.set('port',process.env.PORT||3000)
+
+app.use(cors());
 app.use(morgan('dev'));
 
 
@@ -41,11 +45,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const homeRouter=require('./routes/main.js')
-const analyzeRouter=require('./routes/analyze.js')
+const homeRouter=require('./routes/main.js');
+const analyzeRouter=require('./routes/analyze.js');
+const treeRouter = require('./routes/tree.js');
 // const userRouter=require('./routes/user.js')
 app.use('/',homeRouter)
 app.use('/analyze',analyzeRouter)
+app.use('/', treeRouter)
 
 // app.use('/user',userRouter)
 
