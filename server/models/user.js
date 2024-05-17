@@ -11,17 +11,12 @@ class User extends Sequelize.Model{
             },
             email:{
                 type:Sequelize.STRING(60),
-                allowNull:true,
+                allowNull:false,
                 unique:true
             },
             password:{
                 type:Sequelize.STRING(255),
-                allowNull:true,
-            },
-            name:{
-                type:Sequelize.STRING(10),
-                allowNull:true,
-                unique:true
+                allowNull:false,
             }
         },{
             sequelize,

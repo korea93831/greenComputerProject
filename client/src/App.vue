@@ -38,11 +38,16 @@ const router = useRouter();
 
 const login = async (credentials) => {
   try {
+    const response = await axios.post('/login', credentials);
     // 로그인 로직을 구현합니다.
     // 로그인 성공 시 isLoggedIn을 true로 변경합니다.
-    isLoggedIn.value = true;
+    if (response.data.success) {
+      isLoggedIn.value = true;
     // 기타 로그인 후의 작업을 수행합니다.
-  } catch (error) {
+  } else {
+    console.error('로그인 실패:', response.data.message);
+  } 
+} catch (error) {
     console.error('로그인 오류:', error);
     // 로그인 실패 시 적절한 처리를 수행합니다.
   }

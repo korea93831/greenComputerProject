@@ -14,9 +14,7 @@
       {{ snackbarMessage }}
       
       <template v-slot:actions>
-        <v-btn color="red" variant="text" @click="snackbar = false">
-          Close
-        </v-btn>
+        <v-btn color="red" variant="text" @click="handleSnackbarAction()">확인</v-btn>
       </template>
     </v-snackbar>
   </div>
@@ -27,10 +25,8 @@ import { ref } from 'vue';
 import axios from 'axios'; 
 import { useRouter } from 'vue-router';
 
-const username = ref('');
 const email = ref('');
 const password = ref('');
-const nickname = ref('');
 
 const snackbar = ref(false);
 const snackbarMessage = ref('');
@@ -38,11 +34,15 @@ const snackbarMessage = ref('');
 const router = useRouter();
 
 const register = async () => {
+  if (!email.value || !password.value) {
+    snackbarMessage.value = '이메일과 비밀번호를 입력하세요.';
+    snackbar.value = true;
+    return;
+  }
+
   const userData = {
-    username: username.value,
     email: email.value,
     password: password.value,
-    nickname: nickname.value
   };
 
   try {
@@ -50,17 +50,26 @@ const register = async () => {
     console.log('회원가입이 완료되었습니다.', response.data);
     snackbarMessage.value = '회원가입이 완료되었습니다.';
     snackbar.value = true;
-  } 
-
-  catch (error) {
-    console.error('회원가입 중 오류가 발생했습니다.', error);
-    snackbarMessage.value = '회원가입 중 오류가 발생했습니다.';
+  } catch (error) {
+    if (error.response.status === 409) { // 아이디 중복 오류
+      snackbarMessage.value = '이미 사용 중인 이메일입니다. 다른 이메일을 입력해주세요.';
+    } else {
+      snackbarMessage.value = '회원가입 중 오류가 발생했습니다.';
+    }
     snackbar.value = true;
   }
 };
 
 const goToHome = () => {
   router.push({ name: 'home' });
+};
+
+const handleSnackbarAction = () => {
+  if (snackbarMessage.value === '회원가입이 완료되었습니다.') {
+    goToHome();
+  } else {
+    snackbar.value = false;
+  }
 };
 </script>
 
