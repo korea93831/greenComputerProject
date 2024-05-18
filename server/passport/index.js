@@ -4,13 +4,20 @@ const User=require('../models/user');
 
 module.exports=()=>{
     passport.serializeUser((user,done)=>{
-        done(null,user.id);
+        done(null,user.user_id);
     });
 
     passport.deserializeUser((id,done)=>{
-        User.findOne({where:{id}})
-        .then(user=>done(null,user))
-        .catch(err=>done(err));
+        User.findByPk(id)
+        .then(user=>{
+            if (!user) {
+                done(new Error('User not found'), null);
+                return;
+            }
+            done(null,user);
+        })
+        .catch(err=>{
+            done(err);});
     });
     local();
 };

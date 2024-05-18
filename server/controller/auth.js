@@ -3,22 +3,22 @@ const passport=require('passport');
 const User=require('../models/user');
 
 exports.join=async(req,res,next)=>{
-    const {email,password,nickname,}=req.body;
+    const {email,password}=req.body;
+    console.log(email,password)
     try{
         const exUser=await User.findOne({where:{email}});
         if (exUser){
-            return res.send('redirect')
+            return res.status(409).send('Duplicate email');
         }
         const hash=await bcrypt.hash(password,12);
         await User.create({
             email,
-            nickname,
             password:hash
         });
         return res.send('Create')
     }catch(error){
         console.error(error);
-        return res.send('error');
+        return res.status(500).send('Server error');
     }
 };
 
@@ -29,14 +29,14 @@ exports.login=(req,res,next)=>{
             return next(authError);
         }
         if(!user){
-            return res.send('None user');
+            return res.status(401).json({ success: false, message: '로그인에 실패하였습니다.'});
         }
         return req.login(user,(loginError)=>{
             if(loginError){
                 console.error(loginError);
                 return next(loginError);
             }
-            return res.send('login');
+            return res.status(200).json({ success: true, message: '로그인에 성공하였습니다.', user });
         });
     })(req,res,next);
 };

@@ -47,12 +47,13 @@ app.use(passport.session());
 const homeRouter=require('./routes/main.js')
 const analyzeRouter=require('./routes/analyze.js')
 const interpretation=require('./routes/interpretation.js')
+const userRouter=require('./routes/auth.js')
 // const userRouter=require('./routes/user.js')
 app.use('/',homeRouter)
 app.use('/analyze',analyzeRouter)
 app.use('/interpretation',interpretation)
 
-// app.use('/user',userRouter)
+app.use('/',userRouter)
 
 
 

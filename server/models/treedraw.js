@@ -7,7 +7,8 @@ class TreeDraw extends Sequelize.Model{
                 type: Sequelize.INTEGER,
                 allowNull:true,
                 unique:true,
-                primaryKey:true
+                primaryKey:true,
+                autoIncrement:true
             },
             tree_image:{
                 type:Sequelize.STRING(255),
