@@ -1,5 +1,5 @@
 const express=require('express');
-const {tree,house,person,saveResult}=require('../controller/analyze.js');
+const {analyze,saveResult}=require('../controller/analyze.js');
 const router=express.Router();
 const multer=require('multer')
 const path=require('path');
@@ -32,9 +32,7 @@ const upload=multer({
 //     fstat.writeFileSync(filepath,buffer);
 // };
 
-router.post('/tree',upload.single('image'),tree);
-router.post('/house',upload.single('image'),house);
-router.post('/person',upload.single('image'),person);
+router.post('/analyze',upload.array('image',3),analyze);
 router.post('/save_result',saveResult);
 
 module.exports=router;

@@ -112,7 +112,7 @@ import axios from 'axios';
         formData.append('personimage', this.personimage, `person${timestamp}`);
         }
         try{
-          await axios.post('http://localhost:3000/analyze/',formData,{
+          await axios.post('http://localhost:3000/analyze',formData,{
             headers:{
               'Content-Type':'multipart/form-data'
             }

@@ -4,11 +4,12 @@ const TreeDraw=require('../models/treedraw');
 const Images=require('../models/images');
 const { Console } = require('console');
 const { stringify } = require('querystring');
-exports.tree=async(req,res,next)=>{
+exports.analyze=async(req,res,next)=>{
     const image=req.file;
     if(!image){
         return res.status(400).send('이미지가 제공되지 않았습니다');
     }
+    console.log(image)
     try{
         await Images.create({
             filename:req.body['filename'],
@@ -44,7 +45,7 @@ exports.tree=async(req,res,next)=>{
     //         },
     //     }
     // );
-    res.send('api/tree')
+    res.send('api/analyze')
     // formData.append("file",sendfile);
     // const request_config={
     //     method:"post",
