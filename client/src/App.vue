@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
 
       <v-app-bar-title class="title">Application</v-app-bar-title>
-     
+
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="goToNoticeboard">게시판</v-btn>
 
@@ -40,7 +40,7 @@ const login = async (credentials) => {
       isLoggedIn.value = true;
     } else {
       console.error('로그인 실패:', response.data.message);
-    } 
+    }
   } catch (error) {
     console.error('로그인 오류:', error);
   }
@@ -48,6 +48,7 @@ const login = async (credentials) => {
 
 const logout = () => {
   isLoggedIn.value = false;
+  router.push({ name: 'home' });
 };
 
 const showLoginModal = () => {

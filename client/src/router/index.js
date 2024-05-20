@@ -4,6 +4,7 @@ import RegisterView from '../views/RegisterView.vue';
 import Resultpage from '../views/Resultpage.vue';
 import Imageupload from '../views/Imageupload.vue';
 import Mypage from '../views/Mypage.vue';
+import Inquirypage from '../views/Inquirypage.vue';
 
 import BoardList from '../views/boardpage/BoardList.vue';
 import BoardView from '../views/boardpage/BoardView.vue';
@@ -34,6 +35,11 @@ const routes = [
     path: '/mypage',
     name: 'mypage',
     component: Mypage // 마이 페이지
+  },
+  {
+    path: '/mypage/Inquirypage',
+    name: 'inquirypage',
+    component: Inquirypage // 조회 페이지
   },
   {
     path: '/board',

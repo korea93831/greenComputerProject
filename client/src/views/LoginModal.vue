@@ -63,7 +63,7 @@ const login = async () => {
 
 const handleSnackbarClose = () => {
   snackbar.value = false;
-  router.push({ name: 'home' });
+  showModal.value = false;
 };
 </script>
 
