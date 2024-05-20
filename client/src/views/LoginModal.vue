@@ -3,32 +3,53 @@
     <v-card>
       <v-card-title class="headline">로그인</v-card-title>
       <v-card-text>
-        <v-form @submit.prevent="login">
-          <v-text-field v-model="email" label="아이디" required></v-text-field>
+        <v-form ref="form">
+          <v-text-field v-model="email" label="이메일" required></v-text-field>
           <v-text-field v-model="password" label="비밀번호" type="password" required></v-text-field>
-          <v-btn type="submit" color="primary">확인</v-btn>
+          <v-btn @click="login" color="primary">확인</v-btn>
         </v-form>
       </v-card-text>
     </v-card>
+    <v-snackbar v-model="snackbar" multi-line top>
+      {{ snackbarMessage }}
+      <v-btn color="red" variant="text" @click="handleSnackbarClose">확인</v-btn>
+    </v-snackbar>
   </v-dialog>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-const showModal = ref(false);
+const props = defineProps({
+  modelValue: Boolean
+});
+
+const emit = defineEmits(['update:modelValue', 'update:isLoggedIn']);
+
+const showModal = ref(props.modelValue);
 const email = ref('');
 const password = ref('');
-const snackbar=ref(false);
-const snackbarMessage=ref('');
+const snackbar = ref(false);
+const snackbarMessage = ref('');
+const router = useRouter();
+
+watch(() => props.modelValue, (newVal) => {
+  showModal.value = newVal;
+});
+
+watch(showModal, (newVal) => {
+  emit('update:modelValue', newVal);
+});
 
 const login = async () => {
   try {
-    const response = await axios.post('/api/login', { email: email.value, password: password.value });
+    const response = await axios.post('http://localhost:3000/login', { email: email.value, password: password.value });
     if (response.data.success) {
       snackbarMessage.value = '로그인이 성공했습니다.';
       snackbar.value = true;
+      emit('update:isLoggedIn', true);
     } else {
       snackbarMessage.value = response.data.message || '로그인이 실패했습니다.';
       snackbar.value = true;
@@ -39,10 +60,15 @@ const login = async () => {
     snackbar.value = true;
   }
 };
+
+const handleSnackbarClose = () => {
+  snackbar.value = false;
+  router.push({ name: 'home' });
+};
 </script>
 
 <script>
 export default {
-  name: 'LoginModal'
+  name: 'LoginModal',
 };
 </script>

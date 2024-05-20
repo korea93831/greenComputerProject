@@ -47,15 +47,15 @@ export default {
   methods: {
     fetch() {
       axios.get('http://localhost:8080/api/board/' + this.$route.params.seq)
-        .then((response) => {
-          console.log(response)
-          // 여기서 받아온 데이터를 title과 context에 할당해야 합니다.
-          this.title = response.data.title; // 수정 필요
-          this.context = response.data.context; // 수정 필요
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      .then((response) => {
+        console.log(response)
+        // 서버로부터 받아온 데이터 객체에서 title과 context 속성을 찾아 할당
+        this.title = response.data.title;
+        this.context = response.data.context;
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     },
     writeClick() {
       if(this.$route.params.seq) {
