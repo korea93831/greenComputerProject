@@ -2,7 +2,215 @@ const TreeAnalyze=require('../models/treeanalyze');
 const TreeDraw=require('../models/treedraw');
 const Image=require('../models/images')
 const { Op } = require('sequelize');
-exports.interpretationTree= async(req,res,next)=>{
+const HouseDraw = require('../models/housedraw');
+const HouseAnalyze=require('../models/houseanalyze');
+const PersonDraw=require('../models/peopledraw');
+const PersonAnalyze=require('../models/peopleanalyze');
+const PeopleAnalyze = require('../models/peopleanalyze');
+
+
+exports.interpretationHouse= async(req,res,next)=>{
+    console.log('interpretationHouse')
+    const filename=req.body['imageurl']
+    console.log(filename)
+    let imageurl='';
+    try{
+        const image_path=await Image.findOne({
+            attributes:['imagepath'],
+            where:{filename:filename}
+        })
+        console.log(image_path.dataValues['imagepath'])
+        imageurl=image_path.dataValues['imagepath'].slice(8,26)
+    }
+    catch(error){
+        console.error(error)
+    }
+    try{
+        const house=await HouseDraw.findOne({ 
+            attributes:['user_id','house','house_size','house_loc','house_roof','house_wall',
+                        'house_door','house_window','house_chimney','house_smoke','house_fence',
+                        'house_road','house_pond','house_mountain','house_tree','house_flower',
+                        'house_grass','house_sun',,'createdAt','house_image'],
+            where:{house_image:{
+                [Op.like]:`%${imageurl}%`
+            }}
+        })
+        console.log(imageurl)
+            if (!tree) {
+                console.error('House not found!'); 
+            }
+            else{
+                let result1 = 0, result2 = 0, result3 = 0, result4 = 0, result5 = 0,
+                result6 = 0, result7 = 0, result8 = 0, result9 = 0, result10 = 0;
+                console.log(tree.dataValues)
+                if (house.dataValues['house_roof'] == 1) {
+                    result1 += 1;
+                }
+                if (house.dataValues['house_roof'] == 0) {
+                    result5 += 1;
+                    result10 += 1;
+                }
+                if (house.dataValues['house_wall'] == 1) {
+                    result1 += 1;
+                    result8 += 1;
+                }
+                if (house.dataValues['house_wall'] == 0) {
+                    result3 += 1;
+                    result4 += 1;
+                    result9 += 1;
+                }
+                if (house.dataValues['house_door'] == 1) {
+                    result2 += 1;
+                    result3 += 1;
+                    result4 += 1;
+                    result5 += 1;
+                    result9 +=1;
+                }
+                if (house.dataValues['house_door'] == 0) {
+                    result1 += 1;
+                    result4 += 1;
+                    result10 +=1;
+                }
+                if (house.dataValues['house_window'] == 1) {
+                    result2 += 1;
+                    result3 += 1;
+                    result6 += 1;
+                    result9 += 1;
+                }
+                if (house.dataValues['house_window'] == 0) {
+                    result5 +=1;
+                    result10 +=1;
+                }
+                if (house.dataValues['house_chimney'] == 1) {
+                    result1 += 1;
+                }
+                if (house.dataValues['house_chimney'] == 0) {
+                    result4 += 1;
+                }
+                if (house.dataValues['house_smoke'] == 1) {
+                    result5 += 1;
+                    result7 += 1;
+                    result9 += 1;
+                }
+                if (house.dataValues['house_smoke']==0) {
+                    result8 += 1;
+                }
+                if (house.dataValues['house_fence']==1) {
+                    result1+=1;
+                    result5+=1;
+                    result8+=1;
+                    result10+=1;
+                }
+                if (house.dataValues['house_fence'] == 0) {
+                    result3 += 1;
+                    result4 += 1;
+                    result9 += 1;
+                }
+                if (house.dataValues['house_road'] == 1) {
+                    result2 += 1;
+                    result3 += 1;
+                    result4 += 1;
+                    result9 += 1;
+                }
+                if (house.dataValues['house_road']==0) {
+                    result10 +=1;
+                }
+                if (house.dataValues['house_pond']==1) {
+                    result2 +=1;
+                    result8 +=1;
+                }
+                if (house.dataValues['house_pond']==0) {
+                    result5+=1;
+                }
+                if (house.dataValues['house_mountain']==1) {
+                    result2+=1;
+                    result4+=1;
+                    result6+=1;
+                }
+                if (house.dataValues['house_mountain']==0) {
+                    result1 += 1;
+                }
+                if (house.dataValues['house_tree'] == 1) {
+                    result1 += 1;
+                    result3 += 1;
+                    result4 += 1;
+                }
+                if (house.dataValues['house_tree']==0) {
+                    result5 += 1;
+                    result10 += 1;
+                }
+                if (house.dataValues['house_flower'] == 1) {
+                    result4 +=1;
+                    result6+=1;
+                }
+                if (house.dataValues['house_flower'] == 0) {
+                    result5 += 1;
+                    result7 += 1;
+                    result10 += 1;
+                }
+                if (house.dataValues['house_grass']==1) {
+                    result1 +=1;
+                    result4 +=1;
+                    result6 +=1;
+                }
+                if (house.dataValues['house_grass'] == 0) {
+                    result5 +=1;
+                    result7 +=1;
+                }
+                if (house.dataValues['house_sun'] == 1) {
+                    result4 +=1;
+                    result6 +=1;
+                    result8 +=1;
+                }
+                if (house.dataValues['house_sun'] == 0) {
+                    result7 +=1;
+                    result10 +=1;
+                }
+                if (house.dataValues['house_size']==3){
+                    result1 +=3;
+                }
+                if(house.dataValues['house_loc']==1){
+                    result6 +=3;
+                }
+                if(house.dataValues['house_loc']==2){
+                    result6 +=3;
+                }
+                if(house.dataValues['house_loc']==3){
+                    result1+=3;
+                }
+                if(house.dataValues['house_loc']==4){
+                    result5+=3;
+                }
+                if(house.dataValues['house_loc']==5){
+                    result5 +=3;
+                }
+                const topResults = [result1, result2, result3, result4, result5, 
+                    result6, result7, result8, result9, result10]
+                    .map((value, index) => ({value, index}))
+                    .sort((a, b) => b.value - a.value)
+                    .slice(0, 3);
+                console.log(topResults)
+                const topInterpretations=await Promise.all(
+                    topResults.map(result=>
+                        HouseAnalyze.findOne({
+                            where:{analysis_tree_id:result.index+1}
+                        })
+                    )
+                );
+                const response = topInterpretations.map(interpretation => ({
+                    keyword: interpretation.keyword,
+                    analysis: interpretation.analysis_tree
+                }));
+                console.log(response)
+                res.json(response)
+                }
+            }catch(error){
+                console.error(error)
+            }
+}        
+
+
+exports.interpretationTree=async(req,res,next)=>{
     console.log('interpretationTree')
     const filename=req.body['imageurl']
     console.log(filename)
@@ -177,12 +385,139 @@ exports.interpretationTree= async(req,res,next)=>{
             }catch(error){
                 console.error(error)
             }
-}        
-
-
-exports.interpretationHouse=(req,res,next)=>{
-
 }
-exports.interpretationPeople=(req,res,next)=>{
-
+exports.interpretationPeople=async(req,res,next)=>{
+    console.log('interpretationPeople')
+    const filename=req.body['imageurl']
+    console.log(filename)
+    let imageurl='';
+    try{
+        const image_path=await Image.findOne({
+            attributes:['imagepath'],
+            where:{filename:filename}
+        })
+        console.log(image_path.dataValues['imagepath'])
+        imageurl=image_path.dataValues['imagepath'].slice(8,26)
+    }
+    catch(error){
+        console.error(error)
+    }
+    try{
+        const tree=await TreeDraw.findOne({ 
+            attributes:['user_id','people','sex','people_size','people_size','people_head','people_face',
+                        'people_eye','people_nose','people_mouse','people_ear','people_hair',
+                        'people_neck','people_body','people_arm','people_hand','people_leg',
+                        'people_foot','people_button','people_pocket','people_runshoes','people_shoes','createAt','people_image'],
+            where:{people_image:{
+                [Op.like]:`%${imageurl}%`
+            }}
+        })
+        console.log(imageurl)
+            if (!people) {
+                console.error('People not found!'); 
+            }
+            else{
+                let result1 = 0, result2 = 0, result3 = 0, result4 = 0, result5 = 0,
+                result6 = 0, result7 = 0, result8 = 0;
+                console.log(tree.dataValues)
+                if (people.dataValues['sex']=='M') {
+                    result1 += 3;
+                }
+                if (people.dataValues['sex'] == 'F') {
+                    result2+=3;
+                }
+                if (people.dataValues['people_size'] == 1) {
+                    result4 +=3;
+                }
+                if (people.dataValues['people_size'] == 2) {
+                    result2 +=3;
+                }
+                if (people.dataValues['people_size'] == 3) {
+                    result1 +=3;
+                }
+                if (people.dataValues['people_head'] == 0) {
+                    result4 +=1;
+                }
+                if (people.dataValues['people_face'] == 0) {
+                    result5 += 1;
+                    result6 += 1;
+                }
+                if (people.dataValues['people_eye'] == 0) {
+                    result5 +=1;
+                    result6 +=1;
+                }
+                if (people.dataValues['people_nose'] == 0) {
+                    result6 +=1;
+                }
+                if (people.dataValues['people_mouse'] == 0) {
+                    result5 +=1;
+                    result7 +=1;
+                    result8 +=1;
+                }
+                if (people.dataValues['people_ear'] == 0) {
+                    result6 +=1;
+                }
+                if (people.dataValues['people_hair'] == 0) {
+                    result6 +=1;
+                }
+                if (people.dataValues['people_neck'] == 0) {
+                    result8 +=1;
+                }
+                if (people.dataValues['people_body'] == 0) {
+                    result6 +=1;
+                }
+                if (people.dataValues['people_arm'] == 0) {
+                    result3 +=1;
+                    result5 +=1;
+                    result6 +=1;
+                    result8 +=1;
+                }
+                if (people.dataValues['people_hand'] == 0) {
+                    result5 +=1;
+                    result6 +=1;
+                }
+                if (people.dataValues['people_leg'] == 0) {
+                    result8 += 1;
+                }
+                if (people.dataValues['people_foot'] == 0) {
+                    result6 += 1;
+                    result7 += 1;
+                }
+                if (people.dataValues['people_button'] == 1) {
+                    result4 += 1;
+                    result7 += 1;
+                }
+                if (people.dataValues['people_pocket'] == 1) {
+                    result7 +=1;
+                }
+                if (people.dataValues['people_runshoes'] == 1) {
+                    result3 +=1;
+                }
+                if (people.dataValues['people_shoes'] == 1) {
+                    result1 +=1;
+                    reuslt3 +=1;
+                }
+                const topResults = [result1, result2, result3, result4, result5, 
+                    result6, result7, result8]
+                    .map((value, index) => ({value, index}))
+                    .sort((a, b) => b.value - a.value)
+                    .slice(0, 3);
+                console.log(topResults)
+                const topInterpretations=await Promise.all(
+                    topResults.map(result=>
+                        PeopleAnalyze.findOne({
+                            where:{analysis_tree_id:result.index+1}
+                        })
+                    )
+                );
+                const response = topInterpretations.map(interpretation => ({
+                    keyword: interpretation.keyword,
+                    analysis: interpretation.analysis_tree
+                }));
+                console.log(response)
+                res.json(response)
+                }
+            }catch(error){
+                console.error(error)
+            }
 }

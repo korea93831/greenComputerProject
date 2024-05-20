@@ -57,6 +57,7 @@ import axios from 'axios';
       handleFileUpload(index, event) {
         const file = event.target.files[0];
         this.imageUrls[index] = URL.createObjectURL(file);
+        console.log(file)
         if(index==1){
           this.houseimage=file
         }
@@ -102,42 +103,24 @@ import axios from 'axios';
           alert('이미지를 업로드 후에 제출해주세요');
           return;
         }
-        const treeformData=new FormData();
-        const houseformData=new FormData();
-        const personformData=new FormData();
+        const formdata=new FormData();
         const timestamp=Date.now()
         if (this.houseimage) {
-          houseformData.append('houseimage', this.houseimage, `house${timestamp}`);
+          formdata.append('houseimage', this.houseimage, `house${timestamp}`);
         }
         if (this.treeimage) {
-          treeformData.append('treeimage', this.treeimage, `tree${timestamp}`);
+          formdata.append('treeimage', this.treeimage, `tree${timestamp}`);
         }
         if (this.personimage) {
-          personformData.append('personimage', this.personimage, `person${timestamp}`);
+          formdata.append('personimage', this.personimage, `person${timestamp}`);
         }
         try{
-          if(this.treeimage){
-            console.log(treeformData)
-            await axios.post('http://localhost:3000/analyze/tree',treeformData,{
+            console.log(formdata)
+            await axios.post('http://localhost:3000/analyze',formdata,{
             headers:{
               'Content-Type':'multipart/form-data'
             }
           });
-          }
-          if(this.houseimage){
-            await axios.post('http://localhost:3000/analyze/house',houseformData,{
-              headers:{
-              'Content-Type':'multipart/form-data'
-            }
-            });
-          }
-          if(this.personimage){
-            await axios.post('http://localhost:3000/analyze/person',personformData,{
-              headers:{
-                'Content-Type':'multipart/form-data'
-              }
-            })
-          }
         }catch(error){
           console.error(error)
         }
@@ -149,47 +132,63 @@ import axios from 'axios';
             reader.readAsDataURL(image);
           });
         };
-        const base64Images = {};
-        if (this.houseimage) {
-            base64Images.house = await readImageAsBase64(this.houseimage);
+        let tree_keywords='';
+        let tree_analysis='';
+        let house_keywords='';
+        let house_analysis='';
+        let person_keywords='';
+        let person_analysis='';
+        try{
+          if(this.treeimage){
+          console.log('treeimage')
+          const treebase64Image=await readImageAsBase64(this.treeimage);
+          const response=await axios.post('http://localhost:5000/api/tree',{image:treebase64Image,filename:`tree${timestamp}`});
+          if(response.data.result===200){
+            const TreeInter=await axios.post('http://localhost:3000/interpretation/tree',{tree_url:`tree${timestamp}`})
+            tree_keywords=TreeInter.data[0]['keyword']+','+TreeInter.data[1]['keyword']+','+TreeInter.data[2]['keyword']
+            tree_analysis=TreeInter.data[0]['analysis']+','+TreeInter.data[1]['analysis']+','+TreeInter.data[2]['analysis']
+          }
         }
-        if (this.treeimage) {
-            base64Images.tree = await readImageAsBase64(this.treeimage);
+        if(this.houseimage){
+          console.log('houseimage')
+          const housebase64Image=await readImageAsBase64(this.houseimage);
+          const response=await axios.post('http://localhost:5000/api/house',{image:housebase64Image,filename:`house${timestamp}`});
+          if(response.data.result===200){
+            const HouseInter=await axios.post('http://localhost:3000/interpretation/house',{tree_url:`tree${timestamp}`})
+            house_keywords=HouseInter.data[0]['keyword']+','+HouseInter.data[1]['keyword']+','+HouseInter.data[2]['keyword']
+            house_analysis=HouseInter.data[0]['analysis']+','+HouseInter.data[1]['analysis']+','+HouseInter.data[2]['analysis']
+          }
         }
-        if (this.personimage) {
-            base64Images.person = await readImageAsBase64(this.personimage);
+        if(this.personimage){
+          console.log('personimage')
+          const personbase64Image=await readImageAsBase64(this.personimage);
+          const response=await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`});
+          if(response.data.result===200){
+            const TreeInter=await axios.post('http://localhost:3000/interpretation/person',{tree_url:`tree${timestamp}`})
+            person_keywords=person_keywords=PersonInter.data[0]['keyweord']+','+PersonInter.data[1]['keyword']+','+PersonInter.data[2]['keyword']
+            person_analysis=person_analysis=PersonInter.data[0]['analysis']+','+PersonInter.data[1]['analysis']+','+PersonInter.data[2]['analysis']
+          }
         }
+        this.$router.push({ name: 'result', query: { imageUrl1:this.imageUrls[1],imageUrl2:this.imageUrls[2],imageUrl3:this.imageUrls[3], keyword1:house_keywords,
+                                  keyword2:tree_keywords,keyword3:person_keywords,analysis1:house_analysis,analysis2:tree_analysis,analysis3:person_analysis} });
+        }
+        catch(error){
+          console.error(error)
+        }
+
         try{
           const response=await axios.post('http://127.0.0.1:5000/api/tree',{
-            images:base64Images,
+            images:base64Images=await readImageAsBase64(this.treeimage),
             filenames:{
               house:`house${timestamp}`,
               tree:`tree${timestamp}`,
               person:`person${timestamp}`
             }
           });
-          const data=response.data;
-          img_url={
-            tree_url:`tree${timestamp}`,
-          };
-          if(data.result===200){
-            const TreeInter=await axios.post('http://localhost:3000/interpretation/tree',{tree_url:`tree${timestamp}`})
-            const HouseInter=await axios.post('http://localhost:3000/interpretation/house',{house_url:`house${timestamp}`})
-            const PersonInter=await axios.post('http://localhost:3000/interpretation/person',{person_url:`person${timestamp}`})
-            const tree_keywords=TreeInter.data[0]['keyword']+','+TreeInter.data[1]['keyword']+','+TreeInter.data[2]['keyword']
-            const tree_analysis=TreeInter.data[0]['analysis']+','+TreeInter.data[1]['analysis']+','+TreeInter.data[2]['analysis']
-            const house_keywords=HouseInter.data[0]['keyword']+','+HouseInter.data[1]['keyword']+','+HouseInter.data[2]['keyword']
-            const house_analysis=HouseInter.data[0]['analysis']+','+HouseInter.data[1]['analysis']+','+HouseInter.data[2]['analysis']
-            const person_keywords=personInter.data[0]['keyweord']+','+personInter.data[1]['keyword']+','+personInter.data[2]['keyword']
-            const person_analysis=personInter.data[0]['analysis']+','+personInter.data[1]['analysis']+','+personInter.data[2]['analysis']
-            this.$router.push({ name: 'result', query: { imageUrl1:this.imageUrls[1],imageUrl2:this.imageUrls[2],imageUrl3:this.imageUrls[3], keyword1:house_keywords,
-                                  keyword2:tree_keywords,keyword3:person_keywords,analysis1:house_analysis,analysis2:tree_analysis,analysis3:person_analysis} });
+           
             // reader.readAsDataURL(this.treeimage);
           }
-          else{
-            alert('그림 분석에 실패했습니다.')
-          }
-        }catch(error){
+          catch(error){
           console.error(error)
         }
       }

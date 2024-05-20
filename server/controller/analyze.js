@@ -1,105 +1,43 @@
 const axios=require('axios');
 const fs=require('fs');
 const TreeDraw=require('../models/treedraw');
+const HouseDraw=require('../models/housedraw');
+const PersonDraw=require('../models/peopledraw');
 const Images=require('../models/images');
-const { Console } = require('console');
-const { stringify } = require('querystring');
 
 
-exports.tree=async(req,res,next)=>{
-    const image=req.file;
-    if(!image){
+exports.analyze=async(req,res,next)=>{
+    const images=req.files;
+    if(!images){
         return res.status(400).send('이미지가 제공되지 않았습니다');
     }
-    console.log(image)
     try{
-        await Images.create({
-            filename:req.body['filename'],
-            imagepath:image.path
-        })
+        if(images['houseimage']){
+            await Images.create({
+                filename:images['houseimage'][0]['originalname'],
+                imagepath:images['houseimage'][0]['path']
+            })
+        }
+        if(images['treeimage']){
+            await Images.create({
+                filename:images['treeimage'][0]['originalname'],
+                imagepath:images['treeimage'][0]['path']
+            })
+        }
+        if(images['personimage']){
+            await Images.create({
+                filename:images['personimage'][0]['originalname'],
+                imagepath:images['treeimage'][0]['path']
+            })
+        }
+
     }catch(error){
         console.error(error)
     }
     res.send('api/analyze')
-    //DB에 추가하기
-    // try{
-    //     console.log(image.filename);
-    //     console.log(image.path);
-    //     await TreeDraw.create({
-    //         tree_image:image.filename,
-    //     });
-    // }catch (error){
-    //     console.error(error);
-    //     res.status(500).send('이미지를 저장하지 못했습니다')
-    // }
-
-
-    // const formData=new FormData();
-    // sendFile=req.file;
-    // formData.append("file",sendFile);
-    // formData.append("filename",sendFile.originalname)
-
-    // const result=await axios.post(
-    //     'http://127.0.0.1:5000/api/tree',
-    //     formData,{
-    //         headers:{
-    //             'Content-Type': 'multipart/form-data'
-    //         },
-    //     }
-    // );
- 
-    // formData.append("file",sendfile);
-    // const request_config={
-    //     method:"post",
-    //     url:'http://127.0.0.1:5000/api/tree',
-    //     headers:{
-    //         "Content-Type":"multipart/form-data"
-    //     },
-    //     data:formData
-    // };
-    // try{
-    //     const SendFile=await axios.post(request_config)
-    //     console.log(SendFile)
-    // }catch(err){
-    //     console.log(err)
-    // }
 }
 
-exports.house=async(req,res,next)=>{
-    const image=req.file;
-    if(!image){
-        return res.status(400).send('이미지가 제공되지 않았습니다');
-    }
-    console.log(image)
-    try{
-        await Images.create({
-            filename:req.body['filename'],
-            imagepath:image.path
-        })
-    }catch(error){
-        console.error(error)
-    }
-    res.send('api/house')
-}
-
-exports.person=async(req,res,next)=>{
-    const image=req.file;
-    if(!image){
-        return res.status(400).send('이미지가 제공되지 않았습니다');
-    }
-    console.log(image)
-    try{
-        await Images.create({
-            filename:req.body['filename'],
-            imagepath:image.path
-        })
-    }catch(error){
-        console.error(error)
-    }
-    res.send('api/person')
-}
-
-exports.saveResult=async(req,res,next)=>{
+exports.treeResultSave=async(req,res,next)=>{
     // console.log('Parsed body:',req.body);
     const json_data=req.body;
     let tree_size=0;
@@ -225,6 +163,300 @@ exports.saveResult=async(req,res,next)=>{
             tree_star:tree_star,
             tree_image:imagepath,
             
+        })
+    }catch(err){
+        console.error(err)
+    }
+    const data={
+        imageurl:imagepath
+    }
+    // await axios.post('http://localhost:3000/interpretation/tree',data);
+    res.sendStatus(200)
+}
+
+
+exports.houseResultSave=async(req,res,next)=>{
+    const json_data=req.body;
+    let house_size=0;
+    let house_loc=0;
+    let house_roof=0;
+    let house_wall=0;
+    let house_door=0;
+    let house_window=0;
+    let house_chimney=0;
+    let house_smoke=0;
+    let house_fence=0;
+    let house_road=0;
+    let house_pond=0;
+    let house_mountain=0;
+    let house_tree=0;
+    let house_flower=0;
+    let house_grass=0;
+    let house_sun=0;
+    let list=[];
+    let imagepath="";
+    // console.log(json_data);
+    for(let i=0;i<json_data.length;i++){
+        if(json_data[i]['라벨']=='집전체'){
+            if( (json_data[i]['width']*json_data[i]['height'])/640*640>2/3){
+                house_size=2
+            }
+            else if((json_data[i]['width']*json_data[i]['height'])/640*640<1/3){
+                house_size=0
+            }
+            else{
+                house_size=1
+            }
+
+            if((json_data[i]['center_x']<220&json_data[i]['center_y']<220)){
+                house_loc=1
+            }
+            else if((json_data[i]['center_x']>420&json_data[i]['center_y']<220)){
+                house_loc=2
+            }
+            else if((json_data[i]['center_x']<220&json_data[i]['center_y']>420)){
+                house_loc=4
+            }
+            else if((json_data[i]['center_x']>420&json_data[i]['center_y']>420)){
+                house_loc=5
+            }
+            else{
+                house_loc=3
+            }
+            list.push(json_data[i]['top_left_x'])
+            list.push(json_data[i]['top_left_y'])
+            list.push(json_data[i]['width'])
+            list.push(json_data[i]['height'])
+            list_string=String(list)
+        }
+        else if(json_data[i]['라벨']=='지붕'){
+            house_roof=1
+        } 
+        else if(json_data[i]['라벨']=='집벽'){
+            house_wall=1
+        }
+        else if(json_data[i]['라벨']=='문'){
+            house_door=1
+        }
+        else if(json_data[i]['라벨']=='창문'){
+            house_window=1
+        }
+        else if(json_data[i]['라벨']=='굴뚝'){
+            house_chimney=1
+        }
+        else if(json_data[i]['라벨']=='연기'){
+            house_smoke=1
+        }
+        else if(json_data[i]['라벨']=='울타리'){
+            house_fence=1
+        }
+        else if(json_data[i]['라벨']=='길'){
+            house_road=1
+        }
+        else if(json_data[i]['라벨']=='연못'){
+            house_pond=1
+        }
+        else if(json_data[i]['라벨']=='산'){
+            house_mountain=1
+        }
+        else if(json_data[i]['라벨']=='나무'){
+            house_tree=1
+        }
+        else if(json_data[i]['라벨']=='꽃'){
+            house_flower=1
+        }
+        else if(json_data[i]['라벨']=='잔디'){
+            house_grass=1
+        }
+        else if(json_data[i]['라벨']=='태양'){
+            house_sun=1
+        }
+        else{
+            file_name=json_data[i]['라벨'];
+            console.log(file_name);
+            const image_path= await Images.findOne({
+                attributes:['imagepath'],
+                where:{filename:file_name}
+            });
+            imagepath=image_path.dataValues['imagepath'];
+            console.log(imagepath)
+        }
+    }
+    try{
+        await HouseDraw.create({
+            
+            user_id:2,
+            house:list_string,
+            house_size:house_size,
+            house_loc:house_loc,
+            house_roof:house_roof,
+            house_wall:house_wall,
+            house_door:house_door,
+            house_window:house_window,
+            house_chimney:house_chimney,
+            house_smoke:house_smoke,
+            house_fence:house_fence,
+            house_road:house_road,
+            house_pond:house_pond,
+            house_mountain:house_mountain,
+            house_tree:house_tree,
+            house_flower:house_flower,
+            house_grass:house_grass,
+            house_sun:house_sun,
+            house_image:imagepath,
+        })
+    }catch(err){
+        console.error(err)
+    }
+    const data={
+        imageurl:imagepath
+    }
+    // await axios.post('http://localhost:3000/interpretation/tree',data);
+    res.sendStatus(200)
+
+}
+exports.personResultSave=async(req,res,next)=>{
+    const json_data=req.body;
+    let person_size=0;
+    let person_head=0;
+    let person_face=0;
+    let person_eye=0;
+    let person_nose=0;
+    let person_mouse=0;
+    let person_ear=0;
+    let person_hair=0;
+    let person_neck=0;
+    let person_body=0;
+    let person_arm=0;
+    let person_hand=0;
+    let person_leg=0;
+    let person_foot=0;
+    let person_button=0;
+    let person_pocket=0;
+    let person_runshoes=0;
+    let person_shoes=0;
+    let list=[];
+    let imagepath="";
+    // console.log(json_data);
+    for(let i=0;i<json_data.length;i++){
+        if(json_data[i]['라벨']=='사람전체'){
+            if( (json_data[i]['width']*json_data[i]['height'])/640*640>2/3){
+                person_size=2
+            }
+            else if((json_data[i]['width']*json_data[i]['height'])/640*640<1/3){
+                person_size=0
+            }
+            else{
+                person_size=1
+            }
+
+            // if((json_data[i]['center_x']<220&json_data[i]['center_y']<220)){
+            //     house_loc=1
+            // }
+            // else if((json_data[i]['center_x']>420&json_data[i]['center_y']<220)){
+            //     house_loc=2
+            // }
+            // else if((json_data[i]['center_x']<220&json_data[i]['center_y']>420)){
+            //     house_loc=4
+            // }
+            // else if((json_data[i]['center_x']>420&json_data[i]['center_y']>420)){
+            //     house_loc=5
+            // }
+            // else{
+            //     house_loc=3
+            // }
+            list.push(json_data[i]['top_left_x'])
+            list.push(json_data[i]['top_left_y'])
+            list.push(json_data[i]['width'])
+            list.push(json_data[i]['height'])
+            list_string=String(list)
+        }
+        else if(json_data[i]['라벨']=='머리'){
+            person_head=1
+        } 
+        else if(json_data[i]['라벨']=='얼굴'){
+            person_face=1
+        }
+        else if(json_data[i]['라벨']=='눈'){
+            person_eye=1
+        }
+        else if(json_data[i]['라벨']=='코'){
+            person_nose=1
+        }
+        else if(json_data[i]['라벨']=='입'){
+            person_mouse=1
+        }
+        else if(json_data[i]['라벨']=='귀'){
+            person_ear=1
+        }
+        else if(json_data[i]['라벨']=='머리카락'){
+            person_hair=1
+        }
+        else if(json_data[i]['라벨']=='목'){
+            person_neck=1
+        }
+        else if(json_data[i]['라벨']=='상체'){
+            person_body=1
+        }
+        else if(json_data[i]['라벨']=='팔'){
+            person_arm=1
+        }
+        else if(json_data[i]['라벨']=='손'){
+            person_hand=1
+        }
+        else if(json_data[i]['라벨']=='다리'){
+            person_leg=1
+        }
+        else if(json_data[i]['라벨']=='발'){
+            person_foot=1
+        }
+        else if(json_data[i]['라벨']=='단추'){
+            person_button=1
+        }
+        else if(json_data[i]['라벨']=='주머니'){
+            person_pocket=1
+        }
+        else if(json_data[i]['라벨']=='운동화'){
+            person_runshoes=1
+        }
+        else if(json_data[i]['라벨']=='여자구두' | json_data[i]['라벨']=='남자구두'){
+            person_shoes=1
+        }
+        else{
+            file_name=json_data[i]['라벨'];
+            console.log(file_name);
+            const image_path= await Images.findOne({
+                attributes:['imagepath'],
+                where:{filename:file_name}
+            });
+            imagepath=image_path.dataValues['imagepath'];
+            console.log(imagepath)
+        }
+    }
+    try{
+        await PersonDraw.create({
+            
+            user_id:2,
+            people:list_string,
+            people_size:person_size,
+            people_head:person_head,
+            people_face:person_face,
+            people_eye:person_eye,
+            people_nose:person_nose,
+            people_mouse:person_mouse,
+            people_ear:person_ear,
+            people_hair:person_hair,
+            people_neck:person_neck,
+            people_body:person_body,
+            people_arm:person_arm,
+            people_hand:person_hand,
+            people_leg:person_leg,
+            people_foot:person_foot,
+            people_button:person_button,
+            people_pocket:person_pocket,
+            people_runshoes:person_runshoes,
+            people_shoes:person_shoes,
+            house_image:imagepath,
         })
     }catch(err){
         console.error(err)
