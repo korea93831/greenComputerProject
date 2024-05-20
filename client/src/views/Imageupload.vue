@@ -96,16 +96,23 @@ import axios from 'axios';
         }
       },
       async goToResultPage() {
-        if(!this.treeimage){
-          alert('나무그림을 선택하세요');
+        if(!this.treeimage & !this.houseimage & this.personimage){
+          alert('이미지를 업로드 후에 제출해주세요');
           return;
         }
         const formData=new FormData();
-        const file_name='tree'+Date.now()
-        formData.append('image',this.treeimage);
-        formData.append('filename',file_name);
+        const timestamp=Date.now()
+        if (this.houseimage) {
+        formData.append('houseimage', this.houseimage, `house${timestamp}`);
+        }
+        if (this.treeimage) {
+        formData.append('treeimage', this.treeimage, `tree${timestamp}`);
+        }
+        if (this.personimage) {
+        formData.append('personimage', this.personimage, `person${timestamp}`);
+        }
         try{
-          await axios.post('http://localhost:3000/analyze/tree',formData,{
+          await axios.post('http://localhost:3000/analyze/',formData,{
             headers:{
               'Content-Type':'multipart/form-data'
             }
@@ -113,33 +120,60 @@ import axios from 'axios';
         }catch(error){
           console.error(error)
         }
-        const reader=new FileReader();
-        reader.onload=async(e)=>{
-          const base64Image=e.target.result;
-          try{
-            console.log('제출하기')
-            Response=await axios.post('http://127.0.0.1:5000/api/tree',{image:base64Image,filename:file_name});
-            console.log(Response.data['result'])
-          }catch(error){
-            console.error(error);
-          }
-          if(Response.data['result']==200){
-              const data={
-                imageurl:file_name
-              }
-              this.interpretation=await axios.post('http://localhost:3000/interpretation/tree',data);
-              const tree_keywords=this.interpretation.data[0]['keyword']+','+this.interpretation.data[1]['keyword']+','+this.interpretation.data[2]['keyword']
-              const tree_analysis=String(this.interpretation.data[0]['analysis']+'\n'+this.interpretation.data[1]['analysis']+'\n'+this.interpretation.data[2]['analysis'])
-              // reader.readAsDataURL(this.file);
-              this.$router.push({ name: 'result', query: { imageUrl1:"",imageUrl2:this.imageUrls[2],imageUrl3:"", keyword1:"",
-                                  keyword2:tree_keywords,keyword3:"",analysis1:"",analysis2:tree_analysis,analysis3:"" } });
-            }
+        const readImageAsBase64 = (image) => {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(image);
+          });
+        };
+        const base64Images = {};
+        if (this.houseimage) {
+            base64Images.house = await readImageAsBase64(this.houseimage);
         }
-        reader.readAsDataURL(this.treeimage);
-
+        if (this.treeimage) {
+            base64Images.tree = await readImageAsBase64(this.treeimage);
+        }
+        if (this.personimage) {
+            base64Images.person = await readImageAsBase64(this.personimage);
+        }
+        try{
+          const response=await axios.post('http://127.0.0.1:5000/api/analyze',{
+            images:base64Images,
+            filenames:{
+              house:`house${timestamp}`,
+              tree:`tree${timestamp}`,
+              person:`person${timestamp}`
+            }
+          });
+          const data=response.data;
+          img_url={
+            tree_url:`tree${timestamp}`,
+          };
+          if(data.result===200){
+            const TreeInter=await axios.post('http://localhost:3000/interpretation/tree',{tree_url:`tree${timestamp}`})
+            const HouseInter=await axios.post('http://localhost:3000/interpretation/house',{house_url:`house${timestamp}`})
+            const PersonInter=await axios.post('http://localhost:3000/interpretation/person',{person_url:`person${timestamp}`})
+            const tree_keywords=TreeInter.data[0]['keyword']+','+TreeInter.data[1]['keyword']+','+TreeInter.data[2]['keyword']
+            const tree_analysis=TreeInter.data[0]['analysis']+','+TreeInter.data[1]['analysis']+','+TreeInter.data[2]['analysis']
+            const house_keywords=HouseInter.data[0]['keyword']+','+HouseInter.data[1]['keyword']+','+HouseInter.data[2]['keyword']
+            const house_analysis=HouseInter.data[0]['analysis']+','+HouseInter.data[1]['analysis']+','+HouseInter.data[2]['analysis']
+            const person_keywords=personInter.data[0]['keyweord']+','+personInter.data[1]['keyword']+','+personInter.data[2]['keyword']
+            const person_analysis=personInter.data[0]['analysis']+','+personInter.data[1]['analysis']+','+personInter.data[2]['analysis']
+            this.$router.push({ name: 'result', query: { imageUrl1:this.imageUrls[1],imageUrl2:this.imageUrls[2],imageUrl3:this.imageUrls[3], keyword1:house_keywords,
+                                  keyword2:tree_keywords,keyword3:person_keywords,analysis1:house_analysis,analysis2:tree_analysis,analysis3:person_analysis} });
+            // reader.readAsDataURL(this.treeimage);
+          }
+          else{
+            alert('그림 분석에 실패했습니다.')
+          }
+        }catch(error){
+          console.error(error)
+        }
       }
     }
-  };
+  }
   </script>
   
   <style scoped>
