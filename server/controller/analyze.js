@@ -4,7 +4,9 @@ const TreeDraw=require('../models/treedraw');
 const Images=require('../models/images');
 const { Console } = require('console');
 const { stringify } = require('querystring');
-exports.analyze=async(req,res,next)=>{
+
+
+exports.tree=async(req,res,next)=>{
     const image=req.file;
     if(!image){
         return res.status(400).send('이미지가 제공되지 않았습니다');
@@ -18,7 +20,7 @@ exports.analyze=async(req,res,next)=>{
     }catch(error){
         console.error(error)
     }
-
+    res.send('api/analyze')
     //DB에 추가하기
     // try{
     //     console.log(image.filename);
@@ -45,7 +47,7 @@ exports.analyze=async(req,res,next)=>{
     //         },
     //     }
     // );
-    res.send('api/analyze')
+ 
     // formData.append("file",sendfile);
     // const request_config={
     //     method:"post",
@@ -63,23 +65,38 @@ exports.analyze=async(req,res,next)=>{
     // }
 }
 
-
-
-
-
-
-
-
-exports.house=(req,res,next)=>{
-
-    console.log('req house');
-    res.send('res house');
+exports.house=async(req,res,next)=>{
+    const image=req.file;
+    if(!image){
+        return res.status(400).send('이미지가 제공되지 않았습니다');
+    }
+    console.log(image)
+    try{
+        await Images.create({
+            filename:req.body['filename'],
+            imagepath:image.path
+        })
+    }catch(error){
+        console.error(error)
+    }
+    res.send('api/house')
 }
 
-exports.person=(req,res,next)=>{
-
-    console.log('req person');
-    res.send('res person');
+exports.person=async(req,res,next)=>{
+    const image=req.file;
+    if(!image){
+        return res.status(400).send('이미지가 제공되지 않았습니다');
+    }
+    console.log(image)
+    try{
+        await Images.create({
+            filename:req.body['filename'],
+            imagepath:image.path
+        })
+    }catch(error){
+        console.error(error)
+    }
+    res.send('api/person')
 }
 
 exports.saveResult=async(req,res,next)=>{

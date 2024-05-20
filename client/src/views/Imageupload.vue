@@ -95,28 +95,49 @@ import axios from 'axios';
           this.selectedGenders = ['female'];
         }
       },
+
+
       async goToResultPage() {
         if(!this.treeimage & !this.houseimage & this.personimage){
           alert('이미지를 업로드 후에 제출해주세요');
           return;
         }
-        const formData=new FormData();
+        const treeformData=new FormData();
+        const houseformData=new FormData();
+        const personformData=new FormData();
         const timestamp=Date.now()
         if (this.houseimage) {
-        formData.append('houseimage', this.houseimage, `house${timestamp}`);
+          houseformData.append('houseimage', this.houseimage, `house${timestamp}`);
         }
         if (this.treeimage) {
-        formData.append('treeimage', this.treeimage, `tree${timestamp}`);
+          treeformData.append('treeimage', this.treeimage, `tree${timestamp}`);
         }
         if (this.personimage) {
-        formData.append('personimage', this.personimage, `person${timestamp}`);
+          personformData.append('personimage', this.personimage, `person${timestamp}`);
         }
         try{
-          await axios.post('http://localhost:3000/analyze',formData,{
+          if(this.treeimage){
+            console.log(treeformData)
+            await axios.post('http://localhost:3000/analyze/tree',treeformData,{
             headers:{
               'Content-Type':'multipart/form-data'
             }
           });
+          }
+          if(this.houseimage){
+            await axios.post('http://localhost:3000/analyze/house',houseformData,{
+              headers:{
+              'Content-Type':'multipart/form-data'
+            }
+            });
+          }
+          if(this.personimage){
+            await axios.post('http://localhost:3000/analyze/person',personformData,{
+              headers:{
+                'Content-Type':'multipart/form-data'
+              }
+            })
+          }
         }catch(error){
           console.error(error)
         }
@@ -139,7 +160,7 @@ import axios from 'axios';
             base64Images.person = await readImageAsBase64(this.personimage);
         }
         try{
-          const response=await axios.post('http://127.0.0.1:5000/api/analyze',{
+          const response=await axios.post('http://127.0.0.1:5000/api/tree',{
             images:base64Images,
             filenames:{
               house:`house${timestamp}`,

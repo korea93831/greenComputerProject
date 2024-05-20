@@ -29,9 +29,9 @@ def map_to_string(x):
 def tree():
     try:
         data=request.get_json()
-        image_data=data['image']
-        image_id=data['filename']
-        print(image_id)
+        print(data['images']['tree'])
+        image_data=data['image']['tree']
+        image_id=data['filename']['tree']
         image_data = base64.b64decode(image_data.split(',')[1])
         image = preprocess_image(image_data)
         model=YOLO('custom_tree_deteact.pt')

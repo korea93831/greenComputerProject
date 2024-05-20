@@ -68,6 +68,7 @@ const goToHome = () => {
 };
 
 const goToMyPage = () => {
+  const response=axios.post('/')
   router.push({ name: 'mypage' }); // 마이페이지로 이동
 };
 </script>
