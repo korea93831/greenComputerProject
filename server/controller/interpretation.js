@@ -6,13 +6,11 @@ const HouseDraw = require('../models/housedraw');
 const HouseAnalyze=require('../models/houseanalyze');
 const PersonDraw=require('../models/peopledraw');
 const PersonAnalyze=require('../models/peopleanalyze');
-const PeopleAnalyze = require('../models/peopleanalyze');
 
 
 exports.interpretationHouse= async(req,res,next)=>{
     console.log('interpretationHouse')
-    const filename=req.body['imageurl']
-    console.log(filename)
+    const filename=req.body['house_url']
     let imageurl='';
     try{
         const image_path=await Image.findOne({
@@ -21,6 +19,7 @@ exports.interpretationHouse= async(req,res,next)=>{
         })
         console.log(image_path.dataValues['imagepath'])
         imageurl=image_path.dataValues['imagepath'].slice(8,26)
+        console.log('이미지'+imageurl)
     }
     catch(error){
         console.error(error)
@@ -35,14 +34,14 @@ exports.interpretationHouse= async(req,res,next)=>{
                 [Op.like]:`%${imageurl}%`
             }}
         })
-        console.log(imageurl)
-            if (!tree) {
+        
+            if (!house) {
                 console.error('House not found!'); 
             }
             else{
                 let result1 = 0, result2 = 0, result3 = 0, result4 = 0, result5 = 0,
                 result6 = 0, result7 = 0, result8 = 0, result9 = 0, result10 = 0;
-                console.log(tree.dataValues)
+                // console.log(tree.dataValues)
                 if (house.dataValues['house_roof'] == 1) {
                     result1 += 1;
                 }
@@ -189,7 +188,7 @@ exports.interpretationHouse= async(req,res,next)=>{
                     .map((value, index) => ({value, index}))
                     .sort((a, b) => b.value - a.value)
                     .slice(0, 3);
-                console.log(topResults)
+                // console.log(topResults)
                 const topInterpretations=await Promise.all(
                     topResults.map(result=>
                         HouseAnalyze.findOne({
@@ -201,7 +200,7 @@ exports.interpretationHouse= async(req,res,next)=>{
                     keyword: interpretation.keyword,
                     analysis: interpretation.analysis_tree
                 }));
-                console.log(response)
+                // console.log(response)
                 res.json(response)
                 }
             }catch(error){
@@ -212,16 +211,17 @@ exports.interpretationHouse= async(req,res,next)=>{
 
 exports.interpretationTree=async(req,res,next)=>{
     console.log('interpretationTree')
-    const filename=req.body['imageurl']
-    console.log(filename)
+    const filename=req.body['tree_url']
+    // console.log(filename)
     let imageurl='';
     try{
         const image_path=await Image.findOne({
             attributes:['imagepath'],
             where:{filename:filename}
         })
-        console.log(image_path.dataValues['imagepath'])
+        // console.log(image_path.dataValues['imagepath'])
         imageurl=image_path.dataValues['imagepath'].slice(8,26)
+        console.log(imageurl)
     }
     catch(error){
         console.error(error)
@@ -231,12 +231,12 @@ exports.interpretationTree=async(req,res,next)=>{
             attributes:['user_id','tree','tree_size','tree_loc','tree_pillar','tree_crown',
                         'tree_branch','tree_root','tree_leaf','tree_flower','tree_fruit',
                         'tree_swing','tree_bird','tree_squirrel','tree_cloud','tree_moon',
-                        'tree_star','redate','tree_image'],
+                        'tree_star','createdAt','tree_image'],
             where:{tree_image:{
                 [Op.like]:`%${imageurl}%`
             }}
         })
-        console.log(imageurl)
+        
             if (!tree) {
                 console.error('Tree not found!'); 
             }
@@ -367,7 +367,7 @@ exports.interpretationTree=async(req,res,next)=>{
                     .map((value, index) => ({value, index}))
                     .sort((a, b) => b.value - a.value)
                     .slice(0, 3);
-                console.log(topResults)
+                // console.log(topResults)
                 const topInterpretations=await Promise.all(
                     topResults.map(result=>
                         TreeAnalyze.findOne({
@@ -379,17 +379,17 @@ exports.interpretationTree=async(req,res,next)=>{
                     keyword: interpretation.keyword,
                     analysis: interpretation.analysis_tree
                 }));
-                console.log(response)
+                // console.log(response)
                 res.json(response)
                 }
             }catch(error){
                 console.error(error)
             }
 }
-exports.interpretationPeople=async(req,res,next)=>{
+exports.interpretationPerson=async(req,res,next)=>{
     console.log('interpretationPeople')
-    const filename=req.body['imageurl']
-    console.log(filename)
+    const filename=req.body['person_url']
+    // console.log(filename)
     let imageurl='';
     try{
         const image_path=await Image.findOne({
@@ -398,102 +398,103 @@ exports.interpretationPeople=async(req,res,next)=>{
         })
         console.log(image_path.dataValues['imagepath'])
         imageurl=image_path.dataValues['imagepath'].slice(8,26)
+        console.log(imageurl)
     }
     catch(error){
         console.error(error)
     }
     try{
-        const tree=await TreeDraw.findOne({ 
+        const person=await PersonDraw.findOne({ 
             attributes:['user_id','people','sex','people_size','people_size','people_head','people_face',
                         'people_eye','people_nose','people_mouse','people_ear','people_hair',
                         'people_neck','people_body','people_arm','people_hand','people_leg',
-                        'people_foot','people_button','people_pocket','people_runshoes','people_shoes','createAt','people_image'],
+                        'people_foot','people_button','people_pocket','people_runshoes','people_shoes','createdAt','people_image'],
             where:{people_image:{
                 [Op.like]:`%${imageurl}%`
             }}
         })
-        console.log(imageurl)
-            if (!people) {
+        
+            if (!person) {
                 console.error('People not found!'); 
             }
             else{
                 let result1 = 0, result2 = 0, result3 = 0, result4 = 0, result5 = 0,
                 result6 = 0, result7 = 0, result8 = 0;
                 console.log(tree.dataValues)
-                if (people.dataValues['sex']=='M') {
+                if (person.dataValues['sex']=='M') {
                     result1 += 3;
                 }
-                if (people.dataValues['sex'] == 'F') {
+                if (person.dataValues['sex'] == 'F') {
                     result2+=3;
                 }
-                if (people.dataValues['people_size'] == 1) {
+                if (person.dataValues['people_size'] == 1) {
                     result4 +=3;
                 }
-                if (people.dataValues['people_size'] == 2) {
+                if (person.dataValues['people_size'] == 2) {
                     result2 +=3;
                 }
-                if (people.dataValues['people_size'] == 3) {
+                if (person.dataValues['people_size'] == 3) {
                     result1 +=3;
                 }
-                if (people.dataValues['people_head'] == 0) {
+                if (person.dataValues['people_head'] == 0) {
                     result4 +=1;
                 }
-                if (people.dataValues['people_face'] == 0) {
+                if (person.dataValues['people_face'] == 0) {
                     result5 += 1;
                     result6 += 1;
                 }
-                if (people.dataValues['people_eye'] == 0) {
+                if (person.dataValues['people_eye'] == 0) {
                     result5 +=1;
                     result6 +=1;
                 }
-                if (people.dataValues['people_nose'] == 0) {
+                if (person.dataValues['people_nose'] == 0) {
                     result6 +=1;
                 }
-                if (people.dataValues['people_mouse'] == 0) {
+                if (person.dataValues['people_mouse'] == 0) {
                     result5 +=1;
                     result7 +=1;
                     result8 +=1;
                 }
-                if (people.dataValues['people_ear'] == 0) {
+                if (person.dataValues['people_ear'] == 0) {
                     result6 +=1;
                 }
-                if (people.dataValues['people_hair'] == 0) {
+                if (person.dataValues['people_hair'] == 0) {
                     result6 +=1;
                 }
-                if (people.dataValues['people_neck'] == 0) {
+                if (person.dataValues['people_neck'] == 0) {
                     result8 +=1;
                 }
-                if (people.dataValues['people_body'] == 0) {
+                if (person.dataValues['people_body'] == 0) {
                     result6 +=1;
                 }
-                if (people.dataValues['people_arm'] == 0) {
+                if (person.dataValues['people_arm'] == 0) {
                     result3 +=1;
                     result5 +=1;
                     result6 +=1;
                     result8 +=1;
                 }
-                if (people.dataValues['people_hand'] == 0) {
+                if (person.dataValues['people_hand'] == 0) {
                     result5 +=1;
                     result6 +=1;
                 }
-                if (people.dataValues['people_leg'] == 0) {
+                if (person.dataValues['people_leg'] == 0) {
                     result8 += 1;
                 }
-                if (people.dataValues['people_foot'] == 0) {
+                if (person.dataValues['people_foot'] == 0) {
                     result6 += 1;
                     result7 += 1;
                 }
-                if (people.dataValues['people_button'] == 1) {
+                if (person.dataValues['people_button'] == 1) {
                     result4 += 1;
                     result7 += 1;
                 }
-                if (people.dataValues['people_pocket'] == 1) {
+                if (person.dataValues['people_pocket'] == 1) {
                     result7 +=1;
                 }
-                if (people.dataValues['people_runshoes'] == 1) {
+                if (person.dataValues['people_runshoes'] == 1) {
                     result3 +=1;
                 }
-                if (people.dataValues['people_shoes'] == 1) {
+                if (person.dataValues['people_shoes'] == 1) {
                     result1 +=1;
                     reuslt3 +=1;
                 }
@@ -505,7 +506,7 @@ exports.interpretationPeople=async(req,res,next)=>{
                 console.log(topResults)
                 const topInterpretations=await Promise.all(
                     topResults.map(result=>
-                        PeopleAnalyze.findOne({
+                        PersonAnalyze.findOne({
                             where:{analysis_tree_id:result.index+1}
                         })
                     )
@@ -514,7 +515,7 @@ exports.interpretationPeople=async(req,res,next)=>{
                     keyword: interpretation.keyword,
                     analysis: interpretation.analysis_tree
                 }));
-                console.log(response)
+                // console.log(response)
                 res.json(response)
                 }
             }catch(error){

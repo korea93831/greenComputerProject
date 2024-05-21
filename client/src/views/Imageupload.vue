@@ -142,53 +142,64 @@ import axios from 'axios';
           if(this.treeimage){
           console.log('treeimage')
           const treebase64Image=await readImageAsBase64(this.treeimage);
-          const response=await axios.post('http://localhost:5000/api/tree',{image:treebase64Image,filename:`tree${timestamp}`});
-          if(response.data.result===200){
-            const TreeInter=await axios.post('http://localhost:3000/interpretation/tree',{tree_url:`tree${timestamp}`})
-            tree_keywords=TreeInter.data[0]['keyword']+','+TreeInter.data[1]['keyword']+','+TreeInter.data[2]['keyword']
-            tree_analysis=TreeInter.data[0]['analysis']+','+TreeInter.data[1]['analysis']+','+TreeInter.data[2]['analysis']
+          axios.post('http://localhost:5000/api/tree',{image:treebase64Image,filename:`tree${timestamp}`})
+          .then(response=>{
+            console.log(response.data.result)
+            if(response.data.result==200){
+              axios.post('http://localhost:3000/interpretation/tree',{tree_url:`tree${timestamp}`})
+              .then(TreeInter=>{
+              console.log('treeInter')
+              console.log(TreeInter)
+              tree_keywords=TreeInter.data[0]['keyword']+','+TreeInter.data[1]['keyword']+','+TreeInter.data[2]['keyword']
+              tree_analysis=TreeInter.data[0]['analysis']+','+TreeInter.data[1]['analysis']+','+TreeInter.data[2]['analysis']
+              })
+          }else{
+            console.log('notTreeInter')
           }
+          })
         }
         if(this.houseimage){
           console.log('houseimage')
           const housebase64Image=await readImageAsBase64(this.houseimage);
-          const response=await axios.post('http://localhost:5000/api/house',{image:housebase64Image,filename:`house${timestamp}`});
-          if(response.data.result===200){
-            const HouseInter=await axios.post('http://localhost:3000/interpretation/house',{tree_url:`tree${timestamp}`})
-            house_keywords=HouseInter.data[0]['keyword']+','+HouseInter.data[1]['keyword']+','+HouseInter.data[2]['keyword']
-            house_analysis=HouseInter.data[0]['analysis']+','+HouseInter.data[1]['analysis']+','+HouseInter.data[2]['analysis']
+          axios.post('http://localhost:5000/api/house',{image:housebase64Image,filename:`house${timestamp}`})
+          .then(response=>{
+            console.log(response.data.result)
+            if(response.data.result==200){
+            axios.post('http://localhost:3000/interpretation/house',{house_url:`tree${timestamp}`})
+            .then(HouseInter=>{
+              console.log('houseInter')
+              console.log(HouseInter)
+              house_keywords=HouseInter.data[0]['keyword']+','+HouseInter.data[1]['keyword']+','+HouseInter.data[2]['keyword']
+              house_analysis=HouseInter.data[0]['analysis']+','+HouseInter.data[1]['analysis']+','+HouseInter.data[2]['analysis']
+            })
+          }else{
+            console.log('notTreeInter')
           }
+          })
         }
         if(this.personimage){
           console.log('personimage')
           const personbase64Image=await readImageAsBase64(this.personimage);
-          const response=await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`});
-          if(response.data.result===200){
-            const TreeInter=await axios.post('http://localhost:3000/interpretation/person',{tree_url:`tree${timestamp}`})
-            person_keywords=person_keywords=PersonInter.data[0]['keyweord']+','+PersonInter.data[1]['keyword']+','+PersonInter.data[2]['keyword']
-            person_analysis=person_analysis=PersonInter.data[0]['analysis']+','+PersonInter.data[1]['analysis']+','+PersonInter.data[2]['analysis']
-          }
+          axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`})
+          .then(response=>{
+            if(response.data.result==200){
+              console.log(response.data.result)
+              axios.post('http://localhost:3000/interpretation/person',{person_url:`person${timestamp}`})
+              .then(PersonInter=>{
+                console.log('personInter')
+                console.log(PersonInter)
+                person_keywords=PersonInter.data[0]['keyweord']+','+PersonInter.data[1]['keyword']+','+PersonInter.data[2]['keyword']
+                person_analysis=person_analysis=PersonInter.data[0]['analysis']+','+PersonInter.data[1]['analysis']+','+PersonInter.data[2]['analysis']
+              })
+            }else{
+              console.log('notTreeInter')
+            }
+          })
         }
-        this.$router.push({ name: 'result', query: { imageUrl1:this.imageUrls[1],imageUrl2:this.imageUrls[2],imageUrl3:this.imageUrls[3], keyword1:house_keywords,
-                                  keyword2:tree_keywords,keyword3:person_keywords,analysis1:house_analysis,analysis2:tree_analysis,analysis3:person_analysis} });
+        // this.$router.push({ name: 'result', query: { imageUrl1:this.imageUrls[1],imageUrl2:this.imageUrls[2],imageUrl3:this.imageUrls[3], keyword1:house_keywords,
+        //                           keyword2:tree_keywords,keyword3:person_keywords,analysis1:house_analysis,analysis2:tree_analysis,analysis3:person_analysis} });
         }
         catch(error){
-          console.error(error)
-        }
-
-        try{
-          const response=await axios.post('http://127.0.0.1:5000/api/tree',{
-            images:base64Images=await readImageAsBase64(this.treeimage),
-            filenames:{
-              house:`house${timestamp}`,
-              tree:`tree${timestamp}`,
-              person:`person${timestamp}`
-            }
-          });
-           
-            // reader.readAsDataURL(this.treeimage);
-          }
-          catch(error){
           console.error(error)
         }
       }

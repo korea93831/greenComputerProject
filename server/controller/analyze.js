@@ -227,6 +227,7 @@ exports.houseResultSave=async(req,res,next)=>{
             list.push(json_data[i]['top_left_y'])
             list.push(json_data[i]['width'])
             list.push(json_data[i]['height'])
+            let list_string=""
             list_string=String(list)
         }
         else if(json_data[i]['라벨']=='지붕'){
