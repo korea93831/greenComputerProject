@@ -94,7 +94,7 @@ class TreeDraw extends Sequelize.Model{
                 allowNull:true,
                 defaultValue:0
             },
-            redate:{
+            createdAt:{
                 type:Sequelize.DATE,
                 defaultValue:Sequelize.NOW,
                 allowNull:false

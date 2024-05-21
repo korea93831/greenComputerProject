@@ -95,9 +95,14 @@ class HouseDraw extends Sequelize.Model{
                 allowNull:true,
                 defaultValue:0
             },
+            createdAt:{
+                type:Sequelize.DATE,
+                defaultValue:Sequelize.NOW,
+                allowNull:false
+            }
         },{
             sequelize,
-            timestamps:true,
+            timestamps:false,
             underscored:false,
             modelName:'HouseDraw',
             tableName:'houses',

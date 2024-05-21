@@ -456,7 +456,7 @@ exports.personResultSave=async(req,res,next)=>{
             people_pocket:person_pocket,
             people_runshoes:person_runshoes,
             people_shoes:person_shoes,
-            house_image:imagepath,
+            people_image:imagepath,
         })
     }catch(err){
         console.error(err)
