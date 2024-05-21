@@ -27,7 +27,7 @@ exports.analyze=async(req,res,next)=>{
         if(images['personimage']){
             await Images.create({
                 filename:images['personimage'][0]['originalname'],
-                imagepath:images['treeimage'][0]['path']
+                imagepath:images['personimage'][0]['path']
             })
         }
 

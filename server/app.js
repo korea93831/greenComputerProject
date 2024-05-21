@@ -52,7 +52,6 @@ const userRouter=require('./routes/auth.js')
 app.use('/',homeRouter)
 app.use('/analyze',analyzeRouter)
 app.use('/interpretation',interpretation)
-
 app.use('/',userRouter)
 
 

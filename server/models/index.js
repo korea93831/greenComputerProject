@@ -10,6 +10,7 @@ const HouseAnalyze=require('./houseanalyze');
 const PeopleDraw=require('./peopledraw');
 const PeopleAnalyze=require('./peopleanalyze');
 const Images=require('./images');
+const Result=require('./result')
 // const process = require('process');
 // const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
@@ -28,6 +29,7 @@ db.HouseAnalyze=HouseAnalyze;
 db.PeopleDraw=PeopleDraw;
 db.PeopleAnalyze=PeopleAnalyze;
 db.Images=Images;
+db.Result=Result;
 
 User.initiate(sequelize)
 // Board.initiate(sequelize)
@@ -38,6 +40,7 @@ HouseAnalyze.initiate(sequelize)
 PeopleDraw.initiate(sequelize)
 PeopleAnalyze.initiate(sequelize)
 Images.initiate(sequelize)
+Result.initiate(sequelize)
 
 User.associate(db);
 // Board.associate(db);
@@ -47,6 +50,7 @@ HouseDraw.associate(db);
 HouseAnalyze.associate(db);
 PeopleDraw.associate(db);
 Images.associate(db);
+Result.associate(db);
 
 // if (config.use_env_variable) {
 //   sequelize = new Sequelize(process.env[config.use_env_variable], config);

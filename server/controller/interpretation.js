@@ -7,29 +7,34 @@ const HouseAnalyze=require('../models/houseanalyze');
 const PersonDraw=require('../models/peopledraw');
 const PersonAnalyze=require('../models/peopleanalyze');
 
+const { Result } = require('../models');
+
 
 exports.interpretationHouse= async(req,res,next)=>{
     console.log('interpretationHouse')
     const filename=req.body['house_url']
     let imageurl='';
+    let imagepath='';
     try{
-        const image_path=await Image.findOne({
+        await Image.findOne({
             attributes:['imagepath'],
             where:{filename:filename}
+        }).then(image_path=>{
+            imagepath=image_path.dataValues['imagepath']
+            imageurl=image_path.dataValues['imagepath'].slice(8,26)
         })
-        console.log(image_path.dataValues['imagepath'])
-        imageurl=image_path.dataValues['imagepath'].slice(8,26)
-        console.log('이미지'+imageurl)
+        console.log(imagepath)       
     }
     catch(error){
         console.error(error)
     }
+
     try{
         const house=await HouseDraw.findOne({ 
             attributes:['user_id','house','house_size','house_loc','house_roof','house_wall',
                         'house_door','house_window','house_chimney','house_smoke','house_fence',
                         'house_road','house_pond','house_mountain','house_tree','house_flower',
-                        'house_grass','house_sun',,'createdAt','house_image'],
+                        'house_grass','house_sun','createdAt','house_image'],
             where:{house_image:{
                 [Op.like]:`%${imageurl}%`
             }}
@@ -192,15 +197,25 @@ exports.interpretationHouse= async(req,res,next)=>{
                 const topInterpretations=await Promise.all(
                     topResults.map(result=>
                         HouseAnalyze.findOne({
-                            where:{analysis_tree_id:result.index+1}
+                            where:{analysis_house_id:result.index+1}
                         })
                     )
                 );
                 const response = topInterpretations.map(interpretation => ({
                     keyword: interpretation.keyword,
-                    analysis: interpretation.analysis_tree
+                    analysis: interpretation.analysis_house
                 }));
-                // console.log(response)
+                console.log(response)
+                const keyword=response[0]['keyword']+','+response[1]['keyword']+','+response[2]['keyword']
+                const analysis=response[0]['analysis']+','+response[1]['analysis']+','+response[2]['analysis']
+                console.log(imagepath)
+                const newReuslt=await Result.create({
+                    image_url:imagepath,
+                    user_id:2,
+                    label:'house',
+                    keyword:keyword,
+                    text:analysis
+                });
                 res.json(response)
                 }
             }catch(error){
@@ -214,14 +229,16 @@ exports.interpretationTree=async(req,res,next)=>{
     const filename=req.body['tree_url']
     // console.log(filename)
     let imageurl='';
+    let imagepath='';
     try{
-        const image_path=await Image.findOne({
+        await Image.findOne({
             attributes:['imagepath'],
             where:{filename:filename}
-        })
-        // console.log(image_path.dataValues['imagepath'])
-        imageurl=image_path.dataValues['imagepath'].slice(8,26)
-        console.log(imageurl)
+        }).then(image_path=>{
+            imagepath=image_path.dataValues['imagepath']
+            imageurl=image_path.dataValues['imagepath'].slice(8,26)
+        });
+        console.log(imagepath)
     }
     catch(error){
         console.error(error)
@@ -379,7 +396,17 @@ exports.interpretationTree=async(req,res,next)=>{
                     keyword: interpretation.keyword,
                     analysis: interpretation.analysis_tree
                 }));
-                // console.log(response)
+                console.log(response)
+                const keyword=response[0]['keyword']+','+response[1]['keyword']+','+response[2]['keyword']
+                const analysis=response[0]['analysis']+','+response[1]['analysis']+','+response[2]['analysis']
+                
+                const newReuslt=await Result.create({
+                    image_url:imagepath,
+                    user_id:2,
+                    label:'tree',
+                    keyword:keyword,
+                    text:analysis
+                });
                 res.json(response)
                 }
             }catch(error){
@@ -391,14 +418,16 @@ exports.interpretationPerson=async(req,res,next)=>{
     const filename=req.body['person_url']
     // console.log(filename)
     let imageurl='';
+    let imagepath='';
     try{
-        const image_path=await Image.findOne({
+        await Image.findOne({
             attributes:['imagepath'],
             where:{filename:filename}
+        }).then(image_path=>{
+            imagepath=image_path.dataValues['imagepath']
+            imageurl=image_path.dataValues['imagepath'].slice(8,26)
         })
-        console.log(image_path.dataValues['imagepath'])
-        imageurl=image_path.dataValues['imagepath'].slice(8,26)
-        console.log(imageurl)
+      console.log(imagepath)
     }
     catch(error){
         console.error(error)
@@ -413,14 +442,13 @@ exports.interpretationPerson=async(req,res,next)=>{
                 [Op.like]:`%${imageurl}%`
             }}
         })
-        
             if (!person) {
                 console.error('People not found!'); 
             }
             else{
                 let result1 = 0, result2 = 0, result3 = 0, result4 = 0, result5 = 0,
                 result6 = 0, result7 = 0, result8 = 0;
-                console.log(tree.dataValues)
+                console.log(person.dataValues)
                 if (person.dataValues['sex']=='M') {
                     result1 += 3;
                 }
@@ -496,7 +524,7 @@ exports.interpretationPerson=async(req,res,next)=>{
                 }
                 if (person.dataValues['people_shoes'] == 1) {
                     result1 +=1;
-                    reuslt3 +=1;
+                    result3 +=1;
                 }
                 const topResults = [result1, result2, result3, result4, result5, 
                     result6, result7, result8]
@@ -507,18 +535,31 @@ exports.interpretationPerson=async(req,res,next)=>{
                 const topInterpretations=await Promise.all(
                     topResults.map(result=>
                         PersonAnalyze.findOne({
-                            where:{analysis_tree_id:result.index+1}
+                            where:{analysis_people_id:result.index+1}
                         })
                     )
                 );
                 const response = topInterpretations.map(interpretation => ({
                     keyword: interpretation.keyword,
-                    analysis: interpretation.analysis_tree
+                    analysis: interpretation.analysis_people
                 }));
-                // console.log(response)
+                console.log(response)
+                const keyword=response[0]['keyword']+','+response[1]['keyword']+','+response[2]['keyword']
+                const analysis=response[0]['analysis']+','+response[1]['analysis']+','+response[2]['analysis']
+                const newReuslt= await Result.create({
+                    image_url:imagepath,
+                    user_id:2,
+                    label:'person',
+                    keyword:keyword,
+                    text:analysis
+                });
                 res.json(response)
                 }
             }catch(error){
                 console.error(error)
             }
+}
+
+exports.resultsave=async(req,res,next)=>{
+
 }

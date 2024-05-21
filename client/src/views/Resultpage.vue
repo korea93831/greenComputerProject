@@ -1,24 +1,23 @@
 <template>
-  <div class="result">
-    <div class="result-page d-flex justify-content-center align-items-center" style="margin-left: 10%; margin-top: auto;">
-      <div class="content-container">
-        <div class="image-text-container" v-for="(title, index) in titles" :key="index" style="margin-top: 10%; margin-bottom: 10%;">
-          <div class="row mb-4" v-if="imageUrls[index + 1]">
-            <div class="col-md-12 mb-4 d-flex">
-              <div class="image-container mr-4">
-                <img :src="imageUrls[index + 1]" :alt="'Result Image ' + (index + 1)" style="max-width: 100%; max-height: 500px;">
+<div class="result">
+  <div class="result-page d-flex justify-content-center align-items-center" style="margin-left: 10%; margin-top: auto;">
+    <div class="content-container">
+      <div class="image-text-container" v-for="(title, index) in titles" :key="index" style="margin-top: 10%; margin-bottom: 10%;">
+        <div class="row mb-4" v-if="imageUrls[index + 1]">
+          <div class="col-md-12 mb-4 d-flex flex-column align-items-center">
+            <div class="image-container mb-4">
+              <img :src="imageUrls[index + 1]" :alt="'Result Image ' + (index + 1)" style="width: 60%; height: 60%;">
+            </div>
+            <div class="text-container" style="width: 100%;">
+              <div class="title-box">
+                <p class="title-font"> {{ title }} </p>
               </div>
-              <div class="text-container flex-grow-1" style="margin-top: 10%;">
-                <div class="title-box">
-                  <p class="title-font"> {{ title }} </p>
-                </div>
-                <div class="keyword-box">
-                  <p class="keyword-font"><strong>키워드:</strong> {{ keywords[index+1] }} </p>
-                </div>
-                <div class="description-box">
-                  <!-- <p class="description-font"><strong>해설:</strong> {{ descriptions[index] }} </p> -->
-                  <p class="description-content" v-if="descriptionContents[index+1]"><strong>설명 내용:</strong> {{ descriptionContents[index+1] }}</p>
-                </div>
+              <div class="keyword-box">
+                <p class="keyword-font"><strong>키워드:</strong> {{ keywords[index+1] }} </p>
+              </div>
+              <div class="description-box">
+                <!-- <p class="description-font"><strong>해설:</strong> {{ descriptions[index] }} </p> -->
+                <p class="description-content" v-if="descriptionContents[index+1]"><strong>설명 내용:</strong> {{ descriptionContents[index+1] }}</p>
               </div>
             </div>
           </div>
@@ -26,6 +25,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -116,7 +116,7 @@ export default {
 }
 
 .title-font {
-  font-size: 38px;
+  font-size: 40px;
 }
 
 .keyword-font {
@@ -124,10 +124,10 @@ export default {
 }
 
 .description-font {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .description-content {
-  font-size: 24px;
+  font-size: 20px;
 }
 </style>

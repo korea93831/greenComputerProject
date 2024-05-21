@@ -32,6 +32,7 @@ class User extends Sequelize.Model{
         db.User.hasMany(db.TreeDraw,{foreignkey:'user_id',sourceKey:'user_id'});
         db.User.hasMany(db.HouseDraw,{foreignkey:'user_id',sourceKey:'user_id'});
         db.User.hasMany(db.PeopleDraw,{foreignkey:'user_id',sourceKey:'user_id'});
+        db.User.hasMany(db.Result,{foreignkey:'user_id',sourceKey:'user_id'});
     }
 };
 

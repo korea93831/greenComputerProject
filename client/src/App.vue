@@ -27,7 +27,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import LoginModal from './views/LoginModal.vue';
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 
 const isLoggedIn = ref(false);
 const loginModalOpen = ref(false);
@@ -69,6 +69,7 @@ const goToHome = () => {
 
 const goToMyPage = () => {
   const response=axios.post('/')
+  axios.post('http://localhost:3000/mypage',{userid})
   router.push({ name: 'mypage' }); // 마이페이지로 이동
 };
 </script>
