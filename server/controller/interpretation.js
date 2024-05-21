@@ -22,8 +22,7 @@ exports.interpretationHouse= async(req,res,next)=>{
         }).then(image_path=>{
             imagepath=image_path.dataValues['imagepath']
             imageurl=image_path.dataValues['imagepath'].slice(8,26)
-        })
-        console.log(imagepath)       
+        })  
     }
     catch(error){
         console.error(error)
@@ -205,10 +204,9 @@ exports.interpretationHouse= async(req,res,next)=>{
                     keyword: interpretation.keyword,
                     analysis: interpretation.analysis_house
                 }));
-                console.log(response)
                 const keyword=response[0]['keyword']+','+response[1]['keyword']+','+response[2]['keyword']
                 const analysis=response[0]['analysis']+','+response[1]['analysis']+','+response[2]['analysis']
-                console.log(imagepath)
+   
                 const newReuslt=await Result.create({
                     image_url:imagepath,
                     user_id:2,
@@ -238,7 +236,6 @@ exports.interpretationTree=async(req,res,next)=>{
             imagepath=image_path.dataValues['imagepath']
             imageurl=image_path.dataValues['imagepath'].slice(8,26)
         });
-        console.log(imagepath)
     }
     catch(error){
         console.error(error)
@@ -260,7 +257,6 @@ exports.interpretationTree=async(req,res,next)=>{
             else{
                 let result1 = 0, result2 = 0, result3 = 0, result4 = 0, result5 = 0,
                 result6 = 0, result7 = 0, result8 = 0, result9 = 0, result10 = 0;
-                console.log(tree.dataValues)
                 if (tree.dataValues['tree_pillar'] == 1) {
                     result1 += 1;
                     result2 += 1;
@@ -384,7 +380,6 @@ exports.interpretationTree=async(req,res,next)=>{
                     .map((value, index) => ({value, index}))
                     .sort((a, b) => b.value - a.value)
                     .slice(0, 3);
-                // console.log(topResults)
                 const topInterpretations=await Promise.all(
                     topResults.map(result=>
                         TreeAnalyze.findOne({
@@ -396,7 +391,6 @@ exports.interpretationTree=async(req,res,next)=>{
                     keyword: interpretation.keyword,
                     analysis: interpretation.analysis_tree
                 }));
-                console.log(response)
                 const keyword=response[0]['keyword']+','+response[1]['keyword']+','+response[2]['keyword']
                 const analysis=response[0]['analysis']+','+response[1]['analysis']+','+response[2]['analysis']
                 
@@ -414,8 +408,8 @@ exports.interpretationTree=async(req,res,next)=>{
             }
 }
 exports.interpretationPerson=async(req,res,next)=>{
-    console.log('interpretationPeople')
     const filename=req.body['person_url']
+   
     // console.log(filename)
     let imageurl='';
     let imagepath='';
@@ -427,7 +421,6 @@ exports.interpretationPerson=async(req,res,next)=>{
             imagepath=image_path.dataValues['imagepath']
             imageurl=image_path.dataValues['imagepath'].slice(8,26)
         })
-      console.log(imagepath)
     }
     catch(error){
         console.error(error)
@@ -448,7 +441,6 @@ exports.interpretationPerson=async(req,res,next)=>{
             else{
                 let result1 = 0, result2 = 0, result3 = 0, result4 = 0, result5 = 0,
                 result6 = 0, result7 = 0, result8 = 0;
-                console.log(person.dataValues)
                 if (person.dataValues['sex']=='M') {
                     result1 += 3;
                 }
@@ -531,7 +523,6 @@ exports.interpretationPerson=async(req,res,next)=>{
                     .map((value, index) => ({value, index}))
                     .sort((a, b) => b.value - a.value)
                     .slice(0, 3);
-                console.log(topResults)
                 const topInterpretations=await Promise.all(
                     topResults.map(result=>
                         PersonAnalyze.findOne({

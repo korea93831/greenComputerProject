@@ -45,7 +45,7 @@ import axios from 'axios';
     data() {
       return {
         imageUrls: { 1: '', 2: '', 3: '' },
-        selectedGenders: [],
+        selectedGenders:"",
         houseimage:null,
         treeimage:null,
         personimage:null,
@@ -90,10 +90,10 @@ import axios from 'axios';
       },
       handleGenderChange(selectedGender) {
         if (selectedGender === 'male' && this.selectedGenders.includes('female')) {
-          this.selectedGenders = ['male'];
+          this.selectedGenders = 'male';
         }
         else if (selectedGender === 'female' && this.selectedGenders.includes('male')) {
-          this.selectedGenders = ['female'];
+          this.selectedGenders = 'female';
         }
       },
 
@@ -179,7 +179,7 @@ import axios from 'axios';
         if(this.personimage){
           console.log('personimage')
           const personbase64Image=await readImageAsBase64(this.personimage);
-          await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`})
+          await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`,gender:this.selectedGenders})
           .then(response=>{
             if(response.data.result==200){
               axios.post('http://localhost:3000/interpretation/person',{person_url:`person${timestamp}`})

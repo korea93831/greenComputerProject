@@ -132,13 +132,11 @@ exports.treeResultSave=async(req,res,next)=>{
         }
         else{
             file_name=json_data[i]['라벨'];
-            console.log(file_name);
             const image_path= await Images.findOne({
                 attributes:['imagepath'],
                 where:{filename:file_name}
             });
             imagepath=image_path.dataValues['imagepath'];
-            console.log(imagepath)
         }
     }
     try{
@@ -167,10 +165,6 @@ exports.treeResultSave=async(req,res,next)=>{
     }catch(err){
         console.error(err)
     }
-    const data={
-        imageurl:imagepath
-    }
-    // await axios.post('http://localhost:3000/interpretation/tree',data);
     res.sendStatus(200)
 }
 
@@ -274,13 +268,11 @@ exports.houseResultSave=async(req,res,next)=>{
         }
         else{
             file_name=json_data[i]['라벨'];
-            console.log(file_name);
             const image_path= await Images.findOne({
                 attributes:['imagepath'],
                 where:{filename:file_name}
             });
             imagepath=image_path.dataValues['imagepath'];
-            console.log(imagepath)
         }
     }
     try{
@@ -309,12 +301,7 @@ exports.houseResultSave=async(req,res,next)=>{
     }catch(err){
         console.error(err)
     }
-    const data={
-        imageurl:imagepath
-    }
-    // await axios.post('http://localhost:3000/interpretation/tree',data);
     res.sendStatus(200)
-
 }
 exports.personResultSave=async(req,res,next)=>{
     const json_data=req.body;
@@ -425,13 +412,11 @@ exports.personResultSave=async(req,res,next)=>{
         }
         else{
             file_name=json_data[i]['라벨'];
-            console.log(file_name);
             const image_path= await Images.findOne({
                 attributes:['imagepath'],
                 where:{filename:file_name}
             });
             imagepath=image_path.dataValues['imagepath'];
-            console.log(imagepath)
         }
     }
     try{
@@ -462,9 +447,5 @@ exports.personResultSave=async(req,res,next)=>{
     }catch(err){
         console.error(err)
     }
-    const data={
-        imageurl:imagepath
-    }
-    // await axios.post('http://localhost:3000/interpretation/tree',data);
     res.sendStatus(200)
 }
