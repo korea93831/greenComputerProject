@@ -16,10 +16,7 @@ passportConfig();
 app.set('port',process.env.PORT||3000)
 
 app.use(cors(
-//     {
-//     origin:'http://localhost:8080',
-//     credentials:true,
-// }
+    {credentials:true,}
 ));
 app.use(morgan('dev'));
 
@@ -58,7 +55,7 @@ const userRouter=require('./routes/auth.js')
 app.use('/',homeRouter)
 app.use('/analyze',analyzeRouter)
 app.use('/interpretation',interpretation)
-app.use('/',userRouter)
+app.use('/auth',userRouter)
 
 
 

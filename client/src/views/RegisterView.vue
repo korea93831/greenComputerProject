@@ -44,7 +44,7 @@ const register = async () => {
     password: password.value,
   };
   try {
-    const response = await axios.post('http://localhost:3000/register', userData);
+    const response = await axios.post('http://localhost:3000/auth/register', userData);
     console.log('회원가입이 완료되었습니다.', response.data);
     snackbarMessage.value = '회원가입이 완료되었습니다.';
     snackbar.value = true;

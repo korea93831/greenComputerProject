@@ -43,32 +43,42 @@ watch(showModal, (newVal) => {
   emit('update:modelValue', newVal);
 });
 
-const login = async () => {
-  try {
-    const response = await axios.post('http://localhost:3000/login', { email: email.value, password: password.value });
-    if (response.data.success) {
-      snackbarMessage.value = '로그인이 성공했습니다.';
-      snackbar.value = true;
-      emit('update:isLoggedIn', true);
-    } else {
-      snackbarMessage.value = response.data.message || '로그인이 실패했습니다.';
-      snackbar.value = true;
-    }
-  } catch (error) {
-    console.error('로그인 오류:', error);
-    snackbarMessage.value = '로그인 중 오류가 발생했습니다.';
-    snackbar.value = true;
-  }
-};
-
 const handleSnackbarClose = () => {
-  snackbar.value = false;
+  this.snackbar = false;
   showModal.value = false;
 };
+
 </script>
 
 <script>
 export default {
   name: 'LoginModal',
+  data() {
+    return {
+      // snackbarMessage:'',
+      // snackbar:false,
+    };
+  },
+  methods:{
+    login() {
+      try {
+        const response = axios.post('http://localhost:3000/auth/login',
+                        { email: email.value, password: password.value },
+                        );
+        if (response.data.success) {
+          // this.snackbarMessage = '로그인이 성공했습니다.';
+          // snackbar.value = true;
+          emit('update:isLoggedIn', true);
+          this.$router.push('/');
+        } else {
+          // snackbarMessage.value = response.data.message || '로그인이 실패했습니다.';
+          // snackbar.value = true;
+        }
+      } catch (error) {
+        console.error('로그인 오류:', error);
+        // snackbarMessage.value = '로그인 중 오류가 발생했습니다.';
+        // snackbar.value = true;
+      }}
+  }
 };
 </script>

@@ -19,32 +19,41 @@
       <router-view/>
     </v-main>
 
-    <LoginModal v-model="loginModalOpen" @update:isLoggedIn="isLoggedIn = $event" />
+    <v-dialog v-model="showModal" max-width="500px">
+      <template v-slot:activator="{props:activatorProps}">
+        
+      
+      </template>
+      <v-card>
+        <v-card-title class="headline">로그인</v-card-title>
+        <v-card-text>
+          <v-form ref="form">
+            <v-text-field v-model="email" label="이메일" required></v-text-field>
+            <v-text-field v-model="password" label="비밀번호" type="password" required></v-text-field>
+            <v-btn @click="login" color="primary">확인</v-btn>
+          </v-form>
+        </v-card-text>
+      </v-card>
+      <v-snackbar v-model="snackbar" multi-line top>
+        {{ snackbarMessage }}
+        <v-btn color="red" variant="text" @click="handleSnackbarClose">확인</v-btn>
+      </v-snackbar>
+    </v-dialog>
+
+    <!-- <LoginModal v-model="loginModalOpen" @update:isLoggedIn="isLoggedIn = $event" /> -->
   </v-app>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import LoginModal from './views/LoginModal.vue';
-import axios, { Axios } from 'axios';
+// import LoginModal from './views/LoginModal.vue';
+import axios from 'axios';
 
 const isLoggedIn = ref(false);
-const loginModalOpen = ref(false);
 const router = useRouter();
 
-const login = async (credentials) => {
-  try {
-    const response = await axios.post('/login', credentials);
-    if (response.data.success) {
-      isLoggedIn.value = true;
-    } else {
-      console.error('로그인 실패:', response.data.message);
-    }
-  } catch (error) {
-    console.error('로그인 오류:', error);
-  }
-};
+
 
 const logout = () => {
   isLoggedIn.value = false;
@@ -72,6 +81,33 @@ const goToMyPage = () => {
   axios.post('http://localhost:3000/mypage',{userid})
   router.push({ name: 'mypage' }); // 마이페이지로 이동
 };
+</script>
+
+<script>
+export default {
+  components: {},
+  data() {
+    return {
+      sampleData: ''
+    }
+  },
+  created() {},
+  mounted() {},
+  unmounted() {},
+  methods: {
+    login() {
+      try {
+        axios.post('http://localhost:3000/auth/login');
+         if (response.data.success) {
+          isLoggedIn.value = true;
+        } else {
+          console.error('로그인 실패:', response.data.message);
+        }
+      } catch (error) {
+        console.error('로그인 오류:', error);
+      }}
+  }
+}
 </script>
 
 <style>
