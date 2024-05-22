@@ -10,11 +10,17 @@ const {sequelize}=require('./models')
 const cors=require('cors')
 dotenv.config();
 const app=express();
+
 app.use(express.json());
 passportConfig();
 app.set('port',process.env.PORT||3000)
 
-app.use(cors());
+app.use(cors(
+//     {
+//     origin:'http://localhost:8080',
+//     credentials:true,
+// }
+));
 app.use(morgan('dev'));
 
 

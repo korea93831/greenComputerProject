@@ -179,7 +179,7 @@ import axios from 'axios';
         if(this.personimage){
           console.log('personimage')
           const personbase64Image=await readImageAsBase64(this.personimage);
-          await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`,gender:this.selectedGenders})
+          await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`})
           .then(response=>{
             if(response.data.result==200){
               axios.post('http://localhost:3000/interpretation/person',{person_url:`person${timestamp}`})
