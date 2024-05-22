@@ -23,8 +23,6 @@ app.use(cors(
 ));
 app.use(morgan('dev'));
 
-
-
 sequelize.sync({force:false})
 .then(()=>{
     console.log('db 연결 성공');
@@ -34,21 +32,23 @@ sequelize.sync({force:false})
     });
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
-app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(session({
-    resave:false,
-    saveUninitialized:false,
-    secret:process.env.COOKIE_SECRET,
-    cookie:{
-        httpOnly:true,
-        secure:false,
-    },
-    name:'session-cookie'
-}))
 
-app.use(passport.initialize());
-app.use(passport.session());
+
+// app.use(express.urlencoded({extended:false}));
+// app.use(cookieParser(process.env.COOKIE_SECRET));
+// app.use(session({
+//     resave:false,
+//     saveUninitialized:false,
+//     secret:process.env.COOKIE_SECRET,
+//     cookie:{
+//         httpOnly:true,
+//         secure:false,
+//     },
+//     name:'session-cookie'
+// }))
+
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 const homeRouter=require('./routes/main.js')
 const analyzeRouter=require('./routes/analyze.js')
@@ -59,7 +59,6 @@ app.use('/',homeRouter)
 app.use('/analyze',analyzeRouter)
 app.use('/interpretation',interpretation)
 app.use('/',userRouter)
-
 
 
 app.use((req,res,next)=>{

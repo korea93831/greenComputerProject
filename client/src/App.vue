@@ -63,6 +63,10 @@ const goToHome = () => {
 };
 
 const goToMyPage = () => {
+  axios.get('http://localhost:3000/mypage',
+  {headers:{
+    'authorization':`Bearer ${localStorage.getItem('token')}`
+  }})
   router.push({ name: 'mypage' });
 };
 </script>

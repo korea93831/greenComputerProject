@@ -46,15 +46,20 @@ watch(showModal, (newVal) => {
 const login = async () => {
   try {
     const response = await axios.post('http://localhost:3000/login', { email: email.value, password: password.value });
-    if (response.data.success) {
+    console.log(response)
+    if(response.status==200){
+      localStorage.setItem('token',response.data['token'])
       snackbarMessage.value = '로그인이 성공했습니다.';
       snackbar.value = true;
       emit('update:isLoggedIn', true);
-    } else {
+      console.log(localStorage.getItem('token'))
+    }
+    else{
       snackbarMessage.value = response.data.message || '로그인이 실패했습니다.';
       snackbar.value = true;
     }
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('로그인 오류:', error);
     snackbarMessage.value = '로그인 중 오류가 발생했습니다.';
     snackbar.value = true;

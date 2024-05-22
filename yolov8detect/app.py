@@ -33,6 +33,7 @@ def person_map_to_string(x):
 @app.route('/api/tree',methods=['POST'])
 def tree():
     try:
+        token=request.headers['authorization']
         data=request.get_json()
         image_data=data['image']
         image_id=data['filename']
@@ -62,7 +63,7 @@ def tree():
         df_to_json=df.to_json(orient='records',force_ascii=False)
         json_dict=json.loads(df_to_json)
         print(json_dict)
-        response=requests.post('http://localhost:3000/analyze/tree',json=json_dict)
+        response=requests.post('http://localhost:3000/analyze/tree',json=json_dict,data=token)
         return jsonify({'result':'200'})
     except Exception as e:
         return str(e),500
@@ -87,6 +88,7 @@ def tree():
 @app.route('/api/house',methods=['POST'])
 def house():
     try:
+        token=request.headers['authorization']
         data=request.get_json()
         image_data=data['image']
         image_id=data['filename']
@@ -102,8 +104,6 @@ def house():
             img_cls=pd.DataFrame(result.boxes.cls)
             img_xyxy=pd.DataFrame(result.boxes.xyxy)
             img_xywh=pd.DataFrame(result.boxes.xywh)
-
-        
         img_cls.columns=['라벨']
         img_xyxy.columns=['top_left_x','top_left_y','bottom_right_x','bottom_right_y']
         img_xywh.columns=['center_x','center_y','width','height']
@@ -116,7 +116,7 @@ def house():
         df_to_json=df.to_json(orient='records',force_ascii=False)
         json_dict=json.loads(df_to_json)
         print(json_dict)
-        response=requests.post('http://localhost:3000/analyze/house',json=json_dict)
+        response=requests.post('http://localhost:3000/analyze/house',json=json_dict,data=token)
         return jsonify({'result':'200'})
     except Exception as e:
         return str(e),500
@@ -124,9 +124,11 @@ def house():
 @app.route('/api/person',methods=['POST'])
 def person():
     try:
+        token=request.headers['authorization']
         data=request.get_json()
         image_data=data['image']
         image_id=data['filename']
+        gender=data['gender']
         # gender=data['gender']
         image_data = base64.b64decode(image_data.split(',')[1])
         image = preprocess_image(image_data)
@@ -154,7 +156,12 @@ def person():
         df_to_json=df.to_json(orient='records',force_ascii=False)
         json_dict=json.loads(df_to_json)
         print(json_dict)
-        response=requests.post('http://localhost:3000/analyze/person',json=json_dict,)
+        data={
+            token:request.headers['authorization'],
+            gender:gender
+        }
+        print(data)
+        response=requests.post('http://localhost:3000/analyze/person',json=json_dict,data=data)
         return jsonify({'result':'200'})
     except Exception as e:
         return str(e),500
