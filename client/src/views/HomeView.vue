@@ -5,7 +5,8 @@
       <h1 class="main-title">더 나은 미래를 위한 <span class="htp-text">HTP</span>, 지금 경험하세요.</h1>
       <p class="sub-title">"Heal Your Heart Through Drawing"</p>
 
-      <v-btn class="explore-btn" to="/Imageupload" color="primary">무료 검사</v-btn>
+      <v-btn class="explore-btn" to="/introduction" color="#A5DEE5">소개글</v-btn>
+      <v-btn class="explore-btn" to="/imageupload" color="#A5DEE5">무료 검사</v-btn>
     </div>
   </div>
 </template>
@@ -26,12 +27,12 @@ export default {
 }
 
 .background-image {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../images/cloud-5055011_1280.jpg');
+  background-image: url('../images/storybook-cottage-8765137_1920.jpg');
   background-size: cover;
   background-position: center;
   opacity: 0.5;
@@ -44,6 +45,8 @@ export default {
 
 .main-title {
   font-size: 50px;
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 350;
 }
 
 .htp-text {

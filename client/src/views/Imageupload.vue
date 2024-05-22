@@ -1,42 +1,44 @@
 <template>
-<div class="upload">
-    <h1 class="page-title">이미지 업로드</h1>
-    <v-row>
-      <v-col cols="12" md="4">
-        <v-card>
-          <v-img :src="imageUrls[1] ? imageUrls[1] : require('@/images/집.png')" alt="House" style="max-width: 100%; max-height: 500px;"></v-img> 
-          <input type="file" id="file1" @change="handleFileUpload(1, $event)">
-          <button class="cancel-btn" @click="cancelFileUpload(1)" v-if="imageUrls[1]">취소</button>
-        </v-card>
-      </v-col>
+  <div class="imageuploadview">
+    <div class="upload">
+        <h1 class="page-title">이미지 업로드</h1>
+        <v-row>
+          <v-col cols="12" md="4">
+            <v-card style="border: 2px solid #000;">
+              <v-img :src="imageUrls[1] ? imageUrls[1] : require('@/images/집.png')" alt="House" style="max-width: 100%; max-height: 500px;"></v-img> 
+              <input type="file" id="file1" @change="handleFileUpload(1, $event)">
+              <button class="cancel-btn" @click="cancelFileUpload(1)" v-if="imageUrls[1]">취소</button>
+            </v-card>
+          </v-col>
 
-      <v-col cols="12" md="4">
-        <v-card>
-          <v-img :src="imageUrls[2] ? imageUrls[2] : require('@/images/나무.png')" alt="Tree" style="max-width: 100%; max-height: 500px;"></v-img> 
-          <input type="file" id="file2" @change="handleFileUpload(2, $event)">
-          <button class="cancel-btn" @click="cancelFileUpload(2)" v-if="imageUrls[2]">취소</button>
-        </v-card>
-      </v-col>
+          <v-col cols="12" md="4">
+            <v-card style="border: 2px solid #000;">
+              <v-img :src="imageUrls[2] ? imageUrls[2] : require('@/images/나무.png')" alt="Tree" style="max-width: 100%; max-height: 500px;"></v-img> 
+              <input type="file" id="file2" @change="handleFileUpload(2, $event)">
+              <button class="cancel-btn" @click="cancelFileUpload(2)" v-if="imageUrls[2]">취소</button>
+            </v-card>
+          </v-col>
 
-      <v-col cols="12" md="4">
-        <v-card>
-          <v-img :src="imageUrls[3] ? imageUrls[3] : require('@/images/사람.png')" alt="Person" style="max-width: 100%; max-height: 500px;"></v-img> 
-          <input type="file" id="file3" @change="handleFileUpload(3, $event)">
-          <button class="cancel-btn" @click="cancelFileUpload(3)" v-if="imageUrls[3]">취소</button>
-        </v-card>
-        
-        <div class="gender-selection">
-          <label for="male">남자</label>
-          <input type="checkbox" id="male" v-model="selectedGenders" :value="'male'" @change="handleGenderChange('male')" class="checkbox">
-          <label for="female">여자</label>
-          <input type="checkbox" id="female" v-model="selectedGenders" :value="'female'" @change="handleGenderChange('female')" class="checkbox">
-        </div>
-        <p>※ 사람인 경우 그림에 있는 사람의 성별을 선택 해주세요.</p>
-      </v-col>
-    </v-row>
-    <v-btn class="explore-btn" color="primary" @click="goToResultPage">제출</v-btn>
+          <v-col cols="12" md="4">
+            <v-card style="border: 2px solid #000;">
+              <v-img :src="imageUrls[3] ? imageUrls[3] : require('@/images/사람.png')" alt="Person" style="max-width: 100%; max-height: 500px;"></v-img> 
+              <input type="file" id="file3" @change="handleFileUpload(3, $event)">
+              <button class="cancel-btn" @click="cancelFileUpload(3)" v-if="imageUrls[3]">취소</button>
+            </v-card>
+            
+            <div class="gender-selection">
+              <label for="male">남자</label>
+              <input type="checkbox" id="male" v-model="selectedGenders" :value="'male'" @change="handleGenderChange('male')" class="checkbox">
+              <label for="female">여자</label>
+              <input type="checkbox" id="female" v-model="selectedGenders" :value="'female'" @change="handleGenderChange('female')" class="checkbox">
+            </div>
+            <p>※ 사람인 경우 그림에 있는 사람의 성별을 선택 해주세요.</p>
+          </v-col>
+        </v-row>
+        <v-btn class="explore-btn" color="#FFAE42" @click="goToResultPage">제출</v-btn>
+    </div>
   </div>
-  </template>
+</template>
   
   <script>
 import { render } from 'vue';
@@ -206,20 +208,27 @@ import axios from 'axios';
   </script>
   
   <style scoped>
+  p {
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  
   .page-title {
     text-align: center;
     margin-top: 30px;
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 30px;
+    font-family: 'Do Hyeon', sans-serif;
   }
   
   .upload {
     margin-top: 50px;
+    background-color: #DDF3F5;
   }
   .cancel-btn {
   margin-top: 10px;
   margin-left: 20px;
   color: red;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .gender-selection {
@@ -232,6 +241,7 @@ import axios from 'axios';
   margin: 0 10px;
   width: 20px;
   height: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .explore-btn {
@@ -241,6 +251,7 @@ import axios from 'axios';
   font-size: 24px;
   display: block; 
   margin: 0 auto; 
+  font-family: 'Noto Sans KR', sans-serif;
 }
   </style>
   

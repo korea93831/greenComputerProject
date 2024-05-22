@@ -4,6 +4,7 @@
     <v-form ref="form">
       <v-text-field v-model="email" label="이메일" type="email" required></v-text-field>
       <v-text-field v-model="password" label="비밀번호" type="password" required></v-text-field>
+      <v-text-field v-model="confirmPassword" label="비밀번호 확인" type="password" required></v-text-field>
     </v-form>
     <div class="button-container">
       <v-btn @click="register" color="primary">회원 가입</v-btn>
@@ -27,6 +28,7 @@ import { useRouter } from 'vue-router';
 
 const email = ref('');
 const password = ref('');
+const confirmPassword = ref('');
 
 const snackbar = ref(false);
 const snackbarMessage = ref('');
@@ -34,11 +36,18 @@ const snackbarMessage = ref('');
 const router = useRouter();
 
 const register = async () => {
-  if (!email.value || !password.value) {
+  if (!email.value || !password.value || !confirmPassword.value) {
     snackbarMessage.value = '이메일과 비밀번호를 입력하세요.';
     snackbar.value = true;
     return;
   }
+  
+  if (password.value !== confirmPassword.value) {
+    snackbarMessage.value = '비밀번호가 일치하지 않습니다.';
+    snackbar.value = true;
+    return;
+  }
+  
   const userData = {
     email: email.value,
     password: password.value,

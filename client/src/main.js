@@ -32,5 +32,6 @@ export default createVuetify({
         sets: {
             mdi,
         },
+        iconfont: 'mdi'
     },
 })

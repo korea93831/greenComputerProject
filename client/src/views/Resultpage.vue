@@ -6,18 +6,22 @@
         <div class="row mb-4" v-if="imageUrls[index + 1]">
           <div class="col-md-12 mb-4 d-flex flex-column align-items-center">
             <div class="image-container mb-4">
-              <img :src="imageUrls[index + 1]" :alt="'Result Image ' + (index + 1)" style="width: 60%; height: 60%;">
+              <img :src="imageUrls[index + 1]" :alt="'Result Image ' + (index + 1)" style="width: 70%; height: 70%; border: 2px solid #000;">
             </div>
             <div class="text-container" style="width: 100%;">
               <div class="title-box">
-                <p class="title-font"> {{ title }} </p>
+                <p class="title-font" :style="{ color: titleColors[index] }"> {{ title }} </p>
               </div>
               <div class="keyword-box">
-                <p class="keyword-font"><strong>키워드:</strong> {{ keywords[index+1] }} </p>
+                <p class="keyword-font">
+                  <!-- <strong>키워드:</strong> -->
+                  <span :style="{ color: keywordColors[index] }"> {{ keywords[index+1] }} </span> </p>
               </div>
               <div class="description-box">
                 <!-- <p class="description-font"><strong>해설:</strong> {{ descriptions[index] }} </p> -->
-                <p class="description-content" v-if="descriptionContents[index+1]"><strong>설명 내용:</strong> {{ descriptionContents[index+1] }}</p>
+                <p class="description-content" v-if="descriptionContents[index+1]">
+                   <!-- <strong>설명 내용:</strong> -->
+                  {{ descriptionContents[index+1] }}</p>
               </div>
             </div>
           </div>
@@ -33,6 +37,8 @@ export default {
   data() {
     return {
       titles: ["집 그림 결과 분석", "나무 그림 결과 분석", "사람 그림 결과 분석"],
+      titleColors: ["#8B4513", "#228B22", "#FFAE42"],
+      keywordColors: ["#A0522D", "#32CD32", "#FFA500"],
       keywords:{
         1:'',
         2:'',
@@ -95,12 +101,21 @@ export default {
 
 .content-container {
   width: 80%;
+  height: 60%;
   margin-top: 20px;
+  position: relative;
+  bottom: 200px;
+}
+
+.image-container {
+  height: 600px;
 }
 
 .image-container img {
   max-width: 100%;
   height: auto;
+  position: relative;
+  top: 150px;
 }
 
 .title-box {
@@ -116,18 +131,25 @@ export default {
 }
 
 .title-font {
-  font-size: 40px;
+  font-size: 50px;
+  font-family: 'Do Hyeon', sans-serif;
+  text-align: center;
 }
 
 .keyword-font {
-  font-size: 28px;
+  font-size: 30px;
+  font-family: 'Noto Sans KR', sans-serif;
+  text-align: center;
 }
 
 .description-font {
-  font-size: 20px;
+  font-size: 25px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .description-content {
-  font-size: 20px;
+  font-size: 25px;
+  font-family: 'Noto Sans KR', sans-serif;
+  text-align: center;
 }
 </style>
