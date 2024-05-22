@@ -125,6 +125,7 @@ def house():
 def person():
     try:
         token=request.headers['authorization']
+        print(token)
         data=request.get_json()
         image_data=data['image']
         image_id=data['filename']
@@ -151,8 +152,10 @@ def person():
         df=pd.DataFrame()
         img_cls['라벨']=img_cls['라벨'].apply(person_map_to_string)
         df=pd.concat([img_cls,img_xyxy,img_xywh],axis=1)
+        df
         new_row=[image_id,0,0,0,0,0,0,0,0]
         df.loc[len(df)]=new_row
+        df.loc[len(df)-1,'top_left_x']=token
         df_to_json=df.to_json(orient='records',force_ascii=False)
         json_dict=json.loads(df_to_json)
         print(json_dict)
@@ -161,7 +164,7 @@ def person():
             gender:gender
         }
         print(data)
-        response=requests.post('http://localhost:3000/analyze/person',json=json_dict,data=data)
+        response=requests.post('http://localhost:3000/analyze/person',json=json_dict)
         return jsonify({'result':'200'})
     except Exception as e:
         return str(e),500

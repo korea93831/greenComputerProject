@@ -39,7 +39,8 @@ exports.analyze=async(req,res,next)=>{
 
 exports.treeResultSave=async(req,res,next)=>{
     // console.log('Parsed body:',req.body);
-    console.log(req.body);
+    console.log(req);
+    console.log('------------------------------------');
     const json_data=req.body;
     let tree_size=0;
     let tree_loc=0;
@@ -58,6 +59,7 @@ exports.treeResultSave=async(req,res,next)=>{
     let tree_star=0;
     let list=[];
     let imagepath="";
+    let list_string="";
     // console.log(json_data);
     for(let i=0;i<json_data.length;i++){
         if(json_data[i]['라벨']=='나무전체'){
@@ -171,7 +173,8 @@ exports.treeResultSave=async(req,res,next)=>{
 
 
 exports.houseResultSave=async(req,res,next)=>{
-    console.log(req.body);
+    console.log(req);
+    console.log('------------------------------------');
     const json_data=req.body;
     let house_size=0;
     let house_loc=0;
@@ -191,6 +194,7 @@ exports.houseResultSave=async(req,res,next)=>{
     let house_sun=0;
     let list=[];
     let imagepath="";
+    let list_string="";
     // console.log(json_data);
     for(let i=0;i<json_data.length;i++){
         if(json_data[i]['라벨']=='집전체'){
@@ -307,7 +311,8 @@ exports.houseResultSave=async(req,res,next)=>{
 }
 exports.personResultSave=async(req,res,next)=>{
     const json_data=req.body;
-    console.log(req.body);
+    console.log(req);
+    console.log('------------------------------------');
     let person_size=0;
     let person_head=0;
     let person_face=0;
