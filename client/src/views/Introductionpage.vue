@@ -11,12 +11,12 @@
           <br><br>
           정신분석학자 지크믄트 프로이트는 명화들을 들여다보며 그 명화를 그린 작가들이 자신의 마음의 심층을 상징적으로 그림 속에 담고 있음을 발견하였습니다. 예를 들면 레오나르도 다빈치의 “성안나오 성모자상”은 아기예수와 두 마리아를 그렸지만 프로이트는 레오나르도 다빈치가 자신을 낳아준 어머니와 길러 준 어머니를 그린 것이라고 해석했습니다.
           <br><br>
-          그림검사를 통해 언어로 표현하기 어려운 심상(image)을 그림으로 표현하게 하여 사람을 더욱 이해할 수 있도록 돕는 비언어적 커뮤니케이션이 가능합니다.</p>
+          그림검사를 통해 <span class="htp-text-1">언어로 표현하기 어려운 심상(image)</span>을 그림으로 표현하게 하여 사람을 더욱 이해할 수 있도록 돕는 비언어적 커뮤니케이션이 가능합니다.</p>
       </div>
     </div>
     <div class="row" style="background-color: #DCEDC1;">
       <div class="column-1">
-        <p class="p_box">HTP검사는 House(집), Tree(나무), Person(사람)을 그려보게 하는 그림검사입니다. 한 종이에 모두 그려넣는 KHTP검사가 있고 사람그림을 남,녀 양성을 모두 그리게 하는 HTPP검사가 있습니다. HTP 검사는 1920년대에 구디너프(Goodenough, 1926)가 고안한 인물화 검사(Drawing a Person Test, DAP)를 바탕으로, 존 벅(John Buck)이 1948년에 집과 나무를 추가로 그리도록 재개발하였습니다.
+        <p class="p_box">HTP검사는 <span class="htp-text-1">House(집), Tree(나무), Person(사람)</span>을 그려보게 하는 그림검사입니다. 한 종이에 모두 그려넣는 KHTP검사가 있고 사람그림을 남,녀 양성을 모두 그리게 하는 HTPP검사가 있습니다. HTP 검사는 1920년대에 <span class="htp-text-1">구디너프(Goodenough, 1926)</span>가 고안한 <span class="htp-text-1">인물화 검사(Drawing a Person Test, DAP)</span>를 바탕으로, <span class="htp-text-1">존 벅(John Buck)</span>이 1948년에 집과 나무를 추가로 그리도록 재개발하였습니다.
           <br><br>
           그림 검사의 타당도와 신뢰도에 대해 일부 논박이 있어왔으나, 그럼에도 불구하고 HTP 검사는 임상 장면에서 널리 활용되고 있습니다.
           <br><br>
@@ -133,10 +133,12 @@ export default {
 .column img {
   max-width: 100%;
   height: 100%;
-  /* height: auto; */
 }
 
 .column-1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 10px;
   text-align: left;
   box-sizing: border-box;
