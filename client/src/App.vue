@@ -1,20 +1,20 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar app color="transparent" dark fixed>
+    <v-app-bar app color="transparent" dark fixed scroll-behavior="hide" scroll-threshold="1">
       <v-btn text @click="goToHome">Home</v-btn>
       <v-spacer></v-spacer>
 
-      <v-app-bar-title class="title">Application</v-app-bar-title>
+      <!-- <v-app-bar-title class="title">Application</v-app-bar-title> -->
 
       <v-spacer></v-spacer>
       
-      <v-btn v-if="!isLoggedIn" text color="primary" @click="showLoginModal">Login</v-btn>
-      <v-btn v-if="isLoggedIn" text color="primary" @click="goToMyPage">My Page</v-btn>
-      <v-btn v-if="isLoggedIn" text color="primary" @click="logout">Logout</v-btn>
-      <v-btn v-if="!isLoggedIn" text color="primary" @click="goToRegister">Register</v-btn>
+      <v-btn v-if="!isLoggedIn" text color="#FF6347" @click="showLoginModal">Login</v-btn>
+      <v-btn v-if="isLoggedIn" text color="#FF8C00" @click="goToMyPage">My Page</v-btn>
+      <v-btn v-if="isLoggedIn" text color="#FF8C00" @click="logout">Logout</v-btn>
+      <v-btn v-if="!isLoggedIn" text color="#FF6347" @click="goToRegister">Register</v-btn>
     </v-app-bar>
 
-    <v-main>
+    <v-main class="main">
       <router-view/>
     </v-main>
 
@@ -85,5 +85,8 @@ const goToMyPage = () => {
 .v-app-bar {
   background-color: rgba(255, 255, 255, 0);
   box-shadow: none;
+}
+.main {
+  background-color: #DDF3F5;
 }
 </style>

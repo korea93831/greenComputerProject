@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <h1 class="title">{{ title }}</h1>
-    <h4 class="subtitle">{{ subtitle }}</h4>
-    <div class="row">
+    <h1 class="title">아이의 그림 속 숨겨진 이야기:&nbsp;<span class="htp-text-1">HTP</span>심리 검사</h1>
+    <h4 class="subtitle"><span class="htp-text-1">HTP</span> 검사를 통해 아이가 그리는 그림 속에 숨겨진 <span class="htp-text-1">심리적 메시지</span>를 발견하고, 그들의 감정과 생각을 이해하는 방법</h4>
+    <div class="row" style="background-color: #A8E6CF;">
       <div class="column">
         <img :src="imgSrc1" alt="Image 1" />
       </div>
@@ -14,7 +14,7 @@
           그림검사를 통해 언어로 표현하기 어려운 심상(image)을 그림으로 표현하게 하여 사람을 더욱 이해할 수 있도록 돕는 비언어적 커뮤니케이션이 가능합니다.</p>
       </div>
     </div>
-    <div class="row">
+    <div class="row" style="background-color: #DCEDC1;">
       <div class="column-1">
         <p class="p_box">HTP검사는 House(집), Tree(나무), Person(사람)을 그려보게 하는 그림검사입니다. 한 종이에 모두 그려넣는 KHTP검사가 있고 사람그림을 남,녀 양성을 모두 그리게 하는 HTPP검사가 있습니다. HTP 검사는 1920년대에 구디너프(Goodenough, 1926)가 고안한 인물화 검사(Drawing a Person Test, DAP)를 바탕으로, 존 벅(John Buck)이 1948년에 집과 나무를 추가로 그리도록 재개발하였습니다.
           <br><br>
@@ -36,7 +36,7 @@
         <img :src="imgSrc2" alt="Image 2" />
       </div>
     </div>
-    <div class="row">
+    <div class="row" style="background-color: #FFD3B6;">
       <div class="column">
         <img :src="imgSrc3" alt="Image 3" />
       </div>
@@ -60,19 +60,21 @@
           8. 그림검사를 집단으로 실시하여 집단원들의 적응수준이나 성격의 성숙도를 알아 볼 수 있다.</p>
       </div>
     </div>
-    <div class="row">
+    <div class="row" style="background-color: #FFAAA5;">
       <div class="column-1">
         <p class="p_box">HTP검사 하는 방법
           <br><br>
-          1. 회원 가입을 하십시오
+          1. 회원 가입을 하십시오.
           <br>
           2. 로그인이 된후 검사 버튼을 눌러주세요
           <br>
-          3. 이미지 업로드 페이지로 이동 하셨으면 카메라로 자녀들의 그린 그림을 집, 나무, 사람 구별해주셔서 파일을 업로드 해주시고 사람인 경우 그림속에 남자,여자 를 선택을 해주시고 제출 버튼을 눌러주시면 됩니다.
+          3. 이미지 업로드 페이지로 이동 해주세요.
           <br>
-          4. 결과를 보실수 있습니다.
+          4. 카메라로 자녀들의 그린 그림을 집,나무,사람 구별해주셔서 파일을 업로드 해주세요.
           <br>
-          5. 마이페이지에서도 결과물 을 보실수 있습니다.</p>
+          5. 결과를 보실수 있습니다.
+          <br>
+          6. 마이페이지에서도 결과물 을 보실수 있습니다.</p>
       </div>
       <div class="column">
         <img :src="imgSrc4" alt="Image 4" />
@@ -85,8 +87,6 @@
 export default {
   data() {
     return {
-      title: "아이의 그림 속 숨겨진 이야기: HTP 심리 검사",
-      subtitle: "HTP 검사를 통해 아이가 그리는 그림 속에 숨겨진 심리적 메시지를 발견하고, 그들의 감정과 생각을 이해하는 방법",
       imgSrc1: require('@/images/kids-1093758_1280.jpg'),
       imgSrc2: require('@/images/istockphoto-1444446563-612x612.webp'),
       imgSrc3: require('@/images/istockphoto-1630991645-612x612.webp'),
@@ -100,16 +100,19 @@ export default {
 .container {
   text-align: center;
   max-width: 1200px;
-  margin: auto;
   margin-top: 20px;
 }
 
 .title {
   margin-bottom: 20px;
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 350;
 }
 
 .subtitle {
   margin-bottom: 10px;
+  font-size: 20px;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .row {
@@ -117,6 +120,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 20px;
+  height: 100%;
 }
 
 .column {
@@ -128,7 +132,8 @@ export default {
 
 .column img {
   max-width: 100%;
-  height: auto;
+  height: 100%;
+  /* height: auto; */
 }
 
 .column-1 {
@@ -136,10 +141,24 @@ export default {
   text-align: left;
   box-sizing: border-box;
   flex: 1 1 100%;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .p_box {
   padding: 10px;
+  font-family: "Noto Sans KR", sans-serif;
+
+}
+
+.container {
+  text-align: center;
+  max-width: 1200px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.htp-text-1 {
+  color: red;
 }
 
 @media (min-width: 768px) {
@@ -153,4 +172,5 @@ export default {
     max-width: 48%;
   }
 }
+
 </style>
