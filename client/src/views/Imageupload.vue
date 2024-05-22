@@ -1,5 +1,5 @@
 <template>
-<div class="upload">
+  <div class="upload">
     <h1 class="page-title">이미지 업로드</h1>
     <v-row>
       <v-col cols="12" md="4">
@@ -35,8 +35,8 @@
       </v-col>
     </v-row>
     <v-btn class="explore-btn" color="primary" @click="goToResultPage">제출</v-btn>
-  </div>
-  </template>
+  </div>  
+</template>
   
   <script>
 import { render } from 'vue';

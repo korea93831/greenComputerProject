@@ -1,18 +1,17 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar app>
+    <v-app-bar app color="transparent" dark fixed>
       <v-btn text @click="goToHome">Home</v-btn>
       <v-spacer></v-spacer>
 
       <v-app-bar-title class="title">Application</v-app-bar-title>
 
       <v-spacer></v-spacer>
-      <v-btn text color="primary" @click="goToNoticeboard">게시판</v-btn>
-
+      
       <v-btn v-if="!isLoggedIn" text color="primary" @click="showLoginModal">Login</v-btn>
-      <v-btn v-if="isLoggedIn" text color="primary" @click="goToMyPage">mypage</v-btn>
+      <v-btn v-if="isLoggedIn" text color="primary" @click="goToMyPage">My Page</v-btn>
       <v-btn v-if="isLoggedIn" text color="primary" @click="logout">Logout</v-btn>
-      <v-btn v-if="!isLoggedIn" text color="primary" @click="goToRegister">회원 가입</v-btn>
+      <v-btn v-if="!isLoggedIn" text color="primary" @click="goToRegister">Register</v-btn>
     </v-app-bar>
 
     <v-main>
@@ -27,7 +26,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import LoginModal from './views/LoginModal.vue';
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 
 const isLoggedIn = ref(false);
 const loginModalOpen = ref(false);
@@ -55,10 +54,6 @@ const showLoginModal = () => {
   loginModalOpen.value = true;
 };
 
-const goToNoticeboard = () => {
-  router.push({ name: 'BoardList' });
-};
-
 const goToRegister = () => {
   router.push({ name: 'register' });
 };
@@ -68,9 +63,7 @@ const goToHome = () => {
 };
 
 const goToMyPage = () => {
-  const response=axios.post('/')
-  axios.post('http://localhost:3000/mypage',{userid})
-  router.push({ name: 'mypage' }); // 마이페이지로 이동
+  router.push({ name: 'mypage' });
 };
 </script>
 
@@ -81,9 +74,16 @@ const goToMyPage = () => {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100%;
 }
+
 .title {
   display: flex;
   justify-content: center;
+}
+
+.v-app-bar {
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: none;
 }
 </style>

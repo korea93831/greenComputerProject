@@ -4,11 +4,7 @@ import RegisterView from '../views/RegisterView.vue';
 import Resultpage from '../views/Resultpage.vue';
 import Imageupload from '../views/Imageupload.vue';
 import Mypage from '../views/Mypage.vue';
-import Inquirypage from '../views/Inquirypage.vue';
-
-import BoardList from '../views/boardpage/BoardList.vue';
-import BoardView from '../views/boardpage/BoardView.vue';
-import BoardWriter from '../views/boardpage/BoardWriter.vue';
+import Introductionpage from '../views/Introductionpage.vue';
 
 const routes = [
   {
@@ -37,25 +33,10 @@ const routes = [
     component: Mypage // 마이 페이지
   },
   {
-    path: '/mypage/Inquirypage',
-    name: 'inquirypage',
-    component: Inquirypage // 조회 페이지
-  },
-  {
-    path: '/board',
-    name: 'BoardList',
-    component: BoardList // 게시판 목록 페이지
-  },
-  {
-    path: '/view/:seq',
-    name: 'BoardView',
-    component: BoardView // 게사판 상세 페이지
-  },
-  {
-    path: '/writer',
-    name: 'BoardWriter',
-    component: BoardWriter // 게시판 작성 페이지
-  }, 
+    path: '/introduction',
+    name: 'introduction',
+    component: Introductionpage // 소개 페이지
+  }
 ]
 
 const router = createRouter({
