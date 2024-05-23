@@ -7,7 +7,7 @@
 
       <div class="btn-row">
         <v-btn class="explore-btn" to="/introduction" color="#FFAE42">소개글</v-btn>
-        <v-btn class="explore-btn" to="/imageupload" color="#FFAE42">무료 검사</v-btn>
+        <v-btn class="explore-btn" to="/imageupload" color="#FFAE42">검사 시작</v-btn>
       </div>
     </div>
   </div>
@@ -46,7 +46,7 @@
 }
 
 .htp-text {
-  color: red;
+  color: #f5917a;
 }
 
 .sub-title {

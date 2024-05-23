@@ -90,7 +90,8 @@ const goToMyPage = () => {
 
 .logo {
   height: 105px;
-  margin-left: 3px;
+  margin-top: 10px;
+  margin-left: 20px;
   cursor: pointer;
 }
 
