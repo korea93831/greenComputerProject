@@ -58,9 +58,7 @@ const goToMyPage = () => {
       headers:{
         'authorization':`Bearer ${localStorage.getItem('token')}`
       }
-    }).then(response=>{
-      response.
-    })
+    });
   router.push({ name: 'mypage' });
 };
 </script>
