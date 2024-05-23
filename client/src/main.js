@@ -25,10 +25,9 @@ createApp(App)
 .use(axios)
 .mount('#app')
 
-export default createVuetify({
+export default new vuetify({
     icons: {
-        defaultSet: 'mdi',
-        aliases,
+        iconfont: 'mdi',
         sets: {
             mdi,
         },

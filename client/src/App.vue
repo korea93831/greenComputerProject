@@ -54,10 +54,13 @@ const goToHome = () => {
 };
 
 const goToMyPage = () => {
-  axios.get('http://localhost:3000/mypage',
-  {headers:{
-    'authorization':`Bearer ${localStorage.getItem('token')}`
-  }})
+  axios.get('http://localhost:3000/mypage',{
+      headers:{
+        'authorization':`Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(response=>{
+      response.
+    })
   router.push({ name: 'mypage' });
 };
 </script>

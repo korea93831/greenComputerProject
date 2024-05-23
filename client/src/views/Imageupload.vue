@@ -25,20 +25,7 @@
           <input type="file" id="file3" @change="handleFileUpload(3, $event)">
           <button class="cancel-btn" @click="cancelFileUpload(3)" v-if="imageUrls[3]">취소</button>
         </v-card>
-        
-        <v-radio-group
-          v-model="inline"
-          inline
-        >
-          <v-radio
-            label="Option 1"
-            value="radio-1">
-          </v-radio>
-          <v-radio
-            label="Option 2"
-            value="radio-2"
-          ></v-radio>
-        </v-radio-group>
+
 
         <p>※ 사람인 경우 그림에 있는 사람의 성별을 선택 해주세요.</p>
       </v-col>

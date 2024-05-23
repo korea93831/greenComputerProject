@@ -22,7 +22,7 @@ app.use(cors(
 // }
 ));
 app.use(morgan('dev'));
-
+app.use('/uploads',express.static(path.join(__dirname,'uploads')))
 sequelize.sync({force:false})
 .then(()=>{
     console.log('db 연결 성공');
