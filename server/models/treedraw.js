@@ -5,7 +5,7 @@ class TreeDraw extends Sequelize.Model{
         TreeDraw.init({
             tree_id:{
                 type: Sequelize.INTEGER,
-                allowNull:true,
+                allowNull:false,
                 unique:true,
                 primaryKey:true,
                 autoIncrement:true
@@ -95,6 +95,11 @@ class TreeDraw extends Sequelize.Model{
                 defaultValue:0
             },
             createdAt:{
+                type:Sequelize.DATE,
+                defaultValue:Sequelize.NOW,
+                allowNull:false
+            },
+            updatedAt:{
                 type:Sequelize.DATE,
                 defaultValue:Sequelize.NOW,
                 allowNull:false

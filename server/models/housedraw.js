@@ -5,9 +5,10 @@ class HouseDraw extends Sequelize.Model{
         HouseDraw.init({
             house_id:{
                 type: Sequelize.INTEGER,
-                allowNull:true,
+                allowNull:false,
                 unique:true,
-                primaryKey:true
+                primaryKey:true,
+                autoIncrement:true
             },
             house_image:{
                 type:Sequelize.STRING(255),
@@ -96,6 +97,11 @@ class HouseDraw extends Sequelize.Model{
                 defaultValue:0
             },
             createdAt:{
+                type:Sequelize.DATE,
+                defaultValue:Sequelize.NOW,
+                allowNull:false
+            },
+            updatedAt:{
                 type:Sequelize.DATE,
                 defaultValue:Sequelize.NOW,
                 allowNull:false

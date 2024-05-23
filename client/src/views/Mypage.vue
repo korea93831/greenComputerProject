@@ -18,7 +18,7 @@
           min-width="320px">
           <v-img
           height="250px"
-          :src="item.imageUrl"
+          :src="item.imagesrc"
           cover>
           </v-img>
           <v-row>
@@ -33,7 +33,7 @@
             <v-btn
             color="orange-lighten-2"
             text="검사결과"
-            @click="goResult(itme.imageUrl)"
+            @click="goResult(item.imagesrc,item.label,item.keyword,item.text)"
             ></v-btn>
             </v-card-actions>
         </v-col>
@@ -49,6 +49,7 @@
             <v-pagination
               v-model="page"
               :length="PageNum"
+              @update:modelValue="PageChange(page)"
               class="my-4"
             ></v-pagination>
           </v-container>
@@ -69,7 +70,8 @@ export default {
       totalpage:5,
       totalItem:[],
       pageItem:[],
-      cnt:9
+      first:0,
+      last:9
       
     }
   },
@@ -84,12 +86,13 @@ export default {
     if(this.$route.query.myData){
       try{
         this.totalItem=JSON.parse(this.$route.query.myData);
-        for(let i=0;i<this.cnt;i++){
+        console.log(this.totalItem.length)
+        for(let i=this.first;i<this.last;i++){
           const convertUrl=this.totalItem[i]['imageUrl'].replace(/\\/g,'/');
-          this.totalItem[i]['imageUrl']='http://localhost:3000/'+convertUrl;
+          this.totalItem[i]['imagesrc']='http://localhost:3000/'+convertUrl;
           this.pageItem.push(this.totalItem[i])
         }
-        
+        console.log(this.pageItem)
       }catch(error){
         console.error(error)
       }
@@ -100,8 +103,25 @@ export default {
   },
   unmounted() {},
   methods: {
-    goResult(imageUrl){
-      axios.post('http://localhost:3000/'+imageUrl)
+    goResult(imageUrl,label,keyword,text){
+      console.log(imageUrl,label,keyword,text)
+      this.$router.push({ name: 'Inquirypage', query: { imageUrl:imageUrl,label:label,keyword:keyword,text:text} });
+    },
+    PageChange(newpage){
+      console.log(newpage)
+      this.first=(newpage-1)*9;
+      if((newpage-1)*9+8<=this.totalItem.length){
+        this.last=(newpage-1)*9+9;
+      }else{
+        this.last=this.totalItem.length
+      }
+      this.pageItem=[]
+      for(let i=this.first;i<this.last;i++){
+       
+        const convertUrl=this.totalItem[i]['imageUrl'].replace(/\\/g,'/');
+        this.totalItem[i]['imagesrc']='http://localhost:3000/'+convertUrl;
+        this.pageItem.push(this.totalItem[i])
+      }
     }
   }
 }

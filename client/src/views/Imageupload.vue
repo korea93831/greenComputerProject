@@ -99,9 +99,7 @@ import axios from 'axios';
 
 
       async goToResultPage() {
-        const config={
-          headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}
-        }
+
         if(!this.treeimage & !this.houseimage & this.personimage){
           alert('이미지를 업로드 후에 제출해주세요');
           return;
@@ -142,7 +140,9 @@ import axios from 'axios';
         let house_analysis='';
         let person_keywords='';
         let person_analysis='';
-        
+        const config={
+          headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}
+        }
          try{
           if(this.treeimage){
           console.log('treeimage')

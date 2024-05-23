@@ -9,10 +9,10 @@
 
       <v-spacer></v-spacer>
       
-      <v-btn size="x-large" v-if="!isLoggedIn" text color="#000000" @click="showLoginModal" style="font-weight: bold">Login</v-btn>
-      <v-btn size="x-large" v-if="isLoggedIn" text color="#000000"  @click="goToMyPage" style="font-weight: bold">My페이지</v-btn>
-      <v-btn size="x-large" v-if="isLoggedIn" text color="#000000"  @click="logout" style="font-weight: bold">Logout</v-btn>
-      <v-btn size="x-large" v-if="!isLoggedIn" text color="#000000"  @click="goToRegister" style="font-weight: bold">회원가입</v-btn>
+      <v-btn size="x-large" v-if="!this.isLoggedIn" text color="#000000" @click="showLoginModal" style="font-weight: bold">Login</v-btn>
+      <v-btn size="x-large" v-if="this.isLoggedIn" text color="#000000"  @click="goToMyPage" style="font-weight: bold">My페이지</v-btn>
+      <v-btn size="x-large" v-if="this.isLoggedIn" text color="#000000"  @click="logout" style="font-weight: bold">Logout</v-btn>
+      <v-btn size="x-large" v-if="!this.isLoggedIn" text color="#000000"  @click="goToRegister" style="font-weight: bold">회원가입</v-btn>
     </v-app-bar>
 
     <v-main class="main">
@@ -32,28 +32,6 @@ import axios from 'axios';
 // const isLoggedIn = ref(false);
 // const loginModalOpen = ref(false);
 const router = useRouter();
-
-// const login = async (credentials) => {
-//   try {
-//     const response = await axios.post('/login', credentials);
-//     if (response.data.success) {
-//       isLoggedIn.value = true;
-//     } else {
-//       console.error('로그인 실패:', response.data.message);
-//     }
-//   } catch (error) {
-//     console.error('로그인 오류:', error);
-//   }
-// };
-
-// const logout = () => {
-//   isLoggedIn.value = false;
-//   router.push({ name: 'home' });
-// };
-
-// const showLoginModal = () => {
-//   loginModalOpen.value = true;
-// };
 
 const goToRegister = () => {
   router.push({ name: 'register' });

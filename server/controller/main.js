@@ -17,7 +17,8 @@ exports.Mypage= async(req,res,next)=>{
         imageUrl: data.dataValues['image_url'],
         label: data.dataValues['label'],
         keyword: data.dataValues['keyword'],
-        text: data.dataValues['text']
+        text: data.dataValues['text'],
+        imagesrc:''
       }));
   
       // 응답을 클라이언트에 보냅니다.

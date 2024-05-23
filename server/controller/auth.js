@@ -1,7 +1,7 @@
 const bcrypt=require('bcrypt');
 const passport=require('passport');
 const User=require('../models/user');
-const jwt=require('jsonwebtoken')
+const jwt=require('jsonwebtoken');
 exports.join=async(req,res,next)=>{
     const {email,password}=req.body;
     console.log(email,password)
@@ -31,6 +31,8 @@ exports.login=async(req,res,next)=>{
         const user=await User.findOne(
             {where:{email:email}}
         );
+        console.log(password)
+        console.log(user.dataValues['email'],user.dataValues['user_id'])
         if(!user){
             console.log('not id')
             return res.send(402)
@@ -39,19 +41,18 @@ exports.login=async(req,res,next)=>{
             if(err){
                 return res.send(402)
             }
-                if(result){
-                    const token=jwt.sign({user:user.dataValues['user_id']},SECRET_KEY,{expiresIn:'1h'});
-                    return res.json({token})
-                }else{
-                    console.log('password not match')
-                    return res.send(402)
-                }
+            if(result){
+                const token=jwt.sign({user:user.dataValues['user_id']},SECRET_KEY,{expiresIn:'1h'});
+                return res.json({token})
+            }else{
+                console.log('password not match')
+                return res.send(402)
             }
-                )
-            }catch(error){
-            console.error(error)
-        }
+        })
+    }catch(error){
+        console.error(error)
     }
+};
     
 
 exports.logout=(req,res)=>{

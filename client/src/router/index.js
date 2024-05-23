@@ -5,6 +5,7 @@ import Resultpage from '../views/Resultpage.vue';
 import Imageupload from '../views/Imageupload.vue';
 import Mypage from '../views/Mypage.vue';
 import Introductionpage from '../views/Introductionpage.vue';
+import Inquirypage from '../views/Inquirypage.vue';
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/introduction',
     name: 'introduction',
     component: Introductionpage // 소개 페이지
+  },
+  {
+    path:'/inquirypage',
+    name:'Inquirypage',
+    component:Inquirypage
   }
 ]
 

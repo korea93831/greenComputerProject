@@ -211,7 +211,7 @@ exports.interpretationHouse= async(req,res,next)=>{
                 const newReuslt=await Result.create({
                     image_url:imagepath,
                     user_id:uid,
-                    label:'house',
+                    label:'집',
                     keyword:keyword,
                     text:analysis
                 });
@@ -399,7 +399,7 @@ exports.interpretationTree=async(req,res,next)=>{
                 const newReuslt=await Result.create({
                     image_url:imagepath,
                     user_id:uid,
-                    label:'tree',
+                    label:'나무',
                     keyword:keyword,
                     text:analysis
                 });
@@ -542,7 +542,7 @@ exports.interpretationPerson=async(req,res,next)=>{
                 const newReuslt= await Result.create({
                     image_url:imagepath,
                     user_id:uid,
-                    label:'person',
+                    label:'사람',
                     keyword:keyword,
                     text:analysis
                 });

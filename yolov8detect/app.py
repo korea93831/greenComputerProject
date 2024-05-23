@@ -55,11 +55,12 @@ def tree():
         img_xyxy.columns=['top_left_x','top_left_y','bottom_right_x','bottom_right_y']
         img_xywh.columns=['center_x','center_y','width','height']
         img_cls.astype(int)
-        img_cls['라벨']=img_cls['라벨'].apply(tree_map_to_string)
         df=pd.DataFrame()
+        img_cls['라벨']=img_cls['라벨'].apply(tree_map_to_string)
         df=pd.concat([img_cls,img_xyxy,img_xywh],axis=1)
         new_row=[image_id,0,0,0,0,0,0,0,0]
         new_row[1]=token
+        df.loc[len(df)]=new_row
         df_to_json=df.to_json(orient='records',force_ascii=False)
         json_dict=json.loads(df_to_json)
         print(json_dict)

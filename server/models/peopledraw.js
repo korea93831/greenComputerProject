@@ -5,9 +5,10 @@ class PeopleDraw extends Sequelize.Model{
         PeopleDraw.init({
             people_id:{
                 type: Sequelize.INTEGER,
-                allowNull:true,
+                allowNull:false,
                 unique:true,
-                primaryKey:true
+                primaryKey:true,
+                autoIncrement:true
             },
             people_image:{
                 type:Sequelize.STRING(255),
@@ -111,6 +112,11 @@ class PeopleDraw extends Sequelize.Model{
                 defaultValue:0
             },
             createdAt:{
+                type:Sequelize.DATE,
+                defaultValue:Sequelize.NOW,
+                allowNull:false
+            },
+            updatedAt:{
                 type:Sequelize.DATE,
                 defaultValue:Sequelize.NOW,
                 allowNull:false
