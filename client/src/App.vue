@@ -2,17 +2,17 @@
   <v-app id="inspire">
     <v-app-bar app color="transparent" dark fixed scroll-behavior="hide" scroll-threshold="1">
       <!-- <v-btn text @click="goToHome">Home</v-btn> -->
-      <img class="logo" src="./assets/logoimage.png" alt="logoimage" @click="goToHome" />
+      <img class="logo" src="./assets/logo_a-removebg-preview.png" alt="logoimage" @click="goToHome" />
       <v-spacer></v-spacer>
 
       <!-- <v-app-bar-title class="title">Application</v-app-bar-title> -->
 
       <v-spacer></v-spacer>
       
-      <v-btn v-if="!isLoggedIn" text color="#FF6347" @click="showLoginModal">Login</v-btn>
-      <v-btn v-if="isLoggedIn" text color="#FF8C00" @click="goToMyPage">My Page</v-btn>
-      <v-btn v-if="isLoggedIn" text color="#FF8C00" @click="logout">Logout</v-btn>
-      <v-btn v-if="!isLoggedIn" text color="#FF6347" @click="goToRegister">Register</v-btn>
+      <v-btn size="x-large" v-if="!isLoggedIn" text color="#000000" @click="showLoginModal" style="font-weight: bold">Login</v-btn>
+      <v-btn size="x-large" v-if="isLoggedIn" text color="#000000"  @click="goToMyPage" style="font-weight: bold">My페이지</v-btn>
+      <v-btn size="x-large" v-if="isLoggedIn" text color="#000000"  @click="logout" style="font-weight: bold">Logout</v-btn>
+      <v-btn size="x-large" v-if="!isLoggedIn" text color="#000000"  @click="goToRegister" style="font-weight: bold">회원가입</v-btn>
     </v-app-bar>
 
     <v-main class="main">
@@ -90,7 +90,7 @@ const goToMyPage = () => {
 
 .logo {
   height: 105px;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-left: 20px;
   cursor: pointer;
 }
