@@ -58,8 +58,13 @@ const goToMyPage = () => {
       headers:{
         'authorization':`Bearer ${localStorage.getItem('token')}`
       }
+    }).then(response=>{
+      let mydata=[]
+      for(let i=0;i<response.data.length;i++){
+        mydata.push(response.data[i])
+      }
+      router.push({ name: 'mypage', query :{myData:JSON.stringify(response.data)}});
     });
-  router.push({ name: 'mypage' });
 };
 </script>
 

@@ -15,6 +15,7 @@ exports.interpretationHouse= async(req,res,next)=>{
     const filename=req.body['house_url']
     let imageurl='';
     let imagepath='';
+    const uid=req.user['user']
     try{
         await Image.findOne({
             attributes:['imagepath'],
@@ -209,7 +210,7 @@ exports.interpretationHouse= async(req,res,next)=>{
    
                 const newReuslt=await Result.create({
                     image_url:imagepath,
-                    user_id:2,
+                    user_id:uid,
                     label:'house',
                     keyword:keyword,
                     text:analysis
@@ -228,6 +229,7 @@ exports.interpretationTree=async(req,res,next)=>{
     // console.log(filename)
     let imageurl='';
     let imagepath='';
+    const uid=req.user['user']
     try{
         await Image.findOne({
             attributes:['imagepath'],
@@ -396,7 +398,7 @@ exports.interpretationTree=async(req,res,next)=>{
                 
                 const newReuslt=await Result.create({
                     image_url:imagepath,
-                    user_id:2,
+                    user_id:uid,
                     label:'tree',
                     keyword:keyword,
                     text:analysis
@@ -409,7 +411,7 @@ exports.interpretationTree=async(req,res,next)=>{
 }
 exports.interpretationPerson=async(req,res,next)=>{
     const filename=req.body['person_url']
-   
+    const uid=req.user['user']
     // console.log(filename)
     let imageurl='';
     let imagepath='';
@@ -539,7 +541,7 @@ exports.interpretationPerson=async(req,res,next)=>{
                 const analysis=response[0]['analysis']+','+response[1]['analysis']+','+response[2]['analysis']
                 const newReuslt= await Result.create({
                     image_url:imagepath,
-                    user_id:2,
+                    user_id:uid,
                     label:'person',
                     keyword:keyword,
                     text:analysis

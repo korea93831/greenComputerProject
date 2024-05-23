@@ -139,7 +139,7 @@ import axios from 'axios';
           await axios.post('http://localhost:5000/api/tree',{image:treebase64Image,filename:`tree${timestamp}`},config)
           .then(response=>{
             if(response.data.result==200){
-              axios.post('http://localhost:3000/interpretation/tree',{tree_url:`tree${timestamp}`,config})
+              axios.post('http://localhost:3000/interpretation/tree',{tree_url:`tree${timestamp}`},config)
               .then(TreeInter=>{
               console.log('treeInter')
               console.log(TreeInter)
@@ -157,7 +157,7 @@ import axios from 'axios';
           await axios.post('http://localhost:5000/api/house',{image:housebase64Image,filename:`house${timestamp}`},config)
           .then(response=>{
             if(response.data.result==200){
-            axios.post('http://localhost:3000/interpretation/house',{house_url:`house${timestamp}`})
+            axios.post('http://localhost:3000/interpretation/house',{house_url:`house${timestamp}`},config)
             .then(HouseInter=>{
               console.log('houseInter')
               console.log(HouseInter)
@@ -175,7 +175,7 @@ import axios from 'axios';
           await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`,gender:this.selectedGenders},config)
           .then(response=>{
             if(response.data.result==200){
-              axios.post('http://localhost:3000/interpretation/person',{person_url:`person${timestamp}`})
+              axios.post('http://localhost:3000/interpretation/person',{person_url:`person${timestamp}`},config)
               .then(PersonInter=>{
                 console.log('personInter')
                 console.log(PersonInter)

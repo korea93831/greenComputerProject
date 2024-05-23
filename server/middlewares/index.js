@@ -19,7 +19,7 @@ exports.isNotLoggedIn=(req,res,next)=>{
 
 const SECRET_KEY=process.env.COOKIE_SECRET
 
-exports.authenticateToken=(req,res,next)=>{
+exports.authenticateToken=async(req,res,next)=>{
     const authHeader = req.headers['authorization'];
     console.log(authHeader)
     const token = authHeader && authHeader.split(' ')[1];
