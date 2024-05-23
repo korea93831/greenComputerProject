@@ -1,7 +1,8 @@
 <template>
   <v-app id="inspire">
     <v-app-bar app color="transparent" dark fixed scroll-behavior="hide" scroll-threshold="1">
-      <v-btn text @click="goToHome">Home</v-btn>
+      <!-- <v-btn text @click="goToHome">Home</v-btn> -->
+      <img class="logo" src="./assets/logoimage.png" alt="logoimage" @click="goToHome" />
       <v-spacer></v-spacer>
 
       <!-- <v-app-bar-title class="title">Application</v-app-bar-title> -->
@@ -86,7 +87,15 @@ const goToMyPage = () => {
   background-color: rgba(255, 255, 255, 0);
   box-shadow: none;
 }
+
+.logo {
+  height: 105px;
+  margin-left: 3px;
+  cursor: pointer;
+}
+
 .main {
   background-color: #DDF3F5;
 }
+
 </style>
