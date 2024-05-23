@@ -39,8 +39,6 @@ exports.analyze=async(req,res,next)=>{
 
 exports.treeResultSave=async(req,res,next)=>{
     // console.log('Parsed body:',req.body);
-    console.log(req.user);
-    console.log('------------------------------------');
     const json_data=req.body;
     let tree_size=0;
     let tree_loc=0;
@@ -59,7 +57,6 @@ exports.treeResultSave=async(req,res,next)=>{
     let tree_star=0;
     let list=[];
     let imagepath="";
-    let list_string="";
     // console.log(json_data);
     for(let i=0;i<json_data.length;i++){
         if(json_data[i]['라벨']=='나무전체'){
@@ -145,7 +142,7 @@ exports.treeResultSave=async(req,res,next)=>{
     try{
         await TreeDraw.create({
             
-            user_id:req.user['user'],
+            user_id:2,
             tree:list_string,
             tree_size:tree_size,
             tree_loc:tree_loc,
@@ -192,7 +189,6 @@ exports.houseResultSave=async(req,res,next)=>{
     let house_sun=0;
     let list=[];
     let imagepath="";
-    let list_string="";
     // console.log(json_data);
     for(let i=0;i<json_data.length;i++){
         if(json_data[i]['라벨']=='집전체'){
@@ -282,7 +278,7 @@ exports.houseResultSave=async(req,res,next)=>{
     try{
         await HouseDraw.create({
             
-            user_id:req.user['user'],
+            user_id:2,
             house:list_string,
             house_size:house_size,
             house_loc:house_loc,
@@ -426,7 +422,7 @@ exports.personResultSave=async(req,res,next)=>{
     try{
         await PersonDraw.create({
             
-            user_id:req.user['user'],
+            user_id:2,
             people:list_string,
             people_size:person_size,
             people_head:person_head,

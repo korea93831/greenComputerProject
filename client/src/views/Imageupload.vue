@@ -1,6 +1,5 @@
 <template>
-  <v-container>
-    <div class="upload">
+  <div class="upload">
     <h1 class="page-title">이미지 업로드</h1>
     <v-row>
       <v-col cols="12" md="4">
@@ -25,14 +24,18 @@
           <input type="file" id="file3" @change="handleFileUpload(3, $event)">
           <button class="cancel-btn" @click="cancelFileUpload(3)" v-if="imageUrls[3]">취소</button>
         </v-card>
-
-
+        
+        <div class="gender-selection">
+          <label for="male">남자</label>
+          <input type="checkbox" id="male" v-model="selectedGenders" :value="'male'" @change="handleGenderChange('male')" class="checkbox">
+          <label for="female">여자</label>
+          <input type="checkbox" id="female" v-model="selectedGenders" :value="'female'" @change="handleGenderChange('female')" class="checkbox">
+        </div>
         <p>※ 사람인 경우 그림에 있는 사람의 성별을 선택 해주세요.</p>
       </v-col>
     </v-row>
     <v-btn class="explore-btn" color="primary" @click="goToResultPage">제출</v-btn>
   </div>  
-  </v-container>
 </template>
   
   <script>
@@ -42,7 +45,7 @@ import axios from 'axios';
     data() {
       return {
         imageUrls: { 1: '', 2: '', 3: '' },
-        selectedGenders:null,
+        selectedGenders:"",
         houseimage:null,
         treeimage:null,
         personimage:null,
@@ -85,12 +88,17 @@ import axios from 'axios';
           inputElement.value = '';
         }
       },
+      handleGenderChange(selectedGender) {
+        if (selectedGender === 'male' && this.selectedGenders.includes('female')) {
+          this.selectedGenders = 'male';
+        }
+        else if (selectedGender === 'female' && this.selectedGenders.includes('male')) {
+          this.selectedGenders = 'female';
+        }
+      },
+
 
       async goToResultPage() {
-
-        const config={
-          headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}
-        }
         if(!this.treeimage & !this.houseimage & this.personimage){
           alert('이미지를 업로드 후에 제출해주세요');
           return;
@@ -110,8 +118,7 @@ import axios from 'axios';
             console.log(formdata)
             await axios.post('http://localhost:3000/analyze',formdata,{
             headers:{
-              'Content-Type':'multipart/form-data',
-              'authorization':`Bearer ${localStorage.getItem('token')}`
+              'Content-Type':'multipart/form-data'
             }
           });
         }catch(error){
@@ -136,7 +143,7 @@ import axios from 'axios';
           if(this.treeimage){
           console.log('treeimage')
           const treebase64Image=await readImageAsBase64(this.treeimage);
-          await axios.post('http://localhost:5000/api/tree',{image:treebase64Image,filename:`tree${timestamp}`},config)
+          await axios.post('http://localhost:5000/api/tree',{image:treebase64Image,filename:`tree${timestamp}`})
           .then(response=>{
             if(response.data.result==200){
               axios.post('http://localhost:3000/interpretation/tree',{tree_url:`tree${timestamp}`},config)
@@ -154,7 +161,7 @@ import axios from 'axios';
         if(this.houseimage){
           console.log('houseimage')
           const housebase64Image=await readImageAsBase64(this.houseimage);
-          await axios.post('http://localhost:5000/api/house',{image:housebase64Image,filename:`house${timestamp}`},config)
+          await axios.post('http://localhost:5000/api/house',{image:housebase64Image,filename:`house${timestamp}`})
           .then(response=>{
             if(response.data.result==200){
             axios.post('http://localhost:3000/interpretation/house',{house_url:`house${timestamp}`},config)
@@ -172,7 +179,7 @@ import axios from 'axios';
         if(this.personimage){
           console.log('personimage')
           const personbase64Image=await readImageAsBase64(this.personimage);
-          await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`,gender:this.selectedGenders},config)
+          await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`})
           .then(response=>{
             if(response.data.result==200){
               axios.post('http://localhost:3000/interpretation/person',{person_url:`person${timestamp}`},config)
@@ -235,18 +242,5 @@ import axios from 'axios';
   display: block; 
   margin: 0 auto; 
 }
-
-.radio-container {
-    display: flex; /* 요소를 가로로 나열합니다. */
-    align-items: center; /* 요소를 세로 가운데로 정렬합니다. */
-  }
-
-.radio-label {
-    margin-right: 10px;
-  }
-
-.radio-input {
-    margin-right: 5px;
-  }
   </style>
   

@@ -2,9 +2,9 @@
   <div class="register-view">
     <h1>회원 가입</h1>
     <v-form ref="form">
-      <v-text-field v-model="email" label="이메일" type="email" required></v-text-field>
-      <v-text-field v-model="password" label="비밀번호" type="password" required></v-text-field>
-      <v-text-field v-model="confirmPassword" label="비밀번호 확인" type="password" required></v-text-field>
+      <v-text-field v-model="email" label="이메일" type="email" :rules="[emailRule]" required></v-text-field>
+      <v-text-field v-model="password" label="비밀번호" type="password" :rules="[passwordRule]" required></v-text-field>
+      <v-text-field v-model="confirmPassword" label="비밀번호 확인" type="password" :rules="[confirmPasswordRule]" required></v-text-field>
     </v-form>
     <div class="button-container">
       <v-btn @click="register" color="primary">회원 가입</v-btn>
@@ -26,6 +26,19 @@ import { ref } from 'vue';
 import axios from 'axios'; 
 import { useRouter } from 'vue-router';
 
+const emailRule = (value) => {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(value) || '유효한 이메일 형식을 입력하세요.';
+};
+
+const passwordRule = (value) => {
+  return !!value || '비밀번호를 입력하세요.';
+};
+
+const confirmPasswordRule = (value) => {
+  return value === password.value || '비밀번호가 일치하지 않습니다.';
+};
+
 const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
@@ -41,13 +54,7 @@ const register = async () => {
     snackbar.value = true;
     return;
   }
-  
-  if (password.value !== confirmPassword.value) {
-    snackbarMessage.value = '비밀번호가 일치하지 않습니다.';
-    snackbar.value = true;
-    return;
-  }
-  
+    
   const userData = {
     email: email.value,
     password: password.value,
@@ -85,8 +92,8 @@ const handleSnackbarAction = () => {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 25%;
+  margin-right: 25%;
   height: 100vh;
   margin-top: -5%;
 }

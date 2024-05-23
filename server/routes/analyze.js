@@ -3,7 +3,6 @@ const {analyze,treeResultSave,houseResultSave, personResultSave}=require('../con
 const router=express.Router();
 const multer=require('multer')
 const path=require('path');
-const {authenticateToken2}=require('../middlewares/index.js')
 
 const upload=multer({
     storage:multer.diskStorage({
@@ -39,8 +38,8 @@ router.post('/',upload.fields([
     {name:'treeimage',maxCount:1},
     {name:'personimage',maxCount:1}
 ]),analyze);
-router.post('/tree',authenticateToken2,treeResultSave);
-router.post('/house',authenticateToken2,houseResultSave);
-router.post('/person',authenticateToken2,personResultSave);
+router.post('/tree',treeResultSave);
+router.post('/house',houseResultSave);
+router.post('/person',personResultSave);
 
 module.exports=router;
