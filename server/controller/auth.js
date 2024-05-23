@@ -1,7 +1,7 @@
 const bcrypt=require('bcrypt');
 const passport=require('passport');
 const User=require('../models/user');
-
+const jwt=require('jsonwebtoken')
 exports.join=async(req,res,next)=>{
     const {email,password}=req.body;
     console.log(email,password)
@@ -22,24 +22,37 @@ exports.join=async(req,res,next)=>{
     }
 };
 
-exports.login=(req,res,next)=>{
-    passport.authenticate('local',(authError,user,info)=>{
-        if(authError){
-            console.error(authError);
-            return next(authError);
-        }
+exports.login=async(req,res,next)=>{
+    const userform=req.body
+    const email=userform['email']
+    const password=userform['password']
+    const SECRET_KEY=process.env.COOKIE_SECRET
+    try{
+        const user=await User.findOne(
+            {where:{email:email}}
+        );
         if(!user){
-            return res.status(401).json({ success: false, message: '로그인에 실패하였습니다.'});
+            console.log('not id')
+            return res.send(402)
         }
-        return req.login(user,(loginError)=>{
-            if(loginError){
-                console.error(loginError);
-                return next(loginError);
+        bcrypt.compare(password,user.dataValues['password'],(err,result)=>{
+            if(err){
+                return res.send(402)
             }
-            return res.status(200).json({ success: true, message: '로그인에 성공하였습니다.', user });
-        });
-    })(req,res,next);
-};
+                if(result){
+                    const token=jwt.sign({user:user.dataValues['user_id']},SECRET_KEY,{expiresIn:'1h'});
+                    return res.json({token})
+                }else{
+                    console.log('password not match')
+                    return res.send(402)
+                }
+            }
+                )
+            }catch(error){
+            console.error(error)
+        }
+    }
+    
 
 exports.logout=(req,res)=>{
     req.logout(()=>{

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="title">아이의 그림 속 숨겨진 이야기:&nbsp;<span class="htp-text-1">HTP</span>심리 검사</h1>
-    <h4 class="subtitle"><span class="htp-text-1">HTP</span> 검사를 통해 아이가 그리는 그림 속에 숨겨진 <span class="htp-text-1">심리적 메시지</span>를 발견하고, 그들의 감정과 생각을 이해하는 방법</h4>
+    <h4 class="subtitle"><span class="htp-text-1">HTP</span> 검사를 통해 아이가 그리는 그림 속에 숨겨진 <span class="htp-text-1">심리적 메시지</span>를 발견하고, 그들의 <span class="htp-text-1">감정</span>과 <span class="htp-text-1">생각</span>을 이해하는 방법</h4>
     <div class="row" style="background-color: #A8E6CF;">
       <div class="column">
         <img :src="imgSrc1" alt="Image 1" />
@@ -16,7 +16,7 @@
     </div>
     <div class="row" style="background-color: #DCEDC1;">
       <div class="column-1">
-        <p class="p_box">HTP검사는 <span class="htp-text-3">House(집), Tree(나무), Person(사람)</span>을 그려보게 하는 그림검사입니다. 한 종이에 모두 그려넣는 KHTP검사가 있고 사람그림을 남,녀 양성을 모두 그리게 하는 HTPP검사가 있습니다. HTP 검사는 1920년대에 <span class="htp-text-3">구디너프(Goodenough, 1926)</span>가 고안한 <span class="htp-text-3">인물화 검사(Drawing a Person Test, DAP)</span>를 바탕으로, <span class="htp-text-3">존 벅(John Buck)</span>이 1948년에 집과 나무를 추가로 그리도록 재개발하였습니다.
+        <p class="p_box">HTP검사는 <span class="htp-text-3">House(집)</span>,<span class="htp-text-3">Tree(나무)</span>,<span class="htp-text-3">Person(사람)</span>을 그려보게 하는 그림검사입니다. 한 종이에 모두 그려넣는 KHTP검사가 있고 사람그림을 남,녀 양성을 모두 그리게 하는 HTPP검사가 있습니다. HTP 검사는 1920년대에 <span class="htp-text-3">구디너프(Goodenough, 1926)</span>가 고안한 <span class="htp-text-3">인물화 검사(Drawing a Person Test, DAP)</span>를 바탕으로, <span class="htp-text-3">존 벅(John Buck)</span>이 1948년에 집과 나무를 추가로 그리도록 재개발하였습니다.
           <br><br>
           그림 검사의 타당도와 신뢰도에 대해 일부 논박이 있어왔으나, 그럼에도 불구하고 HTP 검사는 임상 장면에서 널리 활용되고 있습니다.
           <br><br>
@@ -43,9 +43,9 @@
           <br>
           4. 그림검사는 언어 <span class="htp-text-4">표현이 어려운 사람</span>(외국인, 문맹자, 억압 된 자)에게도 적용이 가능하다.
           <br>
-          5. 그림검사는 연령, 지능, 예술적 재능에 <span class="htp-text-4">제한</span>제한이 없다.
+          5. 그림검사는 연령, 지능, 예술적 재능에 <span class="htp-text-4">제한</span>이 없다.
           <br>
-          6. 그림검사는 그린 사람을 평가하는 것이 아니라 <span class="htp-text-4">치료적 의미</span>치료적 의미도 가지고 있다.
+          6. 그림검사는 그린 사람을 평가하는 것이 아니라 <span class="htp-text-4">치료적 의미</span>도 가지고 있다.
           <br>
           7. 그림검사는 그림으로 형상화하고 상징화하는 과정을 통해 <span class="htp-text-4">자기통찰</span>이 가능하다.
           <br>

@@ -142,7 +142,7 @@ exports.treeResultSave=async(req,res,next)=>{
     try{
         await TreeDraw.create({
             
-            user_id:2,
+            user_id:req.user['user'],
             tree:list_string,
             tree_size:tree_size,
             tree_loc:tree_loc,
@@ -278,7 +278,7 @@ exports.houseResultSave=async(req,res,next)=>{
     try{
         await HouseDraw.create({
             
-            user_id:2,
+            user_id:req.user['user'],
             house:list_string,
             house_size:house_size,
             house_loc:house_loc,
@@ -422,7 +422,7 @@ exports.personResultSave=async(req,res,next)=>{
     try{
         await PersonDraw.create({
             
-            user_id:2,
+            user_id:req.user['user'],
             people:list_string,
             people_size:person_size,
             people_head:person_head,

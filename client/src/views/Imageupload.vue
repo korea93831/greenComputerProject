@@ -99,6 +99,9 @@ import axios from 'axios';
 
 
       async goToResultPage() {
+        const config={
+          headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}
+        }
         if(!this.treeimage & !this.houseimage & this.personimage){
           alert('이미지를 업로드 후에 제출해주세요');
           return;
@@ -118,7 +121,8 @@ import axios from 'axios';
             console.log(formdata)
             await axios.post('http://localhost:3000/analyze',formdata,{
             headers:{
-              'Content-Type':'multipart/form-data'
+              'Content-Type':'multipart/form-data',
+              'authorization':`Bearer ${localStorage.getItem('token')}`
             }
           });
         }catch(error){
@@ -143,7 +147,7 @@ import axios from 'axios';
           if(this.treeimage){
           console.log('treeimage')
           const treebase64Image=await readImageAsBase64(this.treeimage);
-          await axios.post('http://localhost:5000/api/tree',{image:treebase64Image,filename:`tree${timestamp}`})
+          await axios.post('http://localhost:5000/api/tree',{image:treebase64Image,filename:`tree${timestamp}`},config)
           .then(response=>{
             if(response.data.result==200){
               axios.post('http://localhost:3000/interpretation/tree',{tree_url:`tree${timestamp}`},config)
@@ -161,7 +165,7 @@ import axios from 'axios';
         if(this.houseimage){
           console.log('houseimage')
           const housebase64Image=await readImageAsBase64(this.houseimage);
-          await axios.post('http://localhost:5000/api/house',{image:housebase64Image,filename:`house${timestamp}`})
+          await axios.post('http://localhost:5000/api/house',{image:housebase64Image,filename:`house${timestamp}`},config)
           .then(response=>{
             if(response.data.result==200){
             axios.post('http://localhost:3000/interpretation/house',{house_url:`house${timestamp}`},config)
@@ -179,7 +183,7 @@ import axios from 'axios';
         if(this.personimage){
           console.log('personimage')
           const personbase64Image=await readImageAsBase64(this.personimage);
-          await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`})
+          await axios.post('http://localhost:5000/api/person',{image:personbase64Image,filename:`person${timestamp}`,gender:this.selectedGenders},config)
           .then(response=>{
             if(response.data.result==200){
               axios.post('http://localhost:3000/interpretation/person',{person_url:`person${timestamp}`},config)
