@@ -31,107 +31,125 @@
     </div>
   </div>
   </template>
-
-<script>
-export default {
-  data() {
-    return {
-      titles: ["집 그림 결과 분석", "나무 그림 결과 분석", "사람 그림 결과 분석"],
-      keywords:{
-        1:'',
-        2:'',
-        3:''
-      },
-
-      descriptions: ["집을 나타낸 그림입니다.", "나무를 표현한 그림입니다.", "사람을 나타낸 그림입니다."],
-      descriptionContents:{
-        1:'',
-        2:'',
-        3:''
-      }
-      ,
-      imageUrls: {
-        1: '',
-        2: '',
-        3: ''
-      }
-    };
-  },
-  mounted() {
-    this.imageUrls[1] = this.$route.query.imageUrl1;
-    this.imageUrls[2] = this.$route.query.imageUrl2;
-    this.imageUrls[3] = this.$route.query.imageUrl3;
-    console.log(this.$route.query.keyword2);
-    this.keywords[1]=this.$route.query.keyword1;
-    this.keywords[2]=this.$route.query.keyword2;
-    this.keywords[3]=this.$route.query.keyword3;
-    console.log(this.$route.query.analysis2);
-    this.descriptionContents[1]=this.$route.query.analysis1;
-    this.descriptionContents[2]=this.$route.query.analysis2;
-    this.descriptionContents[3]=this.$route.query.analysis3;
+  
+  <script>
+  export default {
+    data() {
+      return {
+        titles: ["집 그림 결과 분석", "나무 그림 결과 분석", "사람 그림 결과 분석"],
+        titleColors: ["#8B4513", "#228B22", "#FFAE42"],
+        keywordColors: ["#A0522D", "#32CD32", "#FFA500"],
+        keywords:{
+          1:'',
+          2:'',
+          3:''
+        },
+  
+        descriptions: ["집을 나타낸 그림입니다.", "나무를 표현한 그림입니다.", "사람을 나타낸 그림입니다."],
+        descriptionContents:{
+          1:'',
+          2:'',
+          3:''
+        }
+        ,
+        imageUrls: {
+          1: '',
+          2: '',
+          3: ''
+        }
+      };
+    },
+    mounted() {
+      this.imageUrls[1] = this.$route.query.imageUrl1;
+      this.imageUrls[2] = this.$route.query.imageUrl2;
+      this.imageUrls[3] = this.$route.query.imageUrl3;
+      console.log(this.$route.query.keyword2);
+      this.keywords[1]=this.$route.query.keyword1;
+      this.keywords[2]=this.$route.query.keyword2;
+      this.keywords[3]=this.$route.query.keyword3;
+      console.log(this.$route.query.analysis2);
+      this.descriptionContents[1]=this.$route.query.analysis1;
+      this.descriptionContents[2]=this.$route.query.analysis2;
+      this.descriptionContents[3]=this.$route.query.analysis3;
+    }
+  };
+  //   methods: {
+  //     fetchData() {
+  //       // 예: axios.get('/api/getData').then(response => {
+  //       //       this.title = response.data.title;
+  //       //       this.keyword = response.data.keyword;
+  //       //       this.description = response.data.description;
+  //       //   }).catch(error => {
+  //       //       console.error('Error fetching data:', error);
+  //       //   });
+  //     }
+  //   }
+  // }
+  </script>
+  
+  <style scoped>
+  .result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
   }
-};
-//   methods: {
-//     fetchData() {
-//       // 예: axios.get('/api/getData').then(response => {
-//       //       this.title = response.data.title;
-//       //       this.keyword = response.data.keyword;
-//       //       this.description = response.data.description;
-//       //   }).catch(error => {
-//       //       console.error('Error fetching data:', error);
-//       //   });
-//     }
-//   }
-// }
-</script>
-
-<style scoped>
-.result {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-}
-
-.result-page {
-  width: 100%;
-}
-
-.content-container {
-  width: 80%;
-  margin-top: 20px;
-}
-
-.image-container img {
-  max-width: 100%;
-  height: auto;
-}
-
-.title-box {
-  margin-bottom: 20px;
-}
-
-.keyword-box {
-  margin-bottom: 20px;
-}
-
-.description-box {
-  margin-bottom: 20px;
-}
-
-.title-font {
-  font-size: 40px;
-}
-
-.keyword-font {
-  font-size: 28px;
-}
-
-.description-font {
-  font-size: 20px;
-}
-
-.description-content {
-  font-size: 20px;
-}
-</style>
+  
+  .result-page {
+    width: 100%;
+  }
+  
+  .content-container {
+    width: 80%;
+    height: 60%;
+    margin-top: 20px;
+    position: relative;
+    bottom: 200px;
+  }
+  
+  .image-container {
+    height: 600px;
+  }
+  
+  .image-container img {
+    max-width: 100%;
+    height: auto;
+    position: relative;
+    top: 150px;
+  }
+  
+  .title-box {
+    margin-bottom: 20px;
+  }
+  
+  .keyword-box {
+    margin-bottom: 20px;
+  }
+  
+  .description-box {
+    margin-bottom: 20px;
+  }
+  
+  .title-font {
+    font-size: 50px;
+    font-family: 'Do Hyeon', sans-serif;
+    text-align: center;
+  }
+  
+  .keyword-font {
+    font-size: 30px;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+  }
+  
+  .description-font {
+    font-size: 25px;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  
+  .description-content {
+    font-size: 25px;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+  }
+  </style>
