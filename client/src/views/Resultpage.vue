@@ -1,23 +1,28 @@
 <template>
-<div class="result">
-  <div class="result-page d-flex justify-content-center align-items-center" style="margin-left: 10%; margin-top: auto;">
-    <div class="content-container">
-      <div class="image-text-container" v-for="(title, index) in titles" :key="index" style="margin-top: 10%; margin-bottom: 10%;">
-        <div class="row mb-4" v-if="imageUrls[index + 1]">
-          <div class="col-md-12 mb-4 d-flex flex-column align-items-center">
-            <div class="image-container mb-4">
-              <img :src="imageUrls[index + 1]" :alt="'Result Image ' + (index + 1)" style="width: 60%; height: 60%;">
-            </div>
-            <div class="text-container" style="width: 100%;">
-              <div class="title-box">
-                <p class="title-font"> {{ title }} </p>
+  <div class="result">
+    <div class="result-page d-flex justify-content-center align-items-center" style="margin-left: 10%; margin-top: auto;">
+      <div class="content-container">
+        <div class="image-text-container" v-for="(title, index) in titles" :key="index" style="margin-top: 10%; margin-bottom: 10%;">
+          <div class="row mb-4" v-if="imageUrls[index + 1]">
+            <div class="col-md-12 mb-4 d-flex flex-column align-items-center">
+              <div class="image-container mb-4">
+                <img :src="imageUrls[index + 1]" :alt="'Result Image ' + (index + 1)" style="width: 70%; height: 70%; border: 2px solid #000;">
               </div>
-              <div class="keyword-box">
-                <p class="keyword-font"><strong>키워드:</strong> {{ keywords[index+1] }} </p>
-              </div>
-              <div class="description-box">
-                <!-- <p class="description-font"><strong>해설:</strong> {{ descriptions[index] }} </p> -->
-                <p class="description-content" v-if="descriptionContents[index+1]"><strong>설명 내용:</strong> {{ descriptionContents[index+1] }}</p>
+              <div class="text-container" style="width: 100%;">
+                <div class="title-box">
+                  <p class="title-font" :style="{ color: titleColors[index] }"> {{ title }} </p>
+                </div>
+                <div class="keyword-box">
+                  <p class="keyword-font">
+                    <!-- <strong>키워드:</strong> -->
+                    <span :style="{ color: keywordColors[index] }"> {{ keywords[index+1] }} </span> </p>
+                </div>
+                <div class="description-box">
+                  <!-- <p class="description-font"><strong>해설:</strong> {{ descriptions[index] }} </p> -->
+                  <p class="description-content" v-if="descriptionContents[index+1]">
+                     <!-- <strong>설명 내용:</strong> -->
+                    {{ descriptionContents[index+1] }}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -25,8 +30,7 @@
       </div>
     </div>
   </div>
-</div>
-</template>
+  </template>
 
 <script>
 export default {
