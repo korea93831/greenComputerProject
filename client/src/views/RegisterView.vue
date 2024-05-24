@@ -1,16 +1,17 @@
 <template>
   <div class="register-view">
-    <h1>회원 가입</h1>
-    <v-form ref="form">
-      <v-text-field v-model="email" label="이메일" type="email" :rules="[emailRule]" required></v-text-field>
-      <v-text-field v-model="password" label="비밀번호" type="password" :rules="[passwordRule]" required></v-text-field>
-      <v-text-field v-model="confirmPassword" label="비밀번호 확인" type="password" :rules="[confirmPasswordRule]" required></v-text-field>
-    </v-form>
-    <div class="button-container">
-      <v-btn @click="register" color="primary">회원 가입</v-btn>
-      <v-btn class="explore-btn" color="red" @click="goToHome">취소</v-btn>
+    <div class="register-box">
+      <h1>회원 가입</h1>
+      <v-form ref="form">
+        <v-text-field v-model="email" label="이메일" type="email" :rules="[emailRule]" required></v-text-field>
+        <v-text-field v-model="password" label="비밀번호" type="password" :rules="[passwordRule]" required></v-text-field>
+        <v-text-field v-model="confirmPassword" label="비밀번호 확인" type="password" :rules="[confirmPasswordRule]" required></v-text-field>
+      </v-form>
+      <div class="button-container">
+        <v-btn @click="register" color="primary">회원 가입</v-btn>
+        <v-btn class="explore-btn" color="red" @click="goToHome">취소</v-btn>
+      </div>
     </div>
-    
     <v-snackbar v-model="snackbar" multi-line top>
       {{ snackbarMessage }}
       
@@ -91,17 +92,19 @@ const handleSnackbarAction = () => {
 .register-view {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  margin-left: 25%;
-  margin-right: 25%;
-  height: 100vh;
-  margin-top: -5%;
+  align-items: center;
+  height: 93vh;
+}
+
+.register-box {
+  width: 50%;
+  padding: 20px;
+  background-color: #FFFFFF;
 }
 
 .button-container {
   display: flex;
   justify-content: center;
-  width: 100%;
   margin-top: 20px;
 }
 
