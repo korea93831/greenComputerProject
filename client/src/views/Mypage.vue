@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="mypage-container">
     <v-app>
       <v-container>
       <v-row>
-        <h1>마이페이지</h1>
+        <h1 class="font">마이페이지</h1>
         <hr>
       </v-row>
       <v-row>
@@ -13,7 +13,7 @@
         row
         cols="4"
         >
-          <v-card
+          <v-card 
           height="320px"
           min-width="320px">
           <v-img
@@ -23,15 +23,15 @@
           </v-img>
           <v-row>
             <v-col cols="2">
-              <v-card-title>{{ item.label }}</v-card-title>
+              <v-card-title class="title-font">{{ item.label }}</v-card-title>
             </v-col>
             <v-col cols="5">
-              <v-card-text>{{ item.keyword }}</v-card-text>
-            </v-col>
+              <v-card-text class="keyword-font">{{ item.keyword }}</v-card-text>
+            </v-col>i
             <v-col>
           <v-card-actions>
             <v-btn
-            color="orange-lighten-2"
+            color="#FFAE42"
             text="검사결과"
             @click="goResult(item.imagesrc,item.label,item.keyword,item.text)"
             ></v-btn>
@@ -127,3 +127,19 @@ export default {
 }
 </script>
 
+<style scoped>
+.mypage-container {
+  background-color: #DDF3F5;
+  min-height: 93vh;
+  padding: 20px;
+}
+
+.font,
+.title-font{
+  font-family: "Do Hyeon", sans-serif;
+}
+
+.keyword-font {
+  font-family: "Noto Sans KR", sans-serif;
+}
+</style>
