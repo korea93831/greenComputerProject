@@ -7,11 +7,45 @@
 
       <div class="btn-row">
         <v-btn class="explore-btn" to="/introduction" color="#FFAE42">소개글</v-btn>
-        <v-btn class="explore-btn" to="/imageupload" color="#FFAE42">검사 시작</v-btn>
+        <v-btn class="explore-btn" @click="testing" color="#FFAE42">검사 시작</v-btn>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      sampleData: '',
+      page:1,
+      totalpage:5,
+      totalItem:[],
+      pageItem:[],
+      first:0,
+      last:9
+      
+    }
+  },
+  computed:{},
+  created() {},
+  mounted() {},
+  unmounted() {},
+  methods: {
+    testing(){
+      if(localStorage.getItem('token')!==null){
+        this.$router.push({ name: 'imageupload'});
+      }
+      else{
+        alert('회원가입 후 검사를 하실 수 있습니다.')
+        this.$router.replace({name:'home'});
+      }
+      
+    },
+  }
+}
+</script>
+
 
 <style scoped>
 .home-view {

@@ -26,13 +26,13 @@
               <button class="cancel-btn" @click="cancelFileUpload(3)" v-if="imageUrls[3]">취소</button>
             </v-card>
             
-            <div class="gender-selection">
+            <!-- <div class="gender-selection">
               <label for="male">남자</label>
               <input type="checkbox" id="male" v-model="selectedGenders" :value="'male'" @change="handleGenderChange('male')" class="checkbox">
               <label for="female">여자</label>
               <input type="checkbox" id="female" v-model="selectedGenders" :value="'female'" @change="handleGenderChange('female')" class="checkbox">
             </div>
-            <p>※ 사람인 경우 그림에 있는 사람의 성별을 선택 해주세요.</p>
+            <p>※ 사람인 경우 그림에 있는 사람의 성별을 선택 해주세요.</p> -->
           </v-col>
         </v-row>
         <v-btn class="explore-btn" color="#FFAE42" @click="goToResultPage">제출</v-btn>
