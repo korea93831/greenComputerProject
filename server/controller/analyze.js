@@ -173,7 +173,7 @@ exports.treeResultSave=async(req,res,next)=>{
 
 exports.houseResultSave=async(req,res,next)=>{
     const json_data=req.body;
-    // console.log(req.user['user'])
+    console.log(req.user)
     let house_size=0;
     let house_loc=0;
     let house_roof=0;

@@ -14,7 +14,7 @@
         cols="4"
         >
           <v-card 
-          height="320px"
+          height="340px"
           min-width="320px">
           <v-img
           height="250px"
@@ -22,15 +22,16 @@
           cover>
           </v-img>
           <v-row>
-            <v-col cols="2">
-              <v-card-title class="title-font">{{ item.label }}</v-card-title>
+            <v-col cols="3">
+              <v-card-title class="title-font" style="margin-top: 22px;">{{ item.label }}</v-card-title>
             </v-col>
             <v-col cols="5">
-              <v-card-text class="keyword-font">{{ item.keyword }}</v-card-text>
-            </v-col>i
+              <v-card-text class="keyword-font" style="font-size: 15px;">{{ item.keyword }}</v-card-text>
+            </v-col>
             <v-col>
           <v-card-actions>
-            <v-btn
+            <v-btn variant="flat"
+            style="margin-top: 20px;"
             color="#FFAE42"
             text="검사결과"
             @click="goResult(item.imagesrc,item.label,item.keyword,item.text)"
